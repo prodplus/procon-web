@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,24 +25,29 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Perfil implements Serializable {
+public class Usuario implements Serializable {
 
-	private static final long serialVersionUID = 6614663084292025595L;
+	private static final long serialVersionUID = -776518492774298727L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable = false, unique = true, length = 20)
-	@NotEmpty(message = "a regra é obrigatória!")
-	private String role;
-	@Column(nullable = false, length = 50)
-	@NotEmpty(message = "a descrição é obrigatória!")
-	private String descricao;
+	@Column(nullable = false)
+	private String nome;
+	@Column(nullable = false, unique = true)
+	private String email;
+	@Column(nullable = false)
+	private String password;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Perfil perfil;
+	@Column(nullable = false)
+	private boolean ativo = true;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		return result;
 	}
 
@@ -53,11 +59,11 @@ public class Perfil implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Perfil other = (Perfil) obj;
-		if (role == null) {
-			if (other.role != null)
+		Usuario other = (Usuario) obj;
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!role.equals(other.role))
+		} else if (!email.equals(other.email))
 			return false;
 		return true;
 	}
