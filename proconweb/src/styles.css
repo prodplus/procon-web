@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Roboto+Mono&display=swap');
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding-top: 60px;
+  background-image: url('src/assets/img/fundo.jpg');
+}
+
+h1, h2, h3, h4, h5, h6, label, th, td, small, button, a, .form-control, .nav-link, a.page-link {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.botao-inside {
+  margin-top: 2.0em;
+  height: 38px !important;
+  width: 40px !important;
+}
+
+.btn-sm {
+  width: 50px;
+}
+
+.botao-cabecalho {
+  width: 60px;
+}
