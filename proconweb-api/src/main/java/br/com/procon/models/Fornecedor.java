@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import br.com.procon.models.auxiliares.Endereco;
 import lombok.AllArgsConstructor;
@@ -37,10 +39,12 @@ public class Fornecedor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(nullable = false, unique = true)
+	@NotBlank(message = "o nome fantasia é obrigatório!")
 	private String fantasia;
 	private String razaoSocial;
 	@Column(length = 20)
 	private String cnpj;
+	@Email(message = "email inválido!")
 	private String email;
 	@Embedded
 	private Endereco endereco;
