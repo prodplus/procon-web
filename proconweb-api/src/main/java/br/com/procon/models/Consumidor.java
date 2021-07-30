@@ -15,6 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -44,11 +48,15 @@ public class Consumidor implements Serializable {
 	private Integer id;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
+	@NotNull(message = "o tipo é obrigatório!")
 	private TipoPessoa tipo;
 	@Column(nullable = false)
+	@NotBlank(message = "a denominação é obrigatória!")
 	private String denominacao;
 	@Column(nullable = false, unique = true, length = 30)
+	@NotBlank(message = "o cadastro é obrigatório!")
 	private String cadastro;
+	@Email(message = "email inválido!")
 	private String email;
 	@Embedded
 	private Endereco endereco;
@@ -56,6 +64,7 @@ public class Consumidor implements Serializable {
 	@CollectionTable(name = "fones_c", joinColumns = @JoinColumn(name = "cons_id"))
 	@Column(name = "fone", length = 20)
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@NotEmpty(message = "deve haver pelo menos um telefone!")
 	private Set<String> fones = new HashSet<>();
 
 	@Override
