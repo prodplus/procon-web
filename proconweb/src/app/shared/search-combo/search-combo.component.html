@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label for="inputC" class="text-primary">{{ label }}</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <fa-icon [icon]="icon"></fa-icon>
+        </span>
+      </div>
+      <select id="inputC" class="form-control" formControlName="input">
+        <option *ngFor="let item of options" [value]="item.value">
+          {{ item.l }}
+        </option>
+      </select>
+    </div>
+  </div>
+</form>

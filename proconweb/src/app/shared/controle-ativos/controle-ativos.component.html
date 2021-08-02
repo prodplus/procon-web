@@ -1,0 +1,12 @@
+<div class="text-center mb-4">
+  <app-botao-home class="mr-1"></app-botao-home>
+  <app-botao-novo class="ml-1 mr-1" [rota]="rota" [mensagem]="mensagemNovo">
+  </app-botao-novo>
+  <app-botao-ativar-ctrl class="ml-1" [ativos]="ativos" (clique)="onClick($event)">
+  </app-botao-ativar-ctrl>
+</div>
+
+<h4 class="text-center text-secondary mb-4">
+  <div *ngIf="ativos">ATIVOS</div>
+  <div *ngIf="!ativos">INVATIVOS</div>
+</h4>

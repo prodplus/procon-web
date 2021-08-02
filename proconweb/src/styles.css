@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6, label, th, td, small, button, a, .form-control, .nav-lin
   font-family: 'Roboto Mono', monospace;
 }
 
-.botao-inside {
+.btn-inside {
   margin-top: 2.0em;
   height: 38px !important;
   width: 40px !important;
@@ -26,7 +26,11 @@ h1, h2, h3, h4, h5, h6, label, th, td, small, button, a, .form-control, .nav-lin
   width: 50px;
 }
 
-.botao-cabecalho {
+.btn-control {
+  width: 60px;
+}
+
+.btn-cabecalho {
   width: 60px;
 }
 

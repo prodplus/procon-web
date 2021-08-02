@@ -1,0 +1,18 @@
+<ng-template #modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h2 [ngClass]="mensagem.tipo">{{ mensagem.titulo }}</h2>
+    <button type="button" class="close" aria-label="fechar" (click)="fechaModal()">
+      <fa-icon [icon]="iClose"></fa-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="font-weigth-bold text-dark">{{ mensagem.mensagem }}</p>
+  </div>
+  <div class="modal-footer" *ngIf="confirmar">
+    <button class="btn btn-dark" type="button" (click)="fechaModal()">não</button>
+    <button class="btn btn-danger" type="button" (click)="concordar()">sim</button>
+  </div>
+  <div class="modal-footer" *ngIf="!confirmar">
+    <button class="btn btn-dark" type="button" (click)="fechaModal()">OK</button>
+  </div>
+</ng-template>
