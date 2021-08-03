@@ -8,6 +8,7 @@ import { RespModal } from 'src/app/models/auxiliares/resp-modal';
 import { Consumidor } from 'src/app/models/consumidor';
 import { ConsumidorService } from 'src/app/services/consumidor.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { getMascaraCadastro } from 'src/app/utils/mask-utils';
 import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
 
 @Component({
@@ -107,11 +108,7 @@ export class ListaConsumidoresComponent implements OnInit, AfterViewInit {
   }
 
   getMascara(tipo: string): string {
-    if (tipo === 'FISICA') {
-      return '000.000.000-00';
-    } else {
-      return '00.000.000/0000-00';
-    }
+    return getMascaraCadastro(tipo);
   }
 
   private excluir(id: number) {

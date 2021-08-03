@@ -1,1 +1,59 @@
-<p>cad-consumidor works!</p>
+<app-pagina [isLoading]="isLoading">
+  <div #scrollInit></div>
+  <app-titulo texto="Cadastro de Consumidores"></app-titulo>
+  <app-botao-cancelar-ext (clicou)="procedimentoSalvar(null)">
+  </app-botao-cancelar-ext>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="col-2 mb-3">
+      <label for="selectTipo" class="form-label">Tipo:</label>
+      <select id="selectTipo" class="form-select" formControlName="tipo" #input
+          autofocus>
+        <option [ngValue]="null" disabled>...</option>
+        <option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+    <div class="row col-12 mb-3">
+      <div class="col-6 mb-3">
+        <label for="inputDenominacao" class="form-label">
+          <div *ngIf="form.get('tipo').value === 'FISICA'">Nome:</div>
+          <div *ngIf="form.get('tipo').value === 'JURIDICA'">Razão Social:</div>
+        </label>
+        <input type="text" class="form-control" id="inputDenominacao"
+            formControlName="denominacao">
+        <small *ngIf="form.get('denominacao').hasError('required')" class="text-danger">
+          campo obrigatório
+        </small>
+      </div>
+      <div class="col-3 mb-3">
+        <label for="inputCadastro" class="form-label">
+          <div *ngIf="form.get('tipo').value === 'FISICA'">CPF:</div>
+          <div *ngIf="form.get('tipo').value === 'JURIDICA'">CNPJ:</div>
+        </label>
+        <input type="text" class="form-control" id="inputCadastro" style="text-align: right;"
+            formControlName="cadastro" [mask]="mascaraCadastro()">
+        <small *ngIf="form.get('cadastro').hasError('required')" class="text-danger">
+          campo obrigatório
+        </small>
+        <small *ngIf="form.get('cadastro').hasError('consExiste')" class="text-danger">
+          já cadastrado!
+        </small>
+      </div>
+    </div>
+    <div class="col-6 mb-3">
+      <label for="inputEmail" class="form-label">Email:</label>
+      <input type="email" id="inputEmail" class="form-control" formControlName="email">
+      <small *ngIf="form.get('email').hasError('email')" class="text-danger">
+        email inválido!
+      </small>
+    </div>
+    <app-cad-fone [fones]="fones"></app-cad-fone>
+    <app-cad-endereco [form]="form"></app-cad-endereco>
+    <div class="d-grid gap-1">
+      <button type="submit" class="btn btn-success btn-lg"
+          [disabled]="form.invalid || fones?.length == 0">
+        salvar
+      </button>
+    </div>
+  </form>
+</app-pagina>

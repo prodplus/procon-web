@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { NgxViacepService } from '@brunoc/ngx-viacep';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { EnumService } from 'src/app/services/enum.service';
-import { buscarPorCep } from 'src/app/utils/cep-utils';
+import { buscarPorCep, buscarPorEndereco } from 'src/app/utils/cep-utils';
 
 @Component({
   selector: 'app-cad-endereco',
@@ -29,5 +29,9 @@ export class CadEnderecoComponent implements OnInit {
   buscarEnderecoPorCep() {
     buscarPorCep(this.form, this.cepService);
     this.inputNro.nativeElement.focus();
+  }
+
+  buscarCepPorEndereco() {
+    buscarPorEndereco(this.form, this.cepService);
   }
 }

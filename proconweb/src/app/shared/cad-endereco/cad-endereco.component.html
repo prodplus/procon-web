@@ -1,42 +1,47 @@
 <form [formGroup]="form">
   <div class="row col-12">
-    <div class="form-group col-2">
-      <label for="inputCep">CEP:</label>
+    <div class="col-2 mb-3">
+      <label for="inputCep" class="form-label">CEP:</label>
       <input type="text" id="inputCep" class="form-control" formControlName="cep"
           style="text-align: right;" mask="00000-000">
       <small *ngIf="form.get('cep').hasError('required')" class="text-danger">
-        obrigatório
+        campo obrigatório
       </small>
     </div>
-    <div class="col-2">
-      <button class="btn btn-primary btn-inside" type="button"
+    <div class="col-2 mb-3">
+      <button class="btn btn-primary btn-inside me-1" type="button"
           (click)="buscarEnderecoPorCep()" title="buscar endereço"
-          [disabled]="form.get('cep').value.lenght < 8">
+          [disabled]="form.get('cep').value?.lenght < 8 || !form.get('cep').value">
+        <fa-icon [icon]="iSearch"></fa-icon>
+      </button>
+      <button class="btn btn-info btn-inside" type="button" (click)="buscarCepPorEndereco()"
+          title="buscar cep"
+          [disabled]="form.get('logradouro').value?.lenght < 5 || !form.get('logradouro').value">
         <fa-icon [icon]="iSearch"></fa-icon>
       </button>
     </div>
   </div>
   <div class="row col-12">
-    <div class="form-group col-6">
-      <label for="inputLogradouro">Logradouro:</label>
+    <div class="col-6 mb-3">
+      <label for="inputLogradouro" class="form-label">Logradouro:</label>
       <input type="text" id="inputLogradouro" class="form-control" formControlName="logradouro">
       <small *ngIf="form.get('logradouro').hasError('required')" class="text-danger">
-        obrigatório
+        campo obrigatório
       </small>
     </div>
-    <div class="form-group col-2">
-      <label for="inputNro">Nro:</label>
+    <div class="col-2 mb-3">
+      <label for="inputNro" class="form-label">Nro:</label>
       <input type="text" id="inputNro" class="form-control" formControlName="numero"
           #inputNro maxlength="30">
       <small *ngIf="form.get('numero').hasError('required')" class="text-danger">
-        obrigatório
+        campo obrigatório
       </small>
       <small *ngIf="form.get('numero').hasError('maxLength')" class="text-danger">
         muito longo
       </small>
     </div>
-    <div class="form-group col-2">
-      <label for="inputComplemento">Complemento:</label>
+    <div class="col-2 mb-3">
+      <label for="inputComplemento" class="form-label">Complemento:</label>
       <input type="text" id="inputComplemento" class="form-control"
           formControlName="complemento" maxlength="50">
       <small *ngIf="form.get('complemento').hasError('maxLength')" class="text-danger">
@@ -44,29 +49,29 @@
       </small>
     </div>
   </div>
-  <div class="form-group col-5">
+  <div class="col-5 mb-3">
     <label for="inputBairro">Bairro:</label>
     <input type="text" id="inputBairro" class="form-control" formControlName="bairro">
     <small *ngIf="form.get('bairro').hasError('required')" class="text-danger">
-      obrigatório
+      campo obrigatório
     </small>
   </div>
   <div class="row col-12">
-    <div class="form-group col-6">
+    <div class="col-6 mb-3">
       <label for="inputMunicipio">Município:</label>
       <input type="text" id="inputMunicipio" class="form-control" formControlName="municipio">
       <small *ngIf="form.get('municipio').hasError('required')" class="text-danger">
-        obrigatório
+        campo campo obrigatório
       </small>
     </div>
-    <div class="form-group col-2">
+    <div class="col-2 mb-3">
       <label for="selectUf">UF:</label>
-      <select id="selectUf" class="form-control" formControlName="uf">
+      <select id="selectUf" class="form-select" formControlName="uf">
         <option [ngValue]="null" disabled>...</option>
         <option *ngFor="let uf of ufs" [value]="uf">{{ uf }}</option>
       </select>
       <small *ngIf="form.get('uf').hasError('required')" class="text-danger">
-        obrigatório
+        campo obrigatório
       </small>
     </div>
   </div>

@@ -34,12 +34,11 @@ export function buscarPorEndereco(
   form: FormGroup,
   cepService: NgxViacepService
 ) {
+  const logradouro = form.get('logradouro').value;
+  const uf = form.get('uf').value;
+  const municipio = form.get('municipio').value;
   cepService
-    .buscarPorEndereco(
-      form.get('uf').value,
-      form.get('municipio').value,
-      form.get('logradouro').value
-    )
-    .then((e) => form.get('cep').setValue(e.values[0]))
+    .buscarPorEndereco(uf, municipio, logradouro)
+    .then((e) => form.get('cep').setValue(e[0].cep))
     .catch((err: ErroCep) => alert(err.message));
 }
