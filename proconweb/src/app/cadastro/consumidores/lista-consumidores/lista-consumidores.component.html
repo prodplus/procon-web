@@ -1,0 +1,42 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Consumidores"></app-titulo>
+  <app-controle [rota]="['novo']" mensagem="cadastrar novo consumidor">
+  </app-controle>
+  <div class="col-4">
+    <app-search-input [form]="searchForm" label="Nome / CPF">
+    </app-search-input>
+  </div>
+
+  <app-tabela [tamanhoTotal]="page?.totalElements" [tamanhoPagina]="page.size"
+      [pagina]="pagina" (mudaPagina)="mudaPagina($event)">
+    <caption *ngIf="page.totalElements == 0">
+      nenhum consumidor cadastrado...
+    </caption>
+    <caption *ngIf="page.totalElements > 0">
+      consumidores cadastrados: {{ page?.totalElements }}
+    </caption>
+    <thead>
+      <th class="text-center">Denominação</th>
+      <th class="text-center">CPF/CNPJ</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">exc</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let consumidor of page.content">
+        <td class="align-middle">{{ consumidor.denominacao }}</td>
+        <td class="align-middle text-center">
+          {{ consumidor.cadastro | mask: getMascara(consumidor) }}
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['novo', consumidor.id]" mensagem="editar consumidor">
+          </app-botao-editar>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-excluir [id]="consumidor.id" (emissao)="chamaModal($event)">
+          </app-botao-excluir>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordaModal($event)"></app-modal>

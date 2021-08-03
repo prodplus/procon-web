@@ -1,13 +1,9 @@
 <form [formGroup]="form">
-  <div class="form-group">
-    <label for="inputC" class="text-primary">{{ label }}</label>
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text">
-          <fa-icon [icon]="icon"></fa-icon>
-        </span>
-      </div>
-    </div>
-    <input type="text" id="inputC" class="form-control" formControlName="input">
+  <div class="input-group mb-4">
+    <span class="input-group-text" id="searchIcon">
+      <fa-icon [icon]="icon"></fa-icon>
+    </span>
+    <input type="text" class="form-control" [placeholder]="label"
+        aria-label="buscar" aria-describedby="searchIcon" formControlName="input">
   </div>
 </form>

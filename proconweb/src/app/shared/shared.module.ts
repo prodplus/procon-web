@@ -79,6 +79,7 @@ import { TituloComponent } from './titulo/titulo.component';
     SearchComboComponent,
     SearchInputComponent,
     TabelaComponent,
+    TituloComponent,
   ],
 })
 export class SharedModule {}

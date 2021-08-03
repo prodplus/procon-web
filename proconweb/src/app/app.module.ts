@@ -15,9 +15,12 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,6 +33,7 @@ import { AppComponent } from './app.component';
     NgxViacepModule,
     NgbModule,
     GoogleChartsModule,
+    SharedModule,
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
