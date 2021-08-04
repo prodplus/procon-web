@@ -16,7 +16,6 @@ import { Consumidor } from 'src/app/models/consumidor';
 import { ConsumidorService } from 'src/app/services/consumidor.service';
 import { EnumService } from 'src/app/services/enum.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
-import { getMascaraFone } from 'src/app/utils/fone-utils';
 import { getMascaraCadastro } from 'src/app/utils/mask-utils';
 
 @Component({
@@ -165,10 +164,6 @@ export class CadConsumidorComponent implements OnInit, AfterViewInit {
     }
   }
 
-  cancelarExterno() {
-    this.salvo.emit(null);
-  }
-
   mascaraCadastro(): string {
     return getMascaraCadastro(this.form.get('tipo').value);
   }
@@ -203,9 +198,5 @@ export class CadConsumidorComponent implements OnInit, AfterViewInit {
           }
         );
     }
-  }
-
-  getFone(fone: string): string {
-    return getMascaraFone(fone);
   }
 }

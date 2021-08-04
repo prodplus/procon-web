@@ -1,0 +1,48 @@
+<app-pagina [isLoading]="isLoading">
+  <div #scrollInit></div>
+  <app-titulo texto="Cadastro de Fornecedores"></app-titulo>
+  <app-botao-cancelar-ext (clicou)="procedimentoSalvar(null)"></app-botao-cancelar-ext>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="col-6 mb-3">
+      <label for="inputFantasia" class="form-label">Fantasia:</label>
+      <input type="text" id="inputFantasia" class="form-control" formControlName="fantasia"
+          #input>
+      <small *ngIf="form.get('fantasia').hasError('required')" class="text-danger">
+        campo obrigatório
+      </small>
+      <small *ngIf="form.get('fantasia').hasError('fornExiste')" class="text-danger">
+        já cadastrado!
+      </small>
+    </div>
+    <div class="row col-12 mb-3">
+      <div class="col-6 mb-3">
+        <label for="inputRazao" class="form-label">Razão Social:</label>
+        <input type="text" id="inputRazao" class="form-control" formControlName="razaoSocial">
+      </div>
+      <div class="col-3 mb-3">
+        <label for="inputCnpj" class="form-label">CNPJ:</label>
+        <input type="text" id="inputCnpj" class="form-control" formControlName="cnpj"
+            mask="00.000.000/0000-00" style="text-align: right;">
+        <small *ngIf="form.get('cnpj').hasError('fornExiste')" class="text-danger">
+          já cadastrado!
+        </small>
+      </div>
+    </div>
+    <div class="col-6 mb-3">
+      <label for="inputEmail" class="form-label">Email:</label>
+      <input type="email" id="inputEmail" class="form-control" formControlName="email">
+      <small *ngIf="form.get('email').hasError('email')" class="text-danger">
+        email inválido!
+      </small>
+    </div>
+    <app-cad-fone [fones]="fones"></app-cad-fone>
+    <app-cad-endereco [form]="form"></app-cad-endereco>
+    <div class="d-grid gap-1">
+      <button type="submit" class="btn btn-success btn-lg"
+          [disabled]="form.invalid">
+        salvar
+      </button>
+    </div>
+  </form>
+</app-pagina>

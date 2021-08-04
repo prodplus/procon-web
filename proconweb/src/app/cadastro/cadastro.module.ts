@@ -10,9 +10,11 @@ import { SharedModule } from '../shared/shared.module';
 import { CadastroRoutingModule } from './cadastro-routing.module';
 import { CadConsumidorComponent } from './consumidores/cad-consumidor/cad-consumidor.component';
 import { ListaConsumidoresComponent } from './consumidores/lista-consumidores/lista-consumidores.component';
+import { ListaFornecedoresComponent } from './fornecedores/lista-fornecedores/lista-fornecedores.component';
+import { CadFornecedoresComponent } from './fornecedores/cad-fornecedores/cad-fornecedores.component';
 
 @NgModule({
-  declarations: [ListaConsumidoresComponent, CadConsumidorComponent],
+  declarations: [ListaConsumidoresComponent, CadConsumidorComponent, ListaFornecedoresComponent, CadFornecedoresComponent],
   imports: [
     CommonModule,
     CadastroRoutingModule,
