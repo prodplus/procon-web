@@ -6,6 +6,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import br.com.procon.models.Usuario;
+import br.com.procon.repositories.PerfilRepository;
+import br.com.procon.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +38,22 @@ public class UsuarioForm implements Serializable {
 	private String password;
 	@NotBlank(message = "o perfil é obrigatório!")
 	private String perfil;
+
+	public Usuario converter(UsuarioRepository usuarioRepository,
+			PerfilRepository perfilRepository) {
+		if (this.id != null) {
+			return usuarioRepository.findById(this.id).map(u -> {
+				u.setNome(this.getNome());
+				u.setEmail(this.getEmail());
+				u.setPassword(this.getPassword());
+				u.setPerfil(perfilRepository.findByRole(this.perfil).get());
+				return u;
+			}).orElse(new Usuario(this.getId(), this.getNome(), this.getEmail(), this.getPassword(),
+					perfilRepository.findByRole(this.getPerfil()).get(), true));
+		} else {
+			return new Usuario(this.getId(), this.getNome(), this.getEmail(), this.getPassword(),
+					perfilRepository.findByRole(this.getPerfil()).get(), true);
+		}
+	}
 
 }
