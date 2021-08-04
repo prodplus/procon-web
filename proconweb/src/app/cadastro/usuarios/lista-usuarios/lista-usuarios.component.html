@@ -1,0 +1,42 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Usuários"></app-titulo>
+  <app-controle-ativos [rota]="['novo']" mensagemNovo="cadastrar novo usuário"
+      [ativos]="ativos" (clicou)="alteraAtivos()">
+  </app-controle-ativos>
+
+  <app-tabela [tamanhoTotal]="page.totalElements" [pagina]="pagina"
+      [tamanhoPagina]="page.size" (mudaPagina)="mudaPagina($event)">
+    <caption *ngIf="page.totalElements == 0">
+      nenhum usuário cadastrado...
+    </caption>
+    <caption *ngIf="page.totalElements > 0">
+      usuários cadastrados...
+    </caption>
+    <thead>
+      <th class="text-center">Nome</th>
+      <th class="text-center">E-mail</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">a/d</th>
+      <th class="text-center" style="width: 60px;">exc</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of page.content">
+        <td class="align-middle">{{ usuario.nome }}</td>
+        <td class="align-middle text-center">{{ usuario.email }}</td>
+        <td class="align-middle text-center">
+          <app-botao-editar [rota]="['novo', usuario.id]" mensagem="editar usuário">
+          </app-botao-editar>
+        </td>
+        <td class="align-middle text-center">
+          <app-botao-ativar [ativos]="ativos" [id]="usuario.id" (emissao)="chamaModal($event)">
+          </app-botao-ativar>
+        </td>
+        <td class="align-middle text-center">
+          <app-botao-excluir [id]="usuario.id" (emissao)="chamaModal($event)">
+          </app-botao-excluir>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordou($event)"></app-modal>

@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime } from 'rxjs/operators';
 import { Page } from 'src/app/models/auxiliares/page';
 import { RespModal } from 'src/app/models/auxiliares/resp-modal';
@@ -22,8 +21,6 @@ export class ListaFornecedoresComponent implements OnInit, AfterViewInit {
   searchForm: FormGroup;
   value: string;
   pagina = 1;
-  iEdit = faEdit;
-  iTrash = faTrash;
   @ViewChild('modal')
   modal: ModalComponent;
 

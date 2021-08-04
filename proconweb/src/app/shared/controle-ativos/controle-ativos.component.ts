@@ -15,7 +15,7 @@ export class ControleAtivosComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onClick(ativos: boolean) {
-    this.clicou.emit(ativos);
+  onClick() {
+    this.clicou.emit(this.ativos);
   }
 }

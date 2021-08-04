@@ -10,6 +10,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { BotaoAtivarCtrlComponent } from './botao-ativar-ctrl/botao-ativar-ctrl.component';
 import { BotaoAtivarComponent } from './botao-ativar/botao-ativar.component';
 import { BotaoCancelarExtComponent } from './botao-cancelar-ext/botao-cancelar-ext.component';
+import { BotaoCancelarComponent } from './botao-cancelar/botao-cancelar.component';
 import { BotaoEditarComponent } from './botao-editar/botao-editar.component';
 import { BotaoExcluirComponent } from './botao-excluir/botao-excluir.component';
 import { BotaoHomeComponent } from './botao-home/botao-home.component';
@@ -48,6 +49,7 @@ import { TituloComponent } from './titulo/titulo.component';
     SearchInputComponent,
     TabelaComponent,
     TituloComponent,
+    BotaoCancelarComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +82,7 @@ import { TituloComponent } from './titulo/titulo.component';
     SearchInputComponent,
     TabelaComponent,
     TituloComponent,
+    BotaoCancelarComponent,
   ],
 })
 export class SharedModule {}
