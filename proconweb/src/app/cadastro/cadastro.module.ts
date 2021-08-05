@@ -7,6 +7,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
+import { CadAtendimentoComponent } from './atendimentos/cad-atendimento/cad-atendimento.component';
+import { ListaAtendimentosComponent } from './atendimentos/lista-atendimentos/lista-atendimentos.component';
 import { CadastroRoutingModule } from './cadastro-routing.module';
 import { CadConsumidorComponent } from './consumidores/cad-consumidor/cad-consumidor.component';
 import { ListaConsumidoresComponent } from './consumidores/lista-consumidores/lista-consumidores.component';
@@ -23,6 +25,8 @@ import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios
     CadFornecedoresComponent,
     ListaUsuariosComponent,
     CadUsuarioComponent,
+    ListaAtendimentosComponent,
+    CadAtendimentoComponent,
   ],
   imports: [
     CommonModule,

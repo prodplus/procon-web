@@ -92,7 +92,7 @@ public class AtendIni {
 				document.add(identificacao);
 				List<String> fones = new ArrayList<>();
 				c.getFones().forEach(f -> fones.add(MascarasUtils.foneFormat(f)));
-				identificacao = new Paragraph(String.join(", ", fones), intFont);
+				identificacao = new Paragraph("Fone(s): " + String.join(", ", fones), intFont);
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 			}

@@ -1,0 +1,60 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Atendimentos"></app-titulo>
+  <app-controle [rota]="['novo']" mensagem="cadastrar novo atendimento">
+  </app-controle>
+
+  <div class="col-4">
+    <app-search-input [form]="searchForm" label="Consumidor / Fornecedor">
+    </app-search-input>
+  </div>
+
+  <app-tabela [tamanhoTotal]="page?.totalElements" [tamanhoPagina]="page.size"
+      [pagina]="pagina" (mudaPagina)="mudaPagina($event)">
+    <caption *ngIf="page.totalElements == 0">
+      nenhum atendimento cadastrado...
+    </caption>
+    <caption *ngIf="page.totalElements > 0">
+      atendimentos cadastrados: {{ page.totalElements }}
+    </caption>
+    <thead>
+      <th class="text-center">Data</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">ini</th>
+      <th class="text-center" style="width: 60px;">exc</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ate of page.content">
+        <td class="text-center align-middle">
+          {{ ate.data | date: 'dd/MM/yyyy' }}
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of ate.consumidores">
+            {{ cons }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of ate.fornecedores">
+            {{ forn }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['novo', ate.id]" mensagem="editar atendimento">
+          </app-botao-editar>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-dark" type="button" title="imprimir atendimento"
+              (click)="imprimir(ate.id)">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-excluir [id]="ate.id" (emissao)="chamaModal($event)">
+          </app-botao-excluir>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="chamaModal($event)"></app-modal>

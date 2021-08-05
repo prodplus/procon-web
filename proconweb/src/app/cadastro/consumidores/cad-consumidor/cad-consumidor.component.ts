@@ -106,7 +106,7 @@ export class CadConsumidorComponent implements OnInit, AfterViewInit {
       .get('cadastro')
       .valueChanges.pipe(debounceTime(300))
       .subscribe((value) => {
-        if (value?.length >= 10) {
+        if (value?.length >= 10 && !this.idConsumidor && !this.idExterno) {
           let b: boolean = false;
           this.consumidorService.consumidorExiste(value).subscribe(
             (v) => (b = v),

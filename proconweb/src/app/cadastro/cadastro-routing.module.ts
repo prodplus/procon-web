@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CadAtendimentoResolver } from '../resources/cad-atendimento.resolver';
 import { CadConsumidorResolver } from '../resources/cad-consumidor.resolver';
 import { CadFornecedorResolver } from '../resources/cad-fornecedor.resolver';
 import { CadUsuarioResolver } from '../resources/cad-usuario.resolver';
+import { ListaAtendimentosResolver } from '../resources/lista-atendimentos.resolver';
 import { ListaConsumidoresResolver } from '../resources/lista-consumidores.resolver';
 import { ListaFornecedoresResolver } from '../resources/lista-fornecedores.resolver';
 import { ListaUsuariosResolver } from '../resources/lista-usuarios.resolver';
+import { CadAtendimentoComponent } from './atendimentos/cad-atendimento/cad-atendimento.component';
+import { ListaAtendimentosComponent } from './atendimentos/lista-atendimentos/lista-atendimentos.component';
 import { CadConsumidorComponent } from './consumidores/cad-consumidor/cad-consumidor.component';
 import { ListaConsumidoresComponent } from './consumidores/lista-consumidores/lista-consumidores.component';
 import { CadFornecedoresComponent } from './fornecedores/cad-fornecedores/cad-fornecedores.component';
@@ -72,6 +76,27 @@ export const routes: Routes = [
             path: ':id',
             component: CadUsuarioComponent,
             resolve: { usuario: CadUsuarioResolver },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: 'atendimentos',
+    children: [
+      {
+        path: '',
+        component: ListaAtendimentosComponent,
+        resolve: { page: ListaAtendimentosResolver },
+      },
+      {
+        path: 'novo',
+        children: [
+          { path: '', component: CadAtendimentoComponent },
+          {
+            path: ':id',
+            component: CadAtendimentoComponent,
+            resolve: { atendimento: CadAtendimentoResolver },
           },
         ],
       },

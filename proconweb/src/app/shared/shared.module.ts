@@ -24,6 +24,7 @@ import { PaginaComponent } from './pagina/pagina.component';
 import { PaginadorComponent } from './paginador/paginador.component';
 import { SearchComboComponent } from './search-combo/search-combo.component';
 import { SearchInputComponent } from './search-input/search-input.component';
+import { SelecConsComponent } from './selec-cons/selec-cons.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { TabelaComponent } from './tabela/tabela.component';
 import { TituloComponent } from './titulo/titulo.component';
@@ -50,6 +51,7 @@ import { TituloComponent } from './titulo/titulo.component';
     TabelaComponent,
     TituloComponent,
     BotaoCancelarComponent,
+    SelecConsComponent,
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ import { TituloComponent } from './titulo/titulo.component';
     TabelaComponent,
     TituloComponent,
     BotaoCancelarComponent,
+    SelecConsComponent,
   ],
 })
 export class SharedModule {}

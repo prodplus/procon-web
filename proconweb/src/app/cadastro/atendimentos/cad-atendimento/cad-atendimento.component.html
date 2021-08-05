@@ -1,0 +1,75 @@
+<app-pagina [isLoading]="isLoading" *ngIf="!editandoCons">
+  <app-titulo texto="Novo Atendimento"></app-titulo>
+  <app-botao-cancelar [rota]="['/cadastro/atendimentos']"></app-botao-cancelar>
+
+  <form [formGroup]="form" (ngSubmit)="salvar">
+    <div class="col-2 mb-3">
+      <label for="inputData" class="form-label">Data:</label>
+      <input type="date" id="inputData" class="form-control" formControlName="data"
+          #input autofocus style="text-align: center;">
+      <small *ngIf="form.get('data').hasError('required')" class="text-danger">
+        campo obrigatório!
+      </small>
+    </div>
+
+    <!--Consumidores-->
+    <div #scrollConsumidor></div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3 class="text-center text-primary">Consumidor(es)</h3>
+      </div>
+      <div class="card-body">
+        <app-selec-cons *ngIf="selecionandoConsumidor; else consumidores"
+            (selecao)="consumidorSelecionado($event)"
+            (novo)="novoConsumidor($event)">
+        </app-selec-cons>
+        <ng-template #consumidores>
+          <div class="text-center mb-3">
+            <button class="btn btn-success"
+                (click)="selecionandoConsumidor = !selecionandoConsumidor">
+              adicionar consumidor
+            </button>
+          </div>
+          <table class="table table-sm table-striped table-bordered table-primary">
+            <caption *ngIf="atendimento.consumidores.length == 0" class="text-danger">
+              nenhum consumidor selecionado...
+            </caption>
+            <thead class="bg-primary">
+              <th class="text-center text-white">Denominação</th>
+              <th class="text-center text-white">CPF/CNPJ</th>
+              <th class="text-center text-white" style="width: 60px;">rem</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cons of atendimento.consumidores; index as i;">
+                <td class="align-middle">{{ cons.denominacao }}</td>
+                <td class="text-center align-middle">
+                  {{ cons.cadastro | mask: mascaraCadastro(cons.tipo) }}
+                </td>
+                <td class="text-center align-middle">
+                  <button class="btn btn-sm btn-danger" type="button" title="remover"
+                      (click)="removerConsumidor(i)">
+                    <fa-icon [icon]="iMinus"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+    </div>
+
+    <!--Fornecedores-->
+    <div #scrollFornecedor></div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3 class="text-center text-success">Fornecedor(es)</h3>
+      </div>
+      <div class="card-body">
+      </div>
+    </div>
+  </form>
+</app-pagina>
+<app-modal #modal></app-modal>
+<app-cad-consumidor [idExterno]="idConsumidor" *ngIf="editandoCons"
+    (salvo)="consumidorSalvo($event)">
+</app-cad-consumidor>
