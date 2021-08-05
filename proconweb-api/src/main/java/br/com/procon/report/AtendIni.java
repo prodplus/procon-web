@@ -45,6 +45,7 @@ public class AtendIni {
 			// cria fontes e espaços
 			Font titFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
 			Font intFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+			Font minFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
 			Paragraph espaco = new Paragraph(new Phrase(" ", intFont));
 
 			// cabeçalho
@@ -126,7 +127,7 @@ public class AtendIni {
 			conteudo.setAlignment(Element.ALIGN_CENTER);
 			document.add(conteudo);
 
-			conteudo = new Paragraph(atendimento.getAtendente().getNome(), intFont);
+			conteudo = new Paragraph("Atendente: " + atendimento.getAtendente().getNome(), minFont);
 			conteudo.setAlignment(Element.ALIGN_RIGHT);
 			document.add(conteudo);
 

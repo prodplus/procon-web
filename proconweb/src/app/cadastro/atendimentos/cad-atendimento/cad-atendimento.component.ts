@@ -11,6 +11,7 @@ import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { Atendimento } from 'src/app/models/atendimento';
 import { Consumidor } from 'src/app/models/consumidor';
 import { AtendimentoForm } from 'src/app/models/forms/atendimento-form';
+import { Fornecedor } from 'src/app/models/fornecedor';
 import { Usuario } from 'src/app/models/usuario';
 import { AtendimentoService } from 'src/app/services/atendimento.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
@@ -161,6 +162,51 @@ export class CadAtendimentoComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.scrollConsumidor.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }, 100);
+  }
+
+  fornecedorSelecionado(forn: Fornecedor): number {
+    this.selecionandoFornecedor = false;
+    this.idFornecedor = forn ? forn.id : 0;
+    this.editandoForn = true;
+    return this.idFornecedor;
+  }
+
+  novoFornecedor(e: boolean) {
+    this.selecionandoFornecedor = false;
+    if (e) {
+      this.idFornecedor = 0;
+      this.editandoForn = true;
+    }
+  }
+
+  removerFornecedor(i: number) {
+    this.atendimento.fornecedores.splice(i, 1);
+  }
+
+  fornecedorSalvo(forn: Fornecedor) {
+    this.editandoForn = false;
+    if (forn) {
+      if (this.atendimento.fornecedores.length > 0) {
+        let index = -1;
+        for (let f of this.atendimento.fornecedores) {
+          if (f.id == forn.id) {
+            index = this.atendimento.fornecedores.indexOf(f);
+          }
+        }
+        if (index > -1) {
+          this.atendimento.fornecedores.splice(index, 1);
+        }
+      }
+      this.atendimento.fornecedores.push(forn);
+    }
+
+    setTimeout(() => {
+      this.scrollFornecedor.nativeElement.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',

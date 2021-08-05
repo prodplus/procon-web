@@ -35,7 +35,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollInit')
   scrollInit: ElementRef<HTMLDivElement>;
   form = this.builder.group({
-    fantasia: ['', [Validators.required]],
+    fantasia: [''],
     razaoSocial: [''],
     cnpj: ['', [Validators.minLength(14)]],
     email: ['', [Validators.email]],
@@ -92,11 +92,15 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
       this.scrollInit.nativeElement.scrollTo();
     }, 100);
 
+    if (!this.idExterno && !this.idFornecedor) {
+      this.form.get('fantasia').setValidators([Validators.required]);
+    }
+
     this.form
       .get('cnpj')
       .valueChanges.pipe(debounceTime(300))
       .subscribe((value) => {
-        if (value?.length > 13) {
+        if (value?.length > 13 && !this.idFornecedor) {
           let b: boolean = false;
           this.fornecedorService.cnpjExiste(value).subscribe(
             (v) => (b = v),
@@ -116,7 +120,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
       .get('fantasia')
       .valueChanges.pipe(debounceTime(300))
       .subscribe((value) => {
-        if (value) {
+        if (value && !this.idFornecedor) {
           let b: boolean = false;
           this.fornecedorService.fantasiaExiste(value).subscribe(
             (v) => (b = v),

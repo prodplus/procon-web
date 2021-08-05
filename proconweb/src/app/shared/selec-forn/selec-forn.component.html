@@ -1,0 +1,32 @@
+<app-search-input [form]="searchForm" label="fornecedor"></app-search-input>
+<div class="text-center mb-4">
+  <button class="btn btn-success" (click)="cadastroNovo()">
+    novo fornecedor
+  </button>
+</div>
+<table class="table table-sm table-striped table-bordered table-primary">
+  <thead class="bg-success">
+    <th class="text-center text-white">Razão</th>
+    <th class="text-center text-white">CNPJ</th>
+    <th class="text-center text-white" style="width: 60px;">rem</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forn of page.content">
+      <td class="align-middle">{{ forn.razaoSocial }}</td>
+      <td class="text-center align-middle">
+        {{ forn.cnpj | mask: '00.000.000/0000-00' }}
+      </td>
+      <td class="text-center align-middle">
+        <button class="btn btn-success btn-sm" title="selecionar" type="button"
+            (click)="selecionarFornecedor(forn)">
+          <fa-icon [icon]="iCheck"></fa-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-center mb-4">
+  <button class="btn btn-danger" (click)="cancelar()">
+    cancelar
+  </button>
+</div>
