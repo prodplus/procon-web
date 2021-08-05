@@ -1,5 +1,7 @@
 package br.com.procon.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,8 @@ import br.com.procon.models.Atendimento;
  */
 @Repository
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Integer> {
+
+	Page<Atendimento> findAllByConsumidoresDenominacaoContainingIgnoreCaseOrFornecedoresFantasiaContainingIgnoreCaseOrFornecedoresRazaoSocialContainingIgnoreCase(
+			String parametro, String parametro2, String parametro3, Pageable pageable);
 
 }
