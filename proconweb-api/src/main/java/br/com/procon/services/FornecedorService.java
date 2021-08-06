@@ -1,5 +1,7 @@
 package br.com.procon.services;
 
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -142,6 +144,10 @@ public class FornecedorService {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"ocorreu um erro no servidor!", e.getCause());
 		}
+	}
+
+	public List<Fornecedor> listar() {
+		return this.fornecedorRepository.findAll();
 	}
 
 }

@@ -9,8 +9,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import br.com.procon.models.Consumidor;
+import br.com.procon.models.Fornecedor;
+import br.com.procon.models.Processo;
+import br.com.procon.models.auxiliares.Movimento;
 import br.com.procon.models.enums.Situacao;
 import br.com.procon.models.enums.TipoProcesso;
+import br.com.procon.services.ConsumidorService;
+import br.com.procon.services.FornecedorService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +48,20 @@ public class ProcessoForm implements Serializable {
 	@NotNull(message = "a data é obrigatória!")
 	private LocalDate data;
 	private String relato;
+	private List<Movimento> movimentacao = new ArrayList<>();
 	@NotNull(message = "a situação é obrigatória!")
 	private Situacao situacao;
+
+	public Processo converter(ConsumidorService consumidorService,
+			FornecedorService fornecedorService) {
+		List<Consumidor> consI = new ArrayList<>();
+		List<Consumidor> reprI = new ArrayList<>();
+		List<Fornecedor> fornI = new ArrayList<>();
+		this.consumidores.forEach(c -> consI.add(consumidorService.buscar(c)));
+		this.representantes.forEach(r -> reprI.add(consumidorService.buscar(r)));
+		this.fornecedores.forEach(f -> fornI.add(fornecedorService.buscar(f)));
+		return new Processo(this.getId(), this.getTipo(), this.getAutos(), consI, reprI, fornI,
+				this.getData(), this.getMovimentacao(), this.getRelato(), this.getSituacao());
+	}
 
 }
