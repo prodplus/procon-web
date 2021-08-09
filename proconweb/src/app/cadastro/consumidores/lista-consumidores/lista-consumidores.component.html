@@ -25,14 +25,14 @@
       <tr *ngFor="let consumidor of page.content">
         <td class="align-middle">{{ consumidor.denominacao }}</td>
         <td class="align-middle text-center">
-          {{ consumidor.cadastro | mask: getMascara(consumidor) }}
+          {{ consumidor.cadastro | mask: getMascara(consumidor.tipo) }}
         </td>
         <td class="text-center align-middle">
           <app-botao-editar [rota]="['novo', consumidor.id]" mensagem="editar consumidor">
           </app-botao-editar>
         </td>
         <td class="text-center align-middle">
-          <app-botao-excluir [id]="consumidor.id" (emissao)="chamaModal($event)">
+          <app-botao-excluir [id]="consumidor.id" (emissao)="chamaModal(consumidor.id)">
           </app-botao-excluir>
         </td>
       </tr>

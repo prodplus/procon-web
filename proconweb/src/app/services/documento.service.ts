@@ -12,4 +12,8 @@ export class DocumentoService {
   atendimento(id: number): Observable<Blob> {
     return this.http.get(`${URL}/atendimento/${id}`, { responseType: 'blob' });
   }
+
+  inicial(id: number): Observable<Blob> {
+    return this.http.get(`${URL}/inicial/${id}`, { responseType: 'blob' });
+  }
 }

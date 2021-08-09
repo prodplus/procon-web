@@ -10,14 +10,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import br.com.procon.models.Atendimento;
 import br.com.procon.models.Consumidor;
 import br.com.procon.models.Fornecedor;
+import br.com.procon.models.Processo;
 import br.com.procon.utils.LocalDateUtils;
 import br.com.procon.utils.MascarasUtils;
 
@@ -26,17 +25,11 @@ import br.com.procon.utils.MascarasUtils;
  * @author Marlon Fernando Garcia
  *
  */
-public class AtendIni {
+public class ProcIni {
 
-	/**
-	 * Gera o atendimento pdf.
-	 * 
-	 * @param atendimento
-	 * @return
-	 */
-	public static ByteArrayInputStream gerar(Atendimento atendimento) {
+	public static ByteArrayInputStream gerar(Processo processo) {
 		try {
-			Document document = new Document(PageSize.A4);
+			Document document = new Document();
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			PdfWriter.getInstance(document, output);
 			document.setMargins(65, 30, 10, 40);
@@ -70,18 +63,18 @@ public class AtendIni {
 
 			// data
 			Paragraph data = new Paragraph(String.format("Pato Branco, %02d de %s de %d",
-					atendimento.getData().getDayOfMonth(),
-					LocalDateUtils.getMesExtenso(atendimento.getData().getMonthValue()),
-					atendimento.getData().getYear()), intFont);
+					processo.getData().getDayOfMonth(),
+					LocalDateUtils.getMesExtenso(processo.getData().getMonthValue()),
+					processo.getData().getYear()), intFont);
 			data.setAlignment(Element.ALIGN_RIGHT);
 			document.add(data);
 
 			// identificação
 			Paragraph identificacao = new Paragraph(
-					String.format("Atendimento nº %04d", atendimento.getId()), intFont);
+					String.format("Autos nº %s", processo.getAutos()), intFont);
 			identificacao.setAlignment(Element.ALIGN_LEFT);
 			document.add(identificacao);
-			for (Consumidor c : atendimento.getConsumidores()) {
+			for (Consumidor c : processo.getConsumidores()) {
 				identificacao = new Paragraph("Consumidor: " + c.getDenominacao(), intFont);
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
@@ -98,7 +91,7 @@ public class AtendIni {
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 			}
-			for (Fornecedor f : atendimento.getFornecedores()) {
+			for (Fornecedor f : processo.getFornecedores()) {
 				identificacao = new Paragraph(
 						"Fornecedor: " + f.getFantasia() + " (" + f.getRazaoSocial() + ")",
 						intFont);
@@ -108,13 +101,13 @@ public class AtendIni {
 
 			document.add(espaco);
 
-			Paragraph titulo = new Paragraph("ATENDIMENTO", intFont);
+			Paragraph titulo = new Paragraph("RELATO", intFont);
 			titulo.setAlignment(Element.ALIGN_CENTER);
 			document.add(titulo);
 
 			document.add(espaco);
 
-			Paragraph conteudo = new Paragraph(atendimento.getRelato(), intFont);
+			Paragraph conteudo = new Paragraph(processo.getRelato(), intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(conteudo);
 
@@ -126,9 +119,12 @@ public class AtendIni {
 			conteudo.setAlignment(Element.ALIGN_CENTER);
 			document.add(conteudo);
 
-			conteudo = new Paragraph("Atendente: " + atendimento.getAtendente().getNome(), minFont);
-			conteudo.setAlignment(Element.ALIGN_RIGHT);
-			document.add(conteudo);
+			if (processo.getAtendente() != null) {
+				conteudo = new Paragraph("Atendente: " + processo.getAtendente().getNome(),
+						minFont);
+				conteudo.setAlignment(Element.ALIGN_RIGHT);
+				document.add(conteudo);
+			}
 
 			document.close();
 

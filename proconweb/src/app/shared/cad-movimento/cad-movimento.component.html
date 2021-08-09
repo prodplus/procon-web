@@ -1,0 +1,55 @@
+<form [formGroup]="movimentoForm" (ngSubmit)="salvar()">
+  <div class="col-3">
+    <label for="inputDataM" class="form-label">Data:</label>
+    <input type="date" id="inputDataM" class="form-control" formControlName="data"
+        #inputInicio>
+    <small *ngIf="movimentoForm.get('data').hasError('required')" class="text-center">
+      campo obrigatório
+    </small>
+  </div>
+  <div class="row col-12">
+    <div class="col-4 mb-3">
+      <label for="selectDe" class="form-label">De:</label>
+      <select id="selectDe" class="form-select" formControlName="de">
+        <option *ngFor="let sit of situacoes" [value]="sit">{{ sit }}</option>
+      </select>
+      <small *ngIf="movimentoForm.get('de').hasError('required')" class="text-center">
+        campo obrigatório
+      </small>
+    </div>
+    <div class="col-4 mb-3">
+      <label for="selectPara" class="form-label">Para:</label>
+      <select id="selectPara" class="form-select" formControlName="para">
+        <option *ngFor="let sit of situacoes" [value]="sit">{{ sit }}</option>
+      </select>
+      <small *ngIf="movimentoForm.get('para').hasError('required')" class="text-center">
+        campo obrigatório
+      </small>
+    </div>
+  </div>
+  <div class="col-8 mb-3">
+    <label for="inputAverbacao" class="form-label">Averbação:</label>
+    <input type="text" id="inputAverbação" class="form-control" formControlName="averbacao">
+  </div>
+  <div class="row col-12">
+    <div class="col-3 mb-3">
+      <label for="inputAuxD" class="form-label">Data Aux:</label>
+      <input type="date" id="inputAuxD" class="form-control" formControlName="auxD"
+          style="text-align: center;">
+    </div>
+    <div class="col-3 mb-3">
+      <label for="inputAuxT" class="form-label">Hora Aux:</label>
+      <input type="time" id="inputAuxT" class="form-control" formControlName="auxT"
+          style="text-align: center;">
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-success me-1" [disabled]="movimentoForm.invalid"
+        type="submit">
+      salvar
+    </button>
+    <button class="btn btn-danger me-1" (click)="cancelar()" type="button">
+      cancelar
+    </button>
+  </div>
+</form>

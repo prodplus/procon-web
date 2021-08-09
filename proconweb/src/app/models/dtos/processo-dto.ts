@@ -7,4 +7,5 @@ export interface ProcessoDto {
   fornecedores: string[];
   data: string;
   situacao: string;
+  atendente: number;
 }

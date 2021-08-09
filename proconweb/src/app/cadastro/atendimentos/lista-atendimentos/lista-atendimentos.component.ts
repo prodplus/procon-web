@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { debounceTime } from 'rxjs/operators';
 import { Page } from 'src/app/models/auxiliares/page';
 import { RespModal } from 'src/app/models/auxiliares/resp-modal';
 import { AtendimentoDto } from 'src/app/models/dtos/atendimento-dto';
@@ -42,7 +43,17 @@ export class ListaAtendimentosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.searchForm
+      .get('input')
+      .valueChanges.pipe(debounceTime(300))
+      .subscribe((value) => {
+        if (value) this.value = value;
+        else this.value = null;
+        this.pagina = 1;
+        this.recarregar(this.pagina);
+      });
+  }
 
   private recarregar(pagina: number) {
     if (this.value) {
@@ -94,7 +105,7 @@ export class ListaAtendimentosComponent implements OnInit, AfterViewInit {
         null,
         'warning',
         'Atenção!!',
-        'EXCLUIR definitivamente o consumidor'
+        'EXCLUIR definitivamente o atendimento??'
       ),
       'e',
       true

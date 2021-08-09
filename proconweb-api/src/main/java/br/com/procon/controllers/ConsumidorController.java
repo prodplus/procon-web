@@ -23,7 +23,7 @@ import br.com.procon.services.ConsumidorService;
  */
 @RestController
 @RequestMapping("/consumidores")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class ConsumidorController {
 
 	@Autowired

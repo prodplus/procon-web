@@ -77,7 +77,7 @@ public class ProcessoController {
 				.ok(this.processoService.listarPorFornecedor(parametro, pagina, quant));
 	}
 
-	@GetMapping("/listar_situacao/{pagina}/{quant}/{parametro}")
+	@GetMapping("/listar_situacao/{pagina}/{quant}/{situacao}")
 	public ResponseEntity<Page<ProcessoDto>> listarPorSituacao(@PathVariable Situacao situacao,
 			@PathVariable int pagina, @PathVariable int quant) {
 		return ResponseEntity.ok(this.processoService.listarPorSituacao(situacao, pagina, pagina));

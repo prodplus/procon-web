@@ -1,23 +1,33 @@
 <app-pagina [isLoading]="isLoading">
-  <app-titulo texto="Atendimentos"></app-titulo>
-  <app-controle [rota]="['novo']" mensagem="cadastrar novo atendimento">
+  <app-titulo texto="Processos"></app-titulo>
+  <app-controle [rota]="['novo']" mensagem="cadastrar novo processo">
   </app-controle>
 
-  <div class="col-4">
-    <app-search-input [form]="searchForm" label="Consumidor / Fornecedor">
-    </app-search-input>
+  <div class="row col-12">
+    <div class="col-4">
+      <app-search-input [form]="searchAutos" label="autos">
+      </app-search-input>
+    </div>
+    <div class="col-4">
+      <app-search-input [form]="searchCons" label="consumidor">
+      </app-search-input>
+    </div>
+    <div class="col-4">
+      <app-search-input [form]="searchForn" label="fornecedor">
+      </app-search-input>
+    </div>
   </div>
 
   <app-tabela [tamanhoTotal]="page?.totalElements" [tamanhoPagina]="page.size"
       [pagina]="pagina" (mudaPagina)="mudaPagina($event)">
     <caption *ngIf="page.totalElements == 0">
-      nenhum atendimento cadastrado...
+      nenhum processo cadastrado...
     </caption>
     <caption *ngIf="page.totalElements > 0">
-      atendimentos cadastrados: {{ page.totalElements }}
+      processos cadastrados: {{ page.totalElements }}
     </caption>
     <thead>
-      <th class="text-center">Data</th>
+      <th class="text-center">Autos</th>
       <th class="text-center">Consumidor(es)</th>
       <th class="text-center">Fornecedor(es)</th>
       <th class="text-center" style="width: 60px;">edt</th>
@@ -25,32 +35,31 @@
       <th class="text-center" style="width: 60px;">exc</th>
     </thead>
     <tbody>
-      <tr *ngFor="let ate of page.content">
+      <tr *ngFor="let proc of page.content" [title]="proc.situacao"
+          [ngClass]="getRowClass(proc)">
+        <td class="text-center align-middle">{{ proc.autos }}</td>
         <td class="text-center align-middle">
-          {{ ate.data | date: 'dd/MM/yyyy' }}
-        </td>
-        <td class="text-center align-middle">
-          <div *ngFor="let cons of ate.consumidores">
+          <div *ngFor="let cons of proc.consumidores">
             {{ cons }}
           </div>
         </td>
         <td class="text-center align-middle">
-          <div *ngFor="let forn of ate.fornecedores">
+          <div *ngFor="let forn of proc.fornecedores">
             {{ forn }}
           </div>
         </td>
         <td class="text-center align-middle">
-          <app-botao-editar [rota]="['novo', ate.id]" mensagem="editar atendimento">
+          <app-botao-editar [rota]="['novo', proc.id]" mensagem="editar processo">
           </app-botao-editar>
         </td>
         <td class="text-center align-middle">
-          <button class="btn btn-sm btn-dark" type="button" title="imprimir atendimento"
-              (click)="imprimir(ate.id)">
+          <button class="btn btn-sm btn-dark" type="button" title="imprimir inicial"
+              (click)="imprimir(proc.id)">
             <fa-icon [icon]="iPrint"></fa-icon>
           </button>
         </td>
         <td class="text-center align-middle">
-          <app-botao-excluir [id]="ate.id" (emissao)="chamaModal(ate.id)">
+          <app-botao-excluir [id]="proc.id" (emissao)="chamaModal(proc.id)">
           </app-botao-excluir>
         </td>
       </tr>

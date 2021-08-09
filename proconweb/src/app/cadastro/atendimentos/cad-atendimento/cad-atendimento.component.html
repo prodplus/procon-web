@@ -2,7 +2,7 @@
   <app-titulo texto="Novo Atendimento"></app-titulo>
   <app-botao-cancelar [rota]="['/cadastro/atendimentos']"></app-botao-cancelar>
 
-  <form [formGroup]="form" (ngSubmit)="salvar">
+  <form [formGroup]="form" (ngSubmit)="salvar()">
     <div class="col-2 mb-3">
       <label for="inputData" class="form-label">Data:</label>
       <input type="date" id="inputData" class="form-control" formControlName="data"
@@ -14,11 +14,11 @@
 
     <!--Consumidores-->
     <div #scrollConsumidor></div>
-    <div class="card mb-4">
-      <div class="card-header">
-        <h3 class="text-center text-primary">Consumidor(es)</h3>
+    <div class="card mb-4 border-primary">
+      <div class="card-header bg-primary">
+        <div class="card-title text-white">Consumidor(es)</div>
       </div>
-      <div class="card-body">
+      <div class="card-body card-consumidor">
         <app-selec-cons *ngIf="selecionandoConsumidor; else consumidores"
             (selecao)="consumidorSelecionado($event)"
             (novo)="novoConsumidor($event)">
@@ -60,11 +60,11 @@
 
     <!--Fornecedores-->
     <div #scrollFornecedor></div>
-    <div class="card mb-4">
-      <div class="card-header">
-        <h3 class="text-center text-success">Fornecedor(es)</h3>
+    <div class="card mb-4 border-success">
+      <div class="card-header bg-success">
+        <div class="card-title text-white">Fornecedor(es)</div>
       </div>
-      <div class="card-body">
+      <div class="card-body card-fornecedor">
         <app-selec-forn *ngIf="selecionandoFornecedor; else fornecedores;"
             (selecao)="fornecedorSelecionado($event)"
             (novo)="novoFornecedor($event)">
@@ -105,9 +105,9 @@
     </div>
 
     <!--Editor-->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h3 class="text-center">Relato</h3>
+    <div class="card mb-4 border-dark">
+      <div class="card-header bg-dark">
+        <div class="card-title text-white">Relato</div>
       </div>
       <div class="card-body">
         <div class="col-12">

@@ -11,7 +11,9 @@ export class AtendimentoForm {
   constructor(atendimento: Atendimento) {
     this.id = atendimento.id;
     this.data = atendimento.data;
+    this.consumidores = [];
     atendimento.consumidores.forEach((c) => this.consumidores.push(c.id));
+    this.fornecedores = [];
     atendimento.fornecedores.forEach((f) => this.fornecedores.push(f.id));
     this.relato = atendimento.relato;
     this.atendente = atendimento.atendente.id;

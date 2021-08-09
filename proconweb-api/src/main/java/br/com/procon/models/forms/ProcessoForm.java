@@ -17,6 +17,7 @@ import br.com.procon.models.enums.Situacao;
 import br.com.procon.models.enums.TipoProcesso;
 import br.com.procon.services.ConsumidorService;
 import br.com.procon.services.FornecedorService;
+import br.com.procon.services.UsuarioService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,9 +52,10 @@ public class ProcessoForm implements Serializable {
 	private List<Movimento> movimentacao = new ArrayList<>();
 	@NotNull(message = "a situação é obrigatória!")
 	private Situacao situacao;
+	private Integer atendente;
 
 	public Processo converter(ConsumidorService consumidorService,
-			FornecedorService fornecedorService) {
+			FornecedorService fornecedorService, UsuarioService usuarioService) {
 		List<Consumidor> consI = new ArrayList<>();
 		List<Consumidor> reprI = new ArrayList<>();
 		List<Fornecedor> fornI = new ArrayList<>();
@@ -61,7 +63,8 @@ public class ProcessoForm implements Serializable {
 		this.representantes.forEach(r -> reprI.add(consumidorService.buscar(r)));
 		this.fornecedores.forEach(f -> fornI.add(fornecedorService.buscar(f)));
 		return new Processo(this.getId(), this.getTipo(), this.getAutos(), consI, reprI, fornI,
-				this.getData(), this.getMovimentacao(), this.getRelato(), this.getSituacao());
+				this.getData(), this.getMovimentacao(), this.getRelato(), this.getSituacao(),
+				atendente != null ? usuarioService.buscarI(atendente) : null);
 	}
 
 }

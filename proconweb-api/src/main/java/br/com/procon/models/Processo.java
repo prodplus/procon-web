@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
 
 import org.hibernate.annotations.LazyCollection;
@@ -75,6 +76,8 @@ public class Processo implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
 	private Situacao situacao;
+	@ManyToOne
+	private Usuario atendente;
 
 	@Override
 	public int hashCode() {

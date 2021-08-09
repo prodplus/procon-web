@@ -1,6 +1,7 @@
 import { Movimento } from './auxiliares/movimento';
 import { Consumidor } from './consumidor';
 import { Fornecedor } from './fornecedor';
+import { Usuario } from './usuario';
 
 export class Processo {
   id: number;
@@ -13,6 +14,7 @@ export class Processo {
   movimentacao: Movimento[];
   relato: string;
   situacao: string;
+  atendente: Usuario;
 
   constructor(
     id: number,
@@ -24,7 +26,8 @@ export class Processo {
     data: string,
     movimentacao: Movimento[],
     relato: string,
-    situacao: string
+    situacao: string,
+    atendente: Usuario
   ) {
     this.id = id;
     this.tipo = tipo;
@@ -36,5 +39,6 @@ export class Processo {
     this.movimentacao = movimentacao;
     this.relato = relato;
     this.situacao = situacao;
+    this.atendente = atendente;
   }
 }

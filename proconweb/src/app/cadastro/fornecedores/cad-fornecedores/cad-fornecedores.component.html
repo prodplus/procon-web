@@ -7,7 +7,7 @@
     <div class="col-6 mb-3">
       <label for="inputFantasia" class="form-label">Fantasia:</label>
       <input type="text" id="inputFantasia" class="form-control" formControlName="fantasia"
-          #input>
+          #input (blur)="verErros()">
       <small *ngIf="form.get('fantasia').hasError('required')" class="text-danger">
         campo obrigatório
       </small>

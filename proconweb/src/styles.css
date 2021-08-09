@@ -37,3 +37,19 @@ h1, h2, h3, h4, h5, h6, label, th, td, small, button, a, .form-control, .nav-lin
 .container {
   padding-bottom: 60px;
 }
+
+.card-consumidor {
+  background-image: linear-gradient(rgb(182, 182, 253), white);
+}
+
+.card-fornecedor {
+  background-image: linear-gradient(rgb(182, 253, 182), white);
+}
+
+.card-representante {
+  background-image: linear-gradient(rgb(180, 180, 180), white);
+}
+
+.card-movimento {
+  background-image: linear-gradient(rgb(252, 180, 180), white);
+}

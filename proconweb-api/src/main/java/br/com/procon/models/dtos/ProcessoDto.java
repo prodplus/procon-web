@@ -42,14 +42,20 @@ public class ProcessoDto implements Serializable, Comparable<ProcessoDto> {
 		this.setAutos(processo.getAutos());
 		this.setOrdem(AutosUtils.getNroAutos(processo.getAutos()));
 		processo.getConsumidores().forEach(c -> this.consumidores.add(c.getDenominacao()));
-		processo.getFornecedores().forEach(f -> this.consumidores.add(f.getFantasia()));
+		processo.getFornecedores().forEach(f -> this.fornecedores.add(f.getFantasia()));
 		this.setData(processo.getData());
 		this.setSituacao(processo.getSituacao());
 	}
 
 	@Override
 	public int compareTo(ProcessoDto o) {
-		return this.ordem - o.getOrdem();
+		if (this.ordem == o.getOrdem())
+			if (this.data != null && o.getData() != null)
+				return this.data.compareTo(o.getData()) * -1;
+			else 
+				return 0;
+		else
+			return o.getOrdem() - this.ordem;
 	}
 
 }

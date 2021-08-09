@@ -35,9 +35,9 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollInit')
   scrollInit: ElementRef<HTMLDivElement>;
   form = this.builder.group({
-    fantasia: [''],
+    fantasia: ['', [Validators.required]],
     razaoSocial: [''],
-    cnpj: ['', [Validators.minLength(14)]],
+    cnpj: [''],
     email: ['', [Validators.email]],
     cep: [''],
     logradouro: [''],
@@ -100,7 +100,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
       .get('cnpj')
       .valueChanges.pipe(debounceTime(300))
       .subscribe((value) => {
-        if (value?.length > 13 && !this.idFornecedor) {
+        if (value?.length > 10 && !this.idFornecedor) {
           let b: boolean = false;
           this.fornecedorService.cnpjExiste(value).subscribe(
             (v) => (b = v),
@@ -109,7 +109,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
               if (b) {
                 this.form.get('cnpj').setErrors({ fornExiste: true });
               } else {
-                this.form.get('cnpj').setErrors({ fornExiste: false });
+                this.form.get('cnpj').setErrors(null);
               }
             }
           );
@@ -129,7 +129,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
               if (b) {
                 this.form.get('fantasia').setErrors({ fornExiste: true });
               } else {
-                this.form.get('fantasia').setErrors({ fornExiste: false });
+                this.form.get('fantasia').setErrors(null);
               }
             }
           );
@@ -210,5 +210,9 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
           }
         );
     }
+  }
+
+  verErros() {
+    console.log(this.form.errors);
   }
 }

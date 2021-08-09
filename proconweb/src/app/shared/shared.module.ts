@@ -17,6 +17,7 @@ import { BotaoHomeComponent } from './botao-home/botao-home.component';
 import { BotaoNovoComponent } from './botao-novo/botao-novo.component';
 import { CadEnderecoComponent } from './cad-endereco/cad-endereco.component';
 import { CadFoneComponent } from './cad-fone/cad-fone.component';
+import { CadMovimentoComponent } from './cad-movimento/cad-movimento.component';
 import { ControleAtivosComponent } from './controle-ativos/controle-ativos.component';
 import { ControleComponent } from './controle/controle.component';
 import { ModalComponent } from './modal/modal.component';
@@ -54,6 +55,7 @@ import { TituloComponent } from './titulo/titulo.component';
     BotaoCancelarComponent,
     SelecConsComponent,
     SelecFornComponent,
+    CadMovimentoComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +91,7 @@ import { TituloComponent } from './titulo/titulo.component';
     BotaoCancelarComponent,
     SelecConsComponent,
     SelecFornComponent,
+    CadMovimentoComponent,
   ],
 })
 export class SharedModule {}

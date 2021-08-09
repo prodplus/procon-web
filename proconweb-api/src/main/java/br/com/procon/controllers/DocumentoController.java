@@ -27,8 +27,14 @@ public class DocumentoController {
 
 	@GetMapping(path = "/atendimento/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<InputStreamResource> atendimento(@PathVariable Integer id) {
-		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=despachonot.pdf")
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=atendimento.pdf")
 				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.atendimento(id));
+	}
+
+	@GetMapping(path = "/inicial/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> inicial(@PathVariable Integer id) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=inicial.pdf")
+				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.inicial(id));
 	}
 
 }

@@ -46,6 +46,8 @@ public class ProcessoService {
 	private ConsumidorService consumidorService;
 	@Autowired
 	private FornecedorService fornecedorService;
+	@Autowired
+	private UsuarioService usuarioService;
 
 	public ProcessoDto salvar(@Valid ProcessoForm processo) {
 		try {
@@ -59,8 +61,8 @@ public class ProcessoService {
 				processo.getMovimentacao().add(new Movimento(processo.getData(), Situacao.BALCAO,
 						Situacao.AUTUADO, "recém autuado", null, null));
 			processo.setSituacao(ProcessoUtils.handleSituacao(processo.getMovimentacao()));
-			return new ProcessoDto(this.processoRepository
-					.save(processo.converter(this.consumidorService, this.fornecedorService)));
+			return new ProcessoDto(this.processoRepository.save(processo.converter(
+					this.consumidorService, this.fornecedorService, this.usuarioService)));
 		} catch (ValidationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "erro de validação!",
 					e.getCause());
@@ -77,7 +79,8 @@ public class ProcessoService {
 	public ProcessoDto atualizar(Integer id, @Valid ProcessoForm processo) {
 		try {
 			return this.processoRepository.findById(id).map(novo -> {
-				Processo proc = processo.converter(this.consumidorService, this.fornecedorService);
+				Processo proc = processo.converter(this.consumidorService, this.fornecedorService,
+						this.usuarioService);
 				novo.setAutos(proc.getAutos());
 				novo.setData(proc.getData());
 				novo.setConsumidores(proc.getConsumidores());
@@ -89,7 +92,7 @@ public class ProcessoService {
 					novo.getMovimentacao().add(new Movimento(novo.getData(), Situacao.BALCAO,
 							Situacao.AUTUADO, "recém autuado", null, null));
 				novo.setSituacao(ProcessoUtils.handleSituacao(novo.getMovimentacao()));
-				return new ProcessoDto(novo);
+				return new ProcessoDto(this.processoRepository.save(novo));
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "processo não localizado!",
@@ -137,7 +140,6 @@ public class ProcessoService {
 		List<ProcessoDto> dtos = new ArrayList<>();
 		page.getContent().forEach(p -> dtos.add(new ProcessoDto(p)));
 		Collections.sort(dtos);
-		Collections.reverse(dtos);
 		return new PageImpl<>(dtos, pageable, page.getTotalElements());
 	}
 

@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { CadAtendimentoResolver } from '../resources/cad-atendimento.resolver';
 import { CadConsumidorResolver } from '../resources/cad-consumidor.resolver';
 import { CadFornecedorResolver } from '../resources/cad-fornecedor.resolver';
+import { CadProcessoResolver } from '../resources/cad-processo.resolver';
 import { CadUsuarioResolver } from '../resources/cad-usuario.resolver';
 import { ListaAtendimentosResolver } from '../resources/lista-atendimentos.resolver';
 import { ListaConsumidoresResolver } from '../resources/lista-consumidores.resolver';
 import { ListaFornecedoresResolver } from '../resources/lista-fornecedores.resolver';
+import { ListaProcessosResolver } from '../resources/lista-processos.resolver';
 import { ListaUsuariosResolver } from '../resources/lista-usuarios.resolver';
 import { CadAtendimentoComponent } from './atendimentos/cad-atendimento/cad-atendimento.component';
 import { ListaAtendimentosComponent } from './atendimentos/lista-atendimentos/lista-atendimentos.component';
@@ -14,6 +16,8 @@ import { CadConsumidorComponent } from './consumidores/cad-consumidor/cad-consum
 import { ListaConsumidoresComponent } from './consumidores/lista-consumidores/lista-consumidores.component';
 import { CadFornecedoresComponent } from './fornecedores/cad-fornecedores/cad-fornecedores.component';
 import { ListaFornecedoresComponent } from './fornecedores/lista-fornecedores/lista-fornecedores.component';
+import { CadProcessoComponent } from './processos/cad-processo/cad-processo.component';
+import { ListaProcessosComponent } from './processos/lista-processos/lista-processos.component';
 import { CadUsuarioComponent } from './usuarios/cad-usuario/cad-usuario.component';
 import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios.component';
 
@@ -97,6 +101,27 @@ export const routes: Routes = [
             path: ':id',
             component: CadAtendimentoComponent,
             resolve: { atendimento: CadAtendimentoResolver },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: 'processos',
+    children: [
+      {
+        path: '',
+        component: ListaProcessosComponent,
+        resolve: { page: ListaProcessosResolver },
+      },
+      {
+        path: 'novo',
+        children: [
+          { path: '', component: CadProcessoComponent },
+          {
+            path: ':id',
+            component: CadProcessoComponent,
+            resolve: { processo: CadProcessoResolver },
           },
         ],
       },
