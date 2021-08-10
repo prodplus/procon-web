@@ -57,6 +57,8 @@ public class OperacaoService {
 			List<Processo> processos = this.processoService.listarPorSituacao(Situacao.PRAZO);
 			processos.addAll(this.processoService.listarPorSituacao(Situacao.PRAZO_FORNECEDOR));
 			processos.addAll(this.processoService.listarPorSituacao(Situacao.PRAZO_CONSUMIDOR));
+			processos.addAll(this.processoService.listarPorSituacao(Situacao.AGUARDA_AR_FORN));
+			processos.addAll(this.processoService.listarPorSituacao(Situacao.AGUARDA_AR_CONS));
 			Collections.sort(processos, new PrazoCompare());
 			return toDto(processos);
 		} catch (Exception e) {

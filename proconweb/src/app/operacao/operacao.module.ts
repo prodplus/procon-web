@@ -7,6 +7,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
 import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-fornecedor.component';
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
+import { OperacaoRoutingModule } from './operacao-routing.module';
 
 @NgModule({
   declarations: [PorNotFornecedorComponent, NotFornecedorComponent],
@@ -18,6 +19,7 @@ import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-n
     GoogleChartsModule,
     FormsModule,
     ReactiveFormsModule,
+    OperacaoRoutingModule,
   ],
 })
 export class OperacaoModule {}
