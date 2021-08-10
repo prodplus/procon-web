@@ -1,3 +1,27 @@
 .navbar {
   padding: 0;
 }
+
+.btn {
+  margin-right: 3px;
+  width: 60px;
+  margin-top: 10px;
+}
+
+.nome-usuario {
+  padding: 0;
+  margin-top: 15px;
+  margin-right: 5px;
+  text-align: right;
+}
+
+.btn-logout {
+  padding: 10;
+  position: absolute;
+  right: 0em;
+}
+
+.logout {
+  position: absolute;
+  right: 0em;
+}

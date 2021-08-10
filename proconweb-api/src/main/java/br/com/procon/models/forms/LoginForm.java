@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +27,9 @@ public class LoginForm implements Serializable {
 	private String email;
 	@NotBlank(message = "a senha é obrigatória!")
 	private String password;
+
+	public UsernamePasswordAuthenticationToken converter() {
+		return new UsernamePasswordAuthenticationToken(email, password);
+	}
 
 }

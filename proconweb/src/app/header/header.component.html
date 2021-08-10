@@ -1,4 +1,5 @@
-<nav class="navbar navbar-dark navbar-expand" style="background-color: darkgreen;">
+<nav class="navbar navbar-dark navbar-expand" style="background-color: darkgreen;"
+    *ngIf="(user$ | async) as user;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img src="/assets/img/logo_procon.jpg" alt="home" width="25" height="25">
@@ -41,4 +42,14 @@
       </ul>
     </div>
   </div>
+  <ul class="navbar-nav logout" style="width: 450px;">
+    <p class="text-white nome-usuario">
+      {{ user.nome }}
+    </p>
+    <li class="nav-item">
+      <a class="btn btn-sm btn-danger btn-logout" (click)="logout()" [routerLink]="['']">
+        sair
+      </a>
+    </li>
+  </ul>
 </nav>

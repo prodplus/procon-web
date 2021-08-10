@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Perfil implements Serializable {
+public class Perfil implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 6614663084292025595L;
 	@Id
@@ -60,6 +64,12 @@ public class Perfil implements Serializable {
 		} else if (!role.equals(other.role))
 			return false;
 		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public String getAuthority() {
+		return this.role;
 	}
 
 }
