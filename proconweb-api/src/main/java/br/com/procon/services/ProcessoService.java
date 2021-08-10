@@ -237,4 +237,8 @@ public class ProcessoService {
 		}
 	}
 
+	public List<Processo> listarPorSituacao(Situacao situacao) {
+		return this.processoRepository.findAllBySituacao(situacao);
+	}
+
 }

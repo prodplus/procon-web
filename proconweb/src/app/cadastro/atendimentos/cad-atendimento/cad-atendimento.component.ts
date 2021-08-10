@@ -8,6 +8,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from 'src/app/core/user.service';
 import { Atendimento } from 'src/app/models/atendimento';
 import { Consumidor } from 'src/app/models/consumidor';
 import { AtendimentoForm } from 'src/app/models/forms/atendimento-form';
@@ -50,7 +51,8 @@ export class CadAtendimentoComponent implements OnInit, AfterViewInit {
     private atendimentoService: AtendimentoService,
     private builder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +89,14 @@ export class CadAtendimentoComponent implements OnInit, AfterViewInit {
   private carregaAtendimento(): AtendimentoForm {
     this.atendimento.data = toDateApi(new Date(this.form.get('data').value));
     this.atendimento.relato = this.form.get('relato').value;
-    this.atendimento.atendente = new Usuario(1, null, null, null, null, true);
+    this.atendimento.atendente = new Usuario(
+      this.userService.getIdUsuario(),
+      null,
+      null,
+      null,
+      null,
+      true
+    );
     return new AtendimentoForm(this.atendimento);
   }
 

@@ -34,4 +34,6 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer> {
 
 	Page<Processo> findAllBySituacao(Situacao situacao, Pageable pageable);
 
+	List<Processo> findAllBySituacao(Situacao situacao);
+
 }

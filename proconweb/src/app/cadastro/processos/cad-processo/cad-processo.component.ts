@@ -8,6 +8,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from 'src/app/core/user.service';
 import { Movimento } from 'src/app/models/auxiliares/movimento';
 import { Consumidor } from 'src/app/models/consumidor';
 import { ProcessoForm } from 'src/app/models/forms/processo-form';
@@ -68,7 +69,8 @@ export class CadProcessoComponent implements OnInit, AfterViewInit {
     private builder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private enumService: EnumService
+    private enumService: EnumService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +118,14 @@ export class CadProcessoComponent implements OnInit, AfterViewInit {
     this.processo.autos = this.form.get('autos').value;
     this.processo.tipo = this.form.get('tipo').value;
     this.processo.relato = this.form.get('relato').value;
-    this.processo.atendente = new Usuario(1, null, null, null, null, true);
+    this.processo.atendente = new Usuario(
+      this.userService.getIdUsuario(),
+      null,
+      null,
+      null,
+      null,
+      true
+    );
     return new ProcessoForm(this.processo);
   }
 

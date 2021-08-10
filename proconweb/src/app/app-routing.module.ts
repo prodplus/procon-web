@@ -10,6 +10,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./cadastro/cadastro.module').then((m) => m.CadastroModule),
   },
+  {
+    path: 'operacao',
+    loadChildren: () =>
+      import('./operacao/operacao.module').then((m) => m.OperacaoModule),
+  },
 ];
 
 @NgModule({
