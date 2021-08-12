@@ -40,8 +40,7 @@ public class Oficio {
 			Font negFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
 			Font titFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
 			Font intFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
-//			Font minFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
-//			Font cabeca = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
+			Font minFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
 			Paragraph espaco = new Paragraph(" ", intFont);
 
 			// cabeçalho
@@ -53,11 +52,11 @@ public class Oficio {
 			cabecalho.setAlignment(Element.ALIGN_CENTER);
 			document.add(cabecalho);
 			cabecalho = new Paragraph(
-					"Rua Araribóia, nº 185 - fone (46) 3902-1289 / (46) 3902-1325 / Whatsapp: (46) 99107-6394",
-					intFont);
+					"Rua Araribóia, nº 185, Centro, Pato Branco, PR, CEP: 85501-260 - fone (46) 3902-1289 / (46) 3902-1325 / Whatsapp: (46) 99107-6394",
+					minFont);
 			cabecalho.setAlignment(Element.ALIGN_CENTER);
 			document.add(cabecalho);
-			cabecalho = new Paragraph("Email: procon@patobranco.pr.gov.br", intFont);
+			cabecalho = new Paragraph("Email: procon@patobranco.pr.gov.br", minFont);
 			cabecalho.setAlignment(Element.ALIGN_CENTER);
 			document.add(cabecalho);
 

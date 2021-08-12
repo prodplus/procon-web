@@ -2,15 +2,14 @@ package br.com.procon.report;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -19,18 +18,17 @@ import br.com.procon.models.Consumidor;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
 import br.com.procon.utils.LocalDateUtils;
-import br.com.procon.utils.MascarasUtils;
 
 /**
  * 
  * @author Marlon Fernando Garcia
  *
  */
-public class ProcIni {
+public class NotConsumidor {
 
 	public static ByteArrayInputStream gerar(Processo processo) {
 		try {
-			Document document = new Document();
+			Document document = new Document(PageSize.A4);
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			PdfWriter.getInstance(document, output);
 			document.setMargins(65, 30, 10, 40);
@@ -39,7 +37,6 @@ public class ProcIni {
 			// cria fontes e espaços
 			Font titFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
 			Font intFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
-			Font negFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
 			Font minFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
 			Paragraph espaco = new Paragraph(new Phrase(" ", intFont));
 
@@ -64,70 +61,85 @@ public class ProcIni {
 				document.add(espaco);
 
 			// data
-			Paragraph data = new Paragraph(String.format("Pato Branco, %02d de %s de %d",
-					processo.getData().getDayOfMonth(),
-					LocalDateUtils.getMesExtenso(processo.getData().getMonthValue()),
-					processo.getData().getYear()), intFont);
+			Paragraph data = new Paragraph(
+					String.format("Pato Branco, %02d de %s de %d", LocalDate.now().getDayOfMonth(),
+							LocalDateUtils.getMesExtenso(LocalDate.now().getMonthValue()),
+							LocalDate.now().getYear()),
+					intFont);
 			data.setAlignment(Element.ALIGN_RIGHT);
 			document.add(data);
 
 			// identificação
-			Paragraph identificacao = new Paragraph("Autos nº ", negFont);
-			identificacao.add(new Chunk(processo.getAutos(), intFont));
-			identificacao.setAlignment(Element.ALIGN_LEFT);
+			Paragraph identificacao = new Paragraph(String.format("AUTOS: %s", processo.getAutos()),
+					titFont);
 			document.add(identificacao);
-			for (Consumidor c : processo.getConsumidores()) {
-				identificacao = new Paragraph("Consumidor: ", negFont);
-				identificacao.add(new Chunk(c.getDenominacao(), intFont));
-				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
-				document.add(identificacao);
-				identificacao = new Paragraph("Endereço: " + c.getEndereco().getLogradouro() + ", "
-						+ c.getEndereco().getNumero() + ", " + c.getEndereco().getComplemento()
-						+ ", " + c.getEndereco().getBairro() + ", " + c.getEndereco().getMunicipio()
-						+ ", " + c.getEndereco().getUf() + ", CEP "
-						+ MascarasUtils.format("#####-###", c.getEndereco().getCep()), intFont);
-				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
-				document.add(identificacao);
-				List<String> fones = new ArrayList<>();
-				c.getFones().forEach(f -> fones.add(MascarasUtils.foneFormat(f)));
-				identificacao = new Paragraph("Fone(s): " + String.join(", ", fones), intFont);
-				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
-				document.add(identificacao);
-			}
-			for (Fornecedor f : processo.getFornecedores()) {
+			for (Consumidor cons : processo.getConsumidores()) {
 				identificacao = new Paragraph(
-						"Fornecedor: " + f.getFantasia() + " (" + f.getRazaoSocial() + ")",
-						intFont);
-				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
+						String.format("CONSUMIDOR: %s", cons.getDenominacao()), titFont);
 				document.add(identificacao);
 			}
-
-			document.add(espaco);
-
-			Paragraph titulo = new Paragraph("HISTÓRICO DA RECLAMAÇÃO", intFont);
-			titulo.setAlignment(Element.ALIGN_CENTER);
-			document.add(titulo);
-
-			document.add(espaco);
-
-			Paragraph conteudo = new Paragraph(processo.getRelato(), intFont);
-			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
-			document.add(conteudo);
+			for (Fornecedor forn : processo.getFornecedores()) {
+				identificacao = new Paragraph(
+						String.format("FORNECEDOR: %s", forn.getRazaoSocial()), titFont);
+				document.add(identificacao);
+			}
 
 			for (int i = 0; i < 2; i++)
 				document.add(espaco);
 
-			conteudo = new Paragraph("Consumidor                                     PROCON",
+			Paragraph titulo = new Paragraph("NOTIFICAÇÃO", titFont);
+			titulo.setAlignment(Element.ALIGN_CENTER);
+			document.add(titulo);
+
+			for (int i = 0; i < 4; i++)
+				document.add(espaco);
+
+			Paragraph conteudo = new Paragraph(
+					"Notificamos Vossa Senhoria para comparecer neste Órgão no "
+							+ "prazo de 48 (quarenta e oito) horas, a contar do recebimento desta, no horário "
+							+ "de atendimento (das 08:30h às 11:30h e das 13:30h às 17:30), para manifestar-se a "
+							+ "respeito do procedimento acima, sob pena de arquivamento do feito.",
 					intFont);
-			conteudo.setAlignment(Element.ALIGN_CENTER);
+			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
+			conteudo.setFirstLineIndent(30f);
+			conteudo.setLeading(25f);
 			document.add(conteudo);
 
-			if (processo.getAtendente() != null) {
-				conteudo = new Paragraph("Atendente: " + processo.getAtendente().getNome(),
-						minFont);
-				conteudo.setAlignment(Element.ALIGN_RIGHT);
-				document.add(conteudo);
-			}
+			for (int i = 0; i < 3; i++)
+				document.add(espaco);
+
+			conteudo = new Paragraph("Atenciosamente", intFont);
+			conteudo.setAlignment(Element.ALIGN_LEFT);
+			conteudo.setFirstLineIndent(30f);
+			document.add(conteudo);
+
+			for (int i = 0; i < 6; i++)
+				document.add(espaco);
+
+			Paragraph assinatura = new Paragraph("__________________________", titFont);
+			assinatura.setAlignment(Element.ALIGN_CENTER);
+			document.add(assinatura);
+			assinatura = new Paragraph("PROCON - Pato Branco, PR", titFont);
+			assinatura.setAlignment(Element.ALIGN_CENTER);
+			document.add(assinatura);
+
+			document.newPage();
+
+			Paragraph certidaoTit = new Paragraph("CERTIDÃO", titFont);
+			certidaoTit.setAlignment(Element.ALIGN_CENTER);
+			document.add(certidaoTit);
+
+			document.add(espaco);
+
+			Paragraph certidaoCont = new Paragraph(String.format(
+					"Certifico que expedi, via AR, em %02d/%02d/%02d, aos Consumidores.",
+					LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(),
+					LocalDate.now().getYear()), intFont);
+			certidaoCont.setAlignment(Element.ALIGN_JUSTIFIED);
+			document.add(certidaoCont);
+
+			document.add(espaco);
+			document.add(data);
 
 			document.close();
 

@@ -75,4 +75,11 @@ public class DocumentoController {
 				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.oficio(id));
 	}
 
+	@GetMapping(path = "/not_consumidor/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> notConsumidor(@PathVariable Integer id) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.notConsumidor(id));
+	}
+
 }

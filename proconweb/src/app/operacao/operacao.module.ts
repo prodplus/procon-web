@@ -7,10 +7,15 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
 import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-fornecedor.component';
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
+import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
 import { OperacaoRoutingModule } from './operacao-routing.module';
 
 @NgModule({
-  declarations: [PorNotFornecedorComponent, NotFornecedorComponent],
+  declarations: [
+    PorNotFornecedorComponent,
+    NotFornecedorComponent,
+    NotConsumidorComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,

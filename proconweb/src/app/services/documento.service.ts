@@ -50,4 +50,10 @@ export class DocumentoService {
   oficio(id: number): Observable<Blob> {
     return this.http.get(`${URL}/oficio/${id}`, { responseType: 'blob' });
   }
+
+  notConsumidor(id: number): Observable<Blob> {
+    return this.http.get(`${URL}/not_consumidor/${id}`, {
+      responseType: 'blob',
+    });
+  }
 }

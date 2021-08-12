@@ -11,6 +11,7 @@ import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
 import br.com.procon.report.AtendIni;
 import br.com.procon.report.NotCincoDias;
+import br.com.procon.report.NotConsumidor;
 import br.com.procon.report.NotDezDias;
 import br.com.procon.report.NotImpugnacao;
 import br.com.procon.report.NotMulta;
@@ -106,6 +107,17 @@ public class DocumentoService {
 		try {
 			Processo processo = this.processoService.buscar(id);
 			return new InputStreamResource(Oficio.gerar(processo));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource notConsumidor(Integer id) {
+		try {
+			Processo processo = this.processoService.buscar(id);
+			return new InputStreamResource(NotConsumidor.gerar(processo));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
