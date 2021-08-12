@@ -41,6 +41,11 @@ public class OperacaoController {
 		return ResponseEntity.ok(this.operacaoService.porPrazo());
 	}
 
+	@GetMapping("/prazo_desc")
+	public ResponseEntity<List<ProcDesc>> porPrazoDesc() {
+		return ResponseEntity.ok(this.operacaoService.porPrazoDesc());
+	}
+
 	@GetMapping("/audiencia")
 	public ResponseEntity<List<ProcessoDto>> porAudiencia() {
 		return ResponseEntity.ok(this.operacaoService.porAudiencia());

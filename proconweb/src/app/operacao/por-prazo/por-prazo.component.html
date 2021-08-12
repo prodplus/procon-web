@@ -1,0 +1,43 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Processos com Prazo"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <app-tabela [tamanhoTotal]="processos.length" [tamanhoPagina]="processos.length">
+    <caption *ngIf="processos.length == 0">nenhum processo com prazo...</caption>
+    <caption *ngIf="processos.length > 0">
+      processos com prazo: {{ processos.length }}
+    </caption>
+    <thead>
+      <th class="text-center">Autos</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center">Venc.</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proc of processos" [ngClass]="getRowClass(proc)">
+        <td class="text-center align-middle">{{ proc.processo.autos }}</td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of proc.processo.consumidores">
+            {{ cons }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of proc.processo.fornecedores">
+            {{ forn }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          {{ proc.descricao }}
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['/cadastro/processos/novo', proc.processo.id]">
+          </app-botao-editar>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal></app-modal>

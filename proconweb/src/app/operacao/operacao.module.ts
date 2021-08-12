@@ -9,12 +9,14 @@ import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-forneced
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
 import { OperacaoRoutingModule } from './operacao-routing.module';
+import { PorPrazoComponent } from './por-prazo/por-prazo.component';
 
 @NgModule({
   declarations: [
     PorNotFornecedorComponent,
     NotFornecedorComponent,
     NotConsumidorComponent,
+    PorPrazoComponent,
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,10 @@ export class OperacaoService {
     return this.http.get<ProcessoDto[]>(`${URL}/prazo`);
   }
 
+  porPrazoDesc(): Observable<ProcDesc[]> {
+    return this.http.get<ProcDesc[]>(`${URL}/prazo_desc`);
+  }
+
   porAudiencia(): Observable<ProcessoDto[]> {
     return this.http.get<ProcessoDto[]>(`${URL}/audiencia`);
   }
