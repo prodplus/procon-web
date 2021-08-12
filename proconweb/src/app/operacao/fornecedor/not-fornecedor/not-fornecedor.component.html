@@ -1,1 +1,70 @@
-<p>not-fornecedor works!</p>
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Notificar Fornecedor"></app-titulo>
+  <app-botao-cancelar [rota]="['/operacao/not_fornecedor']"></app-botao-cancelar>
+
+  <div class="card mb-2">
+    <div class="card-header">
+      <div class="card-title">
+        <dl class="row col-12">
+          <dt class="col-sm-1">Autos:</dt>
+          <dd class="col-sm-9">{{ processo.autos }}</dd>
+          <div *ngFor="let cons of processo.consumidores">
+            <dt class="col-sm-5">{{ cons.denominacao }}</dt>
+            <dd class="col-sm-5">{{ cons.cadastro | mask: mascaraCadastro(cons.tipo) }}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table table-sm table-striped table-bordered">
+        <thead>
+          <th class="text-center">Razão Social</th>
+          <th class="text-center">CNPJ</th>
+          <th class="text-center" style="width: 60px;">10</th>
+          <th class="text-center" style="width: 60px;">05</th>
+          <th class="text-center" style="width: 60px;">imp</th>
+          <th class="text-center" style="width: 60px;">mul</th>
+          <th class="text-center" style="width: 60px;">ofi</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let forn of processo.fornecedores">
+            <td class="align-middle">{{ forn.razaoSocial }}</td>
+            <td class="text-center align-middle">
+              {{ forn.cnpj | mask: '00.000.000/0000-00' }}
+            </td>
+            <td class="text-center align-middle">
+              <button class="btn btn-sm btn-info" title="notificação dez dias"
+                  type="button" (click)="notDezDias(forn.id)">
+                <fa-icon [icon]="iPrint"></fa-icon>
+              </button>
+            </td>
+            <td class="text-center align-middle">
+              <button class="btn btn-sm btn-primary" title="notificação cinco dias"
+                  type="button" (click)="notCincoDias(forn.id)">
+                <fa-icon [icon]="iPrint"></fa-icon>
+              </button>
+            </td>
+            <td class="text-center align-middle">
+              <button class="btn btn-sm btn-dark" title="notificação impugnação"
+                  type="button" (click)="notImpugnacao(forn.id)">
+                <fa-icon [icon]="iPrint"></fa-icon>
+              </button>
+            </td>
+            <td class="text-center align-middle">
+              <button class="btn btn-sm btn-danger" title="notificação de multa"
+                  type="button" (click)="notMulta(forn.id)">
+                <fa-icon [icon]="iPrint"></fa-icon>
+              </button>
+            </td>
+            <td class="text-center align-middle">
+              <button class="btn btn-sm btn-secondary" title="ofício" type="button"
+                  (click)="oficio()">
+                <fa-icon [icon]="iPrint"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-pagina>

@@ -16,4 +16,38 @@ export class DocumentoService {
   inicial(id: number): Observable<Blob> {
     return this.http.get(`${URL}/inicial/${id}`, { responseType: 'blob' });
   }
+
+  notDezDias(idProcesso: number, idFornecedor: number): Observable<Blob> {
+    return this.http.get(`${URL}/not_dez_dias/${idProcesso}/${idFornecedor}`, {
+      responseType: 'blob',
+    });
+  }
+
+  notCincoDias(idProcesso: number, idFornecedor: number): Observable<Blob> {
+    return this.http.get(
+      `${URL}/not_cinco_dias/${idProcesso}/${idFornecedor}`,
+      {
+        responseType: 'blob',
+      }
+    );
+  }
+
+  notImpugnacao(idProcesso: number, idFornecedor: number): Observable<Blob> {
+    return this.http.get(
+      `${URL}/not_impugnacao/${idProcesso}/${idFornecedor}`,
+      {
+        responseType: 'blob',
+      }
+    );
+  }
+
+  notMulta(idProcesso: number, idFornecedor: number): Observable<Blob> {
+    return this.http.get(`${URL}/not_multa/${idProcesso}/${idFornecedor}`, {
+      responseType: 'blob',
+    });
+  }
+
+  oficio(id: number): Observable<Blob> {
+    return this.http.get(`${URL}/oficio/${id}`, { responseType: 'blob' });
+  }
 }

@@ -37,4 +37,42 @@ public class DocumentoController {
 				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.inicial(id));
 	}
 
+	@GetMapping(path = "/not_dez_dias/{idProcesso}/{idFornecedor}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> notDezDias(@PathVariable Integer idProcesso,
+			@PathVariable Integer idFornecedor) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_dez.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.notDezDias(idProcesso, idFornecedor));
+	}
+
+	@GetMapping(path = "/not_cinco_dias/{idProcesso}/{idFornecedor}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> notCincoDias(@PathVariable Integer idProcesso,
+			@PathVariable Integer idFornecedor) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_cinco.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.notCincoDias(idProcesso, idFornecedor));
+	}
+
+	@GetMapping(path = "/not_impugnacao/{idProcesso}/{idFornecedor}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> notImpugnacao(@PathVariable Integer idProcesso,
+			@PathVariable Integer idFornecedor) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_impugna.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.notImpugnacao(idProcesso, idFornecedor));
+	}
+
+	@GetMapping(path = "/not_multa/{idProcesso}/{idFornecedor}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> notMulta(@PathVariable Integer idProcesso,
+			@PathVariable Integer idFornecedor) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_multa.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.notMulta(idProcesso, idFornecedor));
+	}
+
+	@GetMapping(path = "/oficio/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> oficio(@PathVariable Integer id) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=oficio.pdf")
+				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.oficio(id));
+	}
+
 }

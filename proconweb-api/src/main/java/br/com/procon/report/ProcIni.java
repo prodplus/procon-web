@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -38,6 +39,7 @@ public class ProcIni {
 			// cria fontes e espaços
 			Font titFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14);
 			Font intFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+			Font negFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
 			Font minFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
 			Paragraph espaco = new Paragraph(new Phrase(" ", intFont));
 
@@ -70,12 +72,13 @@ public class ProcIni {
 			document.add(data);
 
 			// identificação
-			Paragraph identificacao = new Paragraph(
-					String.format("Autos nº %s", processo.getAutos()), intFont);
+			Paragraph identificacao = new Paragraph("Autos nº ", negFont);
+			identificacao.add(new Chunk(processo.getAutos(), intFont));
 			identificacao.setAlignment(Element.ALIGN_LEFT);
 			document.add(identificacao);
 			for (Consumidor c : processo.getConsumidores()) {
-				identificacao = new Paragraph("Consumidor: " + c.getDenominacao(), intFont);
+				identificacao = new Paragraph("Consumidor: ", negFont);
+				identificacao.add(new Chunk(c.getDenominacao(), intFont));
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 				identificacao = new Paragraph("Endereço: " + c.getEndereco().getLogradouro() + ", "
@@ -101,7 +104,7 @@ public class ProcIni {
 
 			document.add(espaco);
 
-			Paragraph titulo = new Paragraph("RELATO", intFont);
+			Paragraph titulo = new Paragraph("HISTÓRICO DA RECLAMAÇÃO", intFont);
 			titulo.setAlignment(Element.ALIGN_CENTER);
 			document.add(titulo);
 
