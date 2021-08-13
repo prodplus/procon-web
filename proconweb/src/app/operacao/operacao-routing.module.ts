@@ -9,6 +9,7 @@ import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-forneced
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
 import { PorPrazoComponent } from './por-prazo/por-prazo.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 export const routes: Routes = [
   {
@@ -41,13 +42,13 @@ export const routes: Routes = [
   {
     path: 'prazo',
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        component: PorPrazoComponent,
-        resolve: { processos: PrazoDescResolver },
-      },
-    ],
+    component: PorPrazoComponent,
+    resolve: { processos: PrazoDescResolver },
+  },
+  {
+    path: 'ranking',
+    canActivate: [AuthGuard],
+    component: RankingComponent,
   },
 ];
 

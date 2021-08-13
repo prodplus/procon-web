@@ -29,7 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.3",
     "@fortawesome/free-solid-svg-icons": "5.15.3",
     "@ng-bootstrap/ng-bootstrap": "10.0.0",
-    "angular-google-charts": "2.2.2",
+    "angular-google-charts": "^2.2.2",
     "bootstrap": "5.0.2",
     "cdk": "1.116.0",
     "font-awesome": "4.7.0",

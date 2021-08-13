@@ -1,0 +1,33 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Ranking de Reclamações"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <form [formGroup]="anoForm">
+    <div class="col-2 mb-4">
+      <label for="inputSearch" class="form-label">Ano:</label>
+      <select id="inputSearch" class="form-select" formControlName="input">
+        <option *ngFor="let ano of anos" [value]="ano">{{ ano }}</option>
+      </select>
+    </div>
+
+    <google-chart [title]="title" [type]="type" [data]="data" [columns]="columnNames"
+        [options]="options" [width]="width" [height]="height">
+    </google-chart>
+
+    <table class="table table-sm table-striped table-hover table-bordered">
+      <thead>
+        <th class="text-center align-middle">Fornedor</th>
+        <th class="text-center align-middle">Processos</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proc of ranking">
+          <td class="text-center align-middle">{{ proc.fornecedor.razaoSocial }}</td>
+          <td class="text-center align-middle">{{ proc.processos }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</app-pagina>
+<app-modal #modal></app-modal>

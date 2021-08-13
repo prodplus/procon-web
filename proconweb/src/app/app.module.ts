@@ -11,7 +11,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxViacepModule } from '@brunoc/ngx-viacep';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GoogleChartsModule } from 'angular-google-charts';
+import {
+  GoogleChartsModule,
+  GOOGLE_CHARTS_LAZY_CONFIG,
+} from 'angular-google-charts';
 import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +22,10 @@ import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import {
+  googleChartsConfigFactory,
+  GoogleChartsConfigService,
+} from './services/charts.service';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -41,6 +48,12 @@ import { SharedModule } from './shared/shared.module';
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    GoogleChartsConfigService,
+    {
+      provide: GOOGLE_CHARTS_LAZY_CONFIG,
+      useFactory: googleChartsConfigFactory,
+      deps: [GoogleChartsConfigService],
+    },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

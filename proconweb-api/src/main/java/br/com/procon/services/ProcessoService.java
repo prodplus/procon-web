@@ -226,9 +226,16 @@ public class ProcessoService {
 					fornsNro.set(index, fornNro);
 				}
 			}
-			List<FornecedorNro> fornsNro2 = fornsNro.stream().filter(f -> f.getProcessos() > 0)
+			FornecedorNro outros = new FornecedorNro(
+					new Fornecedor(null, "outros", "outros", "", "", null, null), 0);
+			fornsNro.forEach(f -> {
+				if (f.getProcessos() == 1)
+					outros.setProcessos(outros.getProcessos() + 1);
+			});
+			List<FornecedorNro> fornsNro2 = fornsNro.stream().filter(f -> f.getProcessos() > 1)
 					.collect(Collectors.toList());
 			Collections.sort(fornsNro2);
+			fornsNro2.add(outros);
 			return fornsNro2;
 		} catch (Exception e) {
 			e.printStackTrace();
