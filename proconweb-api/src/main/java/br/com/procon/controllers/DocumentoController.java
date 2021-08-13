@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.procon.models.auxiliares.Movimento;
 import br.com.procon.services.DocumentoService;
 
 /**
@@ -80,6 +83,24 @@ public class DocumentoController {
 		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=not_.pdf")
 				.contentType(MediaType.APPLICATION_PDF)
 				.body(this.documentoService.notConsumidor(id));
+	}
+
+	@PutMapping(path = "/conv_aud_cons/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> convAudCons(@PathVariable Integer id,
+			@RequestBody Movimento movimento) {
+		return ResponseEntity.ok()
+				.header("Content-Disposition", "inline; filename=conv_aud_cons.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.convAudCons(id, movimento));
+	}
+
+	@PutMapping(path = "/conv_aud_forn/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> convAudForn(@PathVariable Integer id,
+			@RequestBody Movimento movimento) {
+		return ResponseEntity.ok()
+				.header("Content-Disposition", "inline; filename=conv_aud_cons.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.convAudForn(id, movimento));
 	}
 
 }

@@ -1,0 +1,61 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Audiências Marcadas"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <app-tabela [tamanhoTotal]="processos.length" [tamanhoPagina]="processos.length">
+    <caption *ngIf="processos.length == 0">
+      nenhuma audiência marcada...
+    </caption>
+    <caption *ngIf="processos.length > 0">
+      audiências marcadas: {{ processos.length }}
+    </caption>
+    <thead>
+      <th class="text-center">Autos</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center">Audiência</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">con</th>
+      <th class="text-center" style="width: 60px;">forn</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proc of processos; index as i;" [ngClass]="getRowClass(i)">
+        <td class="text-center align-middle">{{ proc.processo.autos }}</td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of proc.processo.consumidores">
+            {{ cons }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of proc.processo.fornecedores">
+            {{ forn }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          {{ proc.descricao }}
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['/cadastro/processos/novo', proc.processo.id]">
+          </app-botao-editar>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-dark" title="convocação consumidor"
+              (click)="convocacaoCons(proc.processo.id)"
+              [disabled]="proc.descricao === 'Erro!'">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-secondary" title="convocação fornecedor"
+              (click)="convocacaoForn(proc.processo.id)"
+              [disabled]="proc.descricao === 'Erro!'">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal></app-modal>

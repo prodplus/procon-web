@@ -9,7 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.procon.models.Atendimento;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
+import br.com.procon.models.auxiliares.Movimento;
 import br.com.procon.report.AtendIni;
+import br.com.procon.report.ConvAudCons;
+import br.com.procon.report.ConvAudForn;
 import br.com.procon.report.NotCincoDias;
 import br.com.procon.report.NotConsumidor;
 import br.com.procon.report.NotDezDias;
@@ -118,6 +121,28 @@ public class DocumentoService {
 		try {
 			Processo processo = this.processoService.buscar(id);
 			return new InputStreamResource(NotConsumidor.gerar(processo));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource convAudCons(Integer id, Movimento movimento) {
+		try {
+			Processo processo = this.processoService.buscar(id);
+			return new InputStreamResource(ConvAudCons.gerar(processo, movimento));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource convAudForn(Integer id, Movimento movimento) {
+		try {
+			Processo processo = this.processoService.buscar(id);
+			return new InputStreamResource(ConvAudForn.gerar(processo, movimento));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

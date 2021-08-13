@@ -5,6 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
+import { AudienciaComponent } from './audiencia/audiencia.component';
 import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-fornecedor.component';
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
@@ -19,6 +20,7 @@ import { RankingComponent } from './ranking/ranking.component';
     NotConsumidorComponent,
     PorPrazoComponent,
     RankingComponent,
+    AudienciaComponent,
   ],
   imports: [
     CommonModule,

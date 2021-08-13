@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Movimento } from '../models/auxiliares/movimento';
 
 const URL = environment.url + '/documentos';
 
@@ -53,6 +54,18 @@ export class DocumentoService {
 
   notConsumidor(id: number): Observable<Blob> {
     return this.http.get(`${URL}/not_consumidor/${id}`, {
+      responseType: 'blob',
+    });
+  }
+
+  convAudCons(id: number, movimento: Movimento): Observable<Blob> {
+    return this.http.put(`${URL}/conv_aud_cons/${id}`, movimento, {
+      responseType: 'blob',
+    });
+  }
+
+  convAudForn(id: number, movimento: Movimento): Observable<Blob> {
+    return this.http.put(`${URL}/conv_aud_forn/${id}`, movimento, {
       responseType: 'blob',
     });
   }
