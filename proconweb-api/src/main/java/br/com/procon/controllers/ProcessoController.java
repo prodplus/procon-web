@@ -1,9 +1,11 @@
 package br.com.procon.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -81,6 +83,13 @@ public class ProcessoController {
 	public ResponseEntity<Page<ProcessoDto>> listarPorSituacao(@PathVariable Situacao situacao,
 			@PathVariable int pagina, @PathVariable int quant) {
 		return ResponseEntity.ok(this.processoService.listarPorSituacao(situacao, pagina, pagina));
+	}
+
+	@GetMapping("/listar_sit_data/{situacao}/{inicio}/{fim}")
+	public ResponseEntity<List<ProcessoDto>> listarPorSituacao(@PathVariable Situacao situacao,
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+		return ResponseEntity.ok(this.processoService.listarPorSituacao(situacao, inicio, fim));
 	}
 
 	@DeleteMapping("/{id}")

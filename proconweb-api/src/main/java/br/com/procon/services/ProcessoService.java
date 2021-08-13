@@ -136,11 +136,17 @@ public class ProcessoService {
 		}
 	}
 
-	private Page<ProcessoDto> transformaDto(Pageable pageable, Page<Processo> page) {
+	private static Page<ProcessoDto> transformaDto(Pageable pageable, Page<Processo> page) {
 		List<ProcessoDto> dtos = new ArrayList<>();
 		page.getContent().forEach(p -> dtos.add(new ProcessoDto(p)));
 		Collections.sort(dtos);
 		return new PageImpl<>(dtos, pageable, page.getTotalElements());
+	}
+
+	public static List<ProcessoDto> transformaDto(List<Processo> processos) {
+		List<ProcessoDto> dtos = new ArrayList<>();
+		processos.forEach(p -> dtos.add(new ProcessoDto(p)));
+		return dtos;
 	}
 
 	public Page<ProcessoDto> listarPorAutos(String autos, int pagina, int quant) {
@@ -199,6 +205,20 @@ public class ProcessoService {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"ocorreu um erro no servidor!", e.getCause());
 		}
+	}
+
+	public List<ProcessoDto> listarPorSituacao(Situacao situacao, LocalDate inicio, LocalDate fim) {
+		List<Processo> processos = new ArrayList<>();
+		if (situacao.equals(Situacao.EM_ANDAMENTO))
+			processos = this.processoRepository.findAllBySituacaoNotAndSituacaoNotAndSituacaoNot(
+					Situacao.ENCERRADO, Situacao.RESOLVIDO, Situacao.NAO_RESOLVIDO);
+		else
+			processos = this.processoRepository.findAllBySituacao(situacao);
+		List<Processo> filtrados = processos.stream()
+				.filter(p -> p.getMovimentacao().get(0).getData().isAfter(inicio)
+						&& p.getMovimentacao().get(0).getData().isBefore(fim))
+				.collect(Collectors.toList());
+		return transformaDto(filtrados);
 	}
 
 	public void excluir(Integer id) {

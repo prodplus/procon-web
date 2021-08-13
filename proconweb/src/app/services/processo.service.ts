@@ -70,6 +70,16 @@ export class ProcessoService {
     );
   }
 
+  listarPorSituacaoData(
+    situacao: string,
+    inicio: string,
+    fim: string
+  ): Observable<ProcessoDto[]> {
+    return this.http.get<ProcessoDto[]>(
+      `${URL}/listar_sit_data/${situacao}/${inicio}/${fim}`
+    );
+  }
+
   excluir(id: number): Observable<any> {
     return this.http.delete(`${URL}/${id}`);
   }

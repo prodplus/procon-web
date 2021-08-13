@@ -1,0 +1,65 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Relatórios"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <form [formGroup]="form">
+    <div class="row col-12">
+      <div class="col-3 mb-3">
+        <label for="inputInicio" class="form-label">Início:</label>
+        <input type="date" id="inputInicio" class="form-control" formControlName="inicio"
+            style="text-align: center;">
+      </div>
+      <div class="col-3 mb-3">
+        <label for="inputFim" class="form-label">Fim:</label>
+        <input type="date" id="inputFim" class="form-control" formControlName="fim"
+            style="text-align: center;">
+      </div>
+      <div class="col-3 mb-3">
+        <label for="selectSituacao" class="form-label">Situação:</label>
+        <select id="selectSituacao" class="form-select" formControlName="situacao">
+          <option [ngValue]="null">selecion a situação</option>
+          <option *ngFor="let sit of situacoes" [value]="sit">{{ sit }}</option>
+        </select>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary btn-inside" type="button"
+            [disabled]="form.invalid" (click)="buscarProcessos()">
+          <fa-icon [icon]="iSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <app-tabela [tamanhoTotal]="processos?.length" [tamanhoPagina]="processos?.length">
+    <caption *ngIf="processos?.length == 0">
+      nenhum processo encontrado...
+    </caption>
+    <caption *ngIf="processos?.length > 0">
+      processos encontrados: {{ processos?.length }}
+    </caption>
+    <thead>
+      <th class="text-center">Autos</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proc of processos">
+        <td class="text-center align-middle">{{ proc.autos }}</td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of proc.consumidores">{{ cons }}</div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of proc.fornecedores">{{ forn }}</div>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['/cadastro/processos/novo', proc.id]">
+          </app-botao-editar>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal></app-modal>

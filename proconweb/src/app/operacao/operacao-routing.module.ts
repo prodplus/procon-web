@@ -12,6 +12,7 @@ import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-n
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
 import { PorPrazoComponent } from './por-prazo/por-prazo.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: AudienciaComponent,
     resolve: { audiencias: AudienciaResolver },
+  },
+  {
+    path: 'relatorios',
+    canActivate: [AuthGuard],
+    component: RelatoriosComponent,
   },
 ];
 
