@@ -18,6 +18,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import br.com.procon.models.Consumidor;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
+import br.com.procon.models.enums.TipoPessoa;
 import br.com.procon.utils.LocalDateUtils;
 import br.com.procon.utils.MascarasUtils;
 
@@ -81,23 +82,31 @@ public class ProcIni {
 				identificacao.add(new Chunk(c.getDenominacao(), intFont));
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
-				identificacao = new Paragraph("Endereço: " + c.getEndereco().getLogradouro() + ", "
-						+ c.getEndereco().getNumero() + ", " + c.getEndereco().getComplemento()
-						+ ", " + c.getEndereco().getBairro() + ", " + c.getEndereco().getMunicipio()
-						+ ", " + c.getEndereco().getUf() + ", CEP "
-						+ MascarasUtils.format("#####-###", c.getEndereco().getCep()), intFont);
+				identificacao = new Paragraph("Endereço: ", negFont);
+				identificacao
+						.add(new Chunk(
+								c.getEndereco().getLogradouro() + ", " + c.getEndereco().getNumero()
+										+ ", " + c.getEndereco().getComplemento() + ", "
+										+ c.getEndereco().getBairro() + ", "
+										+ c.getEndereco().getMunicipio() + ", "
+										+ c.getEndereco().getUf() + ", CEP " + MascarasUtils
+												.format("#####-###", c.getEndereco().getCep()),
+								intFont));
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
+				identificacao = new Paragraph("Fones: ", negFont);
 				List<String> fones = new ArrayList<>();
 				c.getFones().forEach(f -> fones.add(MascarasUtils.foneFormat(f)));
-				identificacao = new Paragraph("Fone(s): " + String.join(", ", fones), intFont);
+				identificacao.add(new Chunk(String.join(", ", fones), intFont));
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 			}
+			int cont = 0;
 			for (Fornecedor f : processo.getFornecedores()) {
-				identificacao = new Paragraph(
-						"Fornecedor: " + f.getFantasia() + " (" + f.getRazaoSocial() + ")",
-						intFont);
+				cont++;
+				identificacao = new Paragraph(String.format("Fornecedor %02d: ", cont), negFont);
+				identificacao
+						.add(new Chunk(f.getFantasia() + " (" + f.getRazaoSocial() + ")", intFont));
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 			}
@@ -110,7 +119,47 @@ public class ProcIni {
 
 			document.add(espaco);
 
-			Paragraph conteudo = new Paragraph(processo.getRelato(), intFont);
+			StringBuilder builder1 = new StringBuilder();
+			builder1.append("O(a) consumidor(a) ");
+			builder1.append(processo.getConsumidores().get(0).getDenominacao());
+			builder1.append(String.format(", %s %s",
+					processo.getConsumidores().get(0).getTipo().equals(TipoPessoa.FISICA)
+							? "inscrito(a) no CPF nº "
+							: " inscrito(a) no CNPJ nº ",
+					processo.getConsumidores().get(0).getTipo().equals(TipoPessoa.FISICA)
+							? MascarasUtils.format("###.###.###-##",
+									processo.getConsumidores().get(0).getCadastro())
+							: MascarasUtils.format("##.###.###/####-##",
+									processo.getConsumidores().get(0).getCadastro())));
+			if (processo.getRepresentantes() != null && !processo.getRepresentantes().isEmpty()) {
+				builder1.append(", representado por ");
+				builder1.append(String.format(", %s %s",
+						processo.getRepresentantes().get(0).getTipo().equals(TipoPessoa.FISICA)
+								? "inscrito(a) no CPF nº "
+								: " inscrito(a) no CNPJ nº ",
+						processo.getRepresentantes().get(0).getTipo().equals(TipoPessoa.FISICA)
+								? MascarasUtils.format("###.###.###-##",
+										processo.getRepresentantes().get(0).getCadastro())
+								: MascarasUtils.format("##.###.###/####-##",
+										processo.getConsumidores().get(0).getCadastro())));
+			}
+			builder1.append(", formalizou reclamação em desfavor da(s) empresa(s) ");
+			String[] fornString = new String[processo.getFornecedores().size()];
+			for (int i = 0; i < processo.getFornecedores().size(); i++)
+				fornString[i] = processo.getFornecedores().get(i).getRazaoSocial() + " (CNPJ: "
+						+ MascarasUtils.format("##.###.###/####-##",
+								processo.getFornecedores().get(i).getCnpj())
+						+ ")";
+			builder1.append(String.join(" e ", fornString));
+			builder1.append(", alegando em síntese o que segue:");
+
+			Paragraph conteudo = new Paragraph(builder1.toString(), intFont);
+			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
+			conteudo.setFirstLineIndent(30f);
+			document.add(conteudo);
+			document.add(espaco);
+
+			conteudo = new Paragraph(processo.getRelato(), intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(conteudo);
 
