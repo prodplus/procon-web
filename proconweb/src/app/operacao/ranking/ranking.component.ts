@@ -18,7 +18,7 @@ export class RankingComponent implements OnInit, AfterViewInit {
   type = 'PieChart';
   data = [];
   columnNames = ['Fornecedor', 'Processos'];
-  options = {};
+  options = { is3D: true };
   width = 1100;
   height = 600;
   anoForm = this.builder.group({
@@ -35,6 +35,7 @@ export class RankingComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     const ano: number = new Date().getUTCFullYear();
     for (let i = 0; i <= 5; i++) this.anos.push(ano - i);
+    this.title = 'Ranking do Ano ' + ano;
     this.isLoading = true;
     this.processoService.ranking(new Date().getUTCFullYear()).subscribe(
       (p) => (this.ranking = p),
@@ -80,7 +81,6 @@ export class RankingComponent implements OnInit, AfterViewInit {
         for (let proc of this.ranking) {
           this.data.push([proc.fornecedor.razaoSocial, proc.processos]);
         }
-        console.log(this.data);
         this.isLoading = false;
       }
     );
