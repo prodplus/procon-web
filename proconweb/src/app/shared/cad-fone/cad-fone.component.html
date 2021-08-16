@@ -2,7 +2,7 @@
   <div class="row col-12">
     <div class="col-3 mb-3">
       <label for="inputFone" class="form-label">Fone:</label>
-      <input type="text" mask="(00) 0000-0000||(00) 00000-0000" id="inputFone"
+      <input type="text" [mask]="mascaraFoneInput()" id="inputFone"
           class="form-control" formControlName="fone" style="text-align: center;">
     </div>
     <div class="col-2 mb-3">

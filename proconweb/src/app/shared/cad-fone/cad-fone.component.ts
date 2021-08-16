@@ -18,7 +18,7 @@ export class CadFoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.builder.group({
-      fone: ['', [Validators.required, Validators.minLength(8)]],
+      fone: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -33,5 +33,9 @@ export class CadFoneComponent implements OnInit {
 
   mascaraFone(fone: string): string {
     return getMascaraFone(fone);
+  }
+
+  mascaraFoneInput() {
+    return getMascaraFone(this.form.get('fone').value);
   }
 }
