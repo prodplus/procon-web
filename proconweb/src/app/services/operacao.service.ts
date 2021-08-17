@@ -38,4 +38,8 @@ export class OperacaoService {
   porNovos(): Observable<ProcessoDto[]> {
     return this.http.get<ProcessoDto[]>(`${URL}/novos`);
   }
+
+  porNovosAutos(autos: string): Observable<ProcessoDto[]> {
+    return this.http.get<ProcessoDto[]>(`${URL}/novos/${autos}`);
+  }
 }

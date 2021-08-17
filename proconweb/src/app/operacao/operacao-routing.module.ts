@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from '../core/auth/admin.guard';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { AudienciaResolver } from '../resources/audiencia.resolver';
 import { CadProcessoResolver } from '../resources/cad-processo.resolver';
+import { DespachoResolver } from '../resources/despacho.resolver';
 import { NotConsumidorResolver } from '../resources/not-consumidor.resolver';
 import { NotFornecedorResolver } from '../resources/not-fornecedor.resolver';
 import { PrazoDescResolver } from '../resources/prazo-desc.resolver';
 import { AudienciaComponent } from './audiencia/audiencia.component';
+import { MarcaAudienciaComponent } from './despachos/marca-audiencia/marca-audiencia.component';
+import { NovoDespachoComponent } from './despachos/novo-despacho/novo-despacho.component';
 import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-fornecedor.component';
 import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-not-fornecedor.component';
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
@@ -63,6 +67,27 @@ export const routes: Routes = [
     path: 'relatorios',
     canActivate: [AuthGuard],
     component: RelatoriosComponent,
+  },
+  {
+    path: 'despachos',
+    canActivate: [AdminGuard],
+    children: [
+      {
+        path: '',
+        component: NovoDespachoComponent,
+        resolve: { processos: DespachoResolver },
+      },
+      {
+        path: 'audiencia',
+        children: [
+          {
+            path: ':id',
+            component: MarcaAudienciaComponent,
+            resolve: { processo: CadProcessoResolver },
+          },
+        ],
+      },
+    ],
   },
 ];
 

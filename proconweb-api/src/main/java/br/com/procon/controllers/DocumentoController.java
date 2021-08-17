@@ -103,4 +103,20 @@ public class DocumentoController {
 				.body(this.documentoService.convAudForn(id, movimento));
 	}
 
+	@PutMapping(path = "/despacho_aud/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> despachoAud(@PathVariable Integer id,
+			@RequestBody Movimento movimento) {
+		return ResponseEntity.ok()
+				.header("Content-Disposition", "inline; filename=despacho_aud.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(this.documentoService.despachoAud(id, movimento));
+	}
+
+	@GetMapping(path = "/despacho_not/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> despachoNot(@PathVariable Integer id) {
+		return ResponseEntity.ok()
+				.header("Content-Disposition", "inline; filename=despacho_not.pdf")
+				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.despachoNot(id));
+	}
+
 }

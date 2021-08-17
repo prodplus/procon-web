@@ -69,4 +69,14 @@ export class DocumentoService {
       responseType: 'blob',
     });
   }
+
+  despachoAud(id: number, movimento: Movimento): Observable<Blob> {
+    return this.http.put(`${URL}/despacho_aud/${id}`, movimento, {
+      responseType: 'blob',
+    });
+  }
+
+  despachoNot(id: number): Observable<Blob> {
+    return this.http.get(`${URL}/despacho_not/${id}`, { responseType: 'blob' });
+  }
 }

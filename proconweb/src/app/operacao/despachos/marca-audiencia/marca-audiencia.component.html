@@ -1,0 +1,46 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Marcar Audiência"></app-titulo>
+  <app-botao-cancelar [rota]="['/operacao/despachos']">
+  </app-botao-cancelar>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <strong>Processo: {{ processo.autos }}</strong>
+      </div>
+      <div class="card-subtitle">
+        <strong>Consumidor(es):</strong>
+        <div *ngFor="let cons of processo.consumidores">
+          {{ cons.denominacao }}
+        </div>
+        <strong>Fornecedor(es):</strong>
+        <div *ngFor="let forn of processo.fornecedores">
+          {{ forn.razaoSocial }}
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="movimentoForm" (ngSubmit)="preparaDespacho()">
+        <div class="row col-12">
+          <div class="col-3">
+            <label for="inputData" class="form-label">Data:</label>
+            <input type="date" id="inputData" class="form-control" formControlName="data"
+                style="text-align: center;">
+          </div>
+          <div class="col-2">
+            <label for="inputHora" class="form-label">Hora:</label>
+            <input type="time" id="inputHora" class="form-control" formControlName="hora"
+                style="text-align: center;">
+          </div>
+          <div class="col-2">
+            <button class="btn btn-success btn-inside" type="submit"
+                [disabled]="movimentoForm.invalid" title="marcar audiência">
+              <fa-icon [icon]="iPrint"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-pagina>
+<app-modal #modal (sim)="concordou($event)"></app-modal>

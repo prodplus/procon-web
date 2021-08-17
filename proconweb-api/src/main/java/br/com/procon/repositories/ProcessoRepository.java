@@ -39,4 +39,9 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer> {
 	List<Processo> findAllBySituacaoNotAndSituacaoNotAndSituacaoNot(Situacao encerrado,
 			Situacao resolvido, Situacao naoResolvido);
 
+	List<Processo> findAllBySituacaoAndAutosContaining(Situacao situacao, String autos);
+
+	List<Processo> findAllBySituacaoNotAndSituacaoNotAndSituacaoNotAndAutosContaining(
+			Situacao encerrado, Situacao resolvido, Situacao naoResolvido, String autos);
+
 }

@@ -123,7 +123,21 @@ public class OperacaoService {
 
 	public List<ProcessoDto> getNovos() {
 		try {
-			List<Processo> processos = this.processoService.listarPorSituacao(Situacao.AUDIENCIA);
+			List<Processo> processos = this.processoService
+					.listarPorSituacao(Situacao.EM_ANDAMENTO);
+			Collections.sort(processos, new NotCompare());
+			return toDto(processos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public List<ProcessoDto> getNovos(String autos) {
+		try {
+			List<Processo> processos = this.processoService
+					.listarPorSituacaoEAutos(Situacao.EM_ANDAMENTO, autos);
 			Collections.sort(processos, new NotCompare());
 			return toDto(processos);
 		} catch (Exception e) {
@@ -153,7 +167,7 @@ public class OperacaoService {
 					vencimento = String.format("A vencer em %02d/%02d/%02d",
 							p.getMovimentacao().get(0).getAuxD().getDayOfMonth(),
 							p.getMovimentacao().get(0).getAuxD().getMonthValue(),
-							p.getMovimentacao().get(0).getAuxD().getYear());				
+							p.getMovimentacao().get(0).getAuxD().getYear());
 			} else {
 				vencimento = "Sem data de vencimento!";
 			}

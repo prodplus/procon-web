@@ -110,6 +110,26 @@ public class ProcessoService {
 		}
 	}
 
+	public Processo atualizar(Integer id, Processo processo) {
+		return this.processoRepository.findById(id).map(novo -> {
+			novo.setAtendente(processo.getAtendente());
+			novo.setAutos(processo.getAutos());
+			novo.setConsumidores(processo.getConsumidores());
+			novo.setData(processo.getData());
+			novo.setFornecedores(processo.getFornecedores());
+			novo.setMovimentacao(processo.getMovimentacao());
+			novo.setRelato(processo.getRelato());
+			novo.setRepresentantes(processo.getRepresentantes());
+			novo.setSituacao(processo.getSituacao());
+			novo.setTipo(processo.getTipo());
+			if (novo.getMovimentacao() == null || novo.getMovimentacao().isEmpty())
+				novo.getMovimentacao().add(new Movimento(novo.getData(), Situacao.BALCAO,
+						Situacao.AUTUADO, "recém autuado", null, null));
+			novo.setSituacao(ProcessoUtils.handleSituacao(novo.getMovimentacao()));
+			return this.processoRepository.save(novo);
+		}).orElseThrow(() -> new EntityNotFoundException());
+	}
+
 	public Processo buscar(Integer id) {
 		try {
 			return this.processoRepository.findById(id)
@@ -265,7 +285,33 @@ public class ProcessoService {
 	}
 
 	public List<Processo> listarPorSituacao(Situacao situacao) {
-		return this.processoRepository.findAllBySituacao(situacao);
+		try {
+			if (situacao.equals(Situacao.EM_ANDAMENTO)) {
+				return this.processoRepository.findAllBySituacaoNotAndSituacaoNotAndSituacaoNot(
+						Situacao.ENCERRADO, Situacao.RESOLVIDO, Situacao.NAO_RESOLVIDO);
+			} else
+				return this.processoRepository.findAllBySituacao(situacao);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public List<Processo> listarPorSituacaoEAutos(Situacao situacao, String autos) {
+		try {
+			if (situacao.equals(Situacao.EM_ANDAMENTO)) {
+				return this.processoRepository
+						.findAllBySituacaoNotAndSituacaoNotAndSituacaoNotAndAutosContaining(
+								Situacao.ENCERRADO, Situacao.RESOLVIDO, Situacao.NAO_RESOLVIDO,
+								autos);
+			} else
+				return this.processoRepository.findAllBySituacaoAndAutosContaining(situacao, autos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
 	}
 
 }

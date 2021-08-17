@@ -1,0 +1,57 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Novo Despacho"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+  <div class="col-4">
+    <app-search-input [form]="formSearch" label="buscar">
+    </app-search-input>
+  </div>
+  <app-tabela [tamanhoTotal]="processos.length" [tamanhoPagina]="processos.length"
+      [pagina]="1">
+    <caption *ngIf="processos.length == 0">nenhum processo para despachar...</caption>
+    <caption *ngIf="processos.length > 0">
+      processos em andamento: {{ processos.length }}
+    </caption>
+    <thead>
+      <th class="text-center">Autos</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center" style="width: 60px;">aud</th>
+      <th class="text-center" style="width: 60px;">ofi</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proc of processos">
+        <td class="text-center align-middle">{{ proc.autos }}</td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of proc.consumidores">
+            {{ cons }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of proc.fornecedores">
+            {{ forn }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-warning" title="audiência"
+              [routerLink]="['audiencia', proc.id]">
+            <fa-icon [icon]="iFile"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-primary" title="ofício"
+              (click)="preparaOficio(proc.id)">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['/cadastro/processos/novo', proc.id]">
+          </app-botao-editar>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordou($event)"></app-modal>

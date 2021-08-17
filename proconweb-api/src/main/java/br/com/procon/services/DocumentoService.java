@@ -1,5 +1,7 @@
 package br.com.procon.services;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -10,9 +12,12 @@ import br.com.procon.models.Atendimento;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
 import br.com.procon.models.auxiliares.Movimento;
+import br.com.procon.models.enums.Situacao;
 import br.com.procon.report.AtendIni;
 import br.com.procon.report.ConvAudCons;
 import br.com.procon.report.ConvAudForn;
+import br.com.procon.report.DespachoAud;
+import br.com.procon.report.DespachoNot;
 import br.com.procon.report.NotCincoDias;
 import br.com.procon.report.NotConsumidor;
 import br.com.procon.report.NotDezDias;
@@ -143,6 +148,33 @@ public class DocumentoService {
 		try {
 			Processo processo = this.processoService.buscar(id);
 			return new InputStreamResource(ConvAudForn.gerar(processo, movimento));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource despachoAud(Integer id, Movimento movimento) {
+		try {
+			Processo processo = this.processoService.buscar(id);
+			processo.getMovimentacao().add(0, movimento);
+			return new InputStreamResource(
+					DespachoAud.gerar(this.processoService.atualizar(id, processo), movimento));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource despachoNot(Integer id) {
+		try {
+			Processo processo = this.processoService.buscar(id);
+			processo.getMovimentacao().add(0, new Movimento(LocalDate.now(), Situacao.DESPACHO,
+					Situacao.NOTIFICAR_FORNECEDOR, "", null, null));
+			return new InputStreamResource(
+					DespachoNot.gerar(this.processoService.atualizar(id, processo)));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
