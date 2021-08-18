@@ -88,6 +88,8 @@ public class Oficio {
 				enderecoArray.add(c.getEndereco().getBairro());
 				enderecoArray.add(c.getEndereco().getMunicipio());
 				enderecoArray.add(c.getEndereco().getUf().toString());
+				enderecoArray.add(
+						"CEP: " + MascarasUtils.format("##.###-###", c.getEndereco().getCep()));
 				String endereco = String.join(", ", enderecoArray);
 				Paragraph cons = new Paragraph(
 						String.format("Nome: %s, CPF/CNPJ: %s, Endereço: %s, Fone: %s, email: %s",
@@ -108,7 +110,6 @@ public class Oficio {
 				document.add(subTit);
 				List<String> fonesArray = new ArrayList<>();
 				f.getFones().forEach(c -> fonesArray.add(MascarasUtils.foneFormat(c)));
-				String fones = String.join(", ", fonesArray);
 				String cadastro = MascarasUtils.format("##.###.###/####-##", f.getCnpj());
 				List<String> enderecoArray = new ArrayList<>();
 				enderecoArray.add(f.getEndereco().getLogradouro());
@@ -118,11 +119,12 @@ public class Oficio {
 				enderecoArray.add(f.getEndereco().getBairro());
 				enderecoArray.add(f.getEndereco().getMunicipio());
 				enderecoArray.add(f.getEndereco().getUf().toString());
+				enderecoArray.add(
+						"CEP: " + MascarasUtils.format("##.###-###", f.getEndereco().getCep()));
 				String endereco = String.join(", ", enderecoArray);
 				Paragraph cons = new Paragraph(
-						String.format(
-								"Razão Social: %s, CNPJ: %s, Endereço: %s, Fone: %s, email: %s",
-								f.getRazaoSocial(), cadastro, endereco, fones, f.getEmail()),
+						String.format("Razão Social: %s, CNPJ: %s, Endereço: %s",
+								f.getRazaoSocial(), cadastro, endereco),
 						intFont);
 				cons.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(cons);

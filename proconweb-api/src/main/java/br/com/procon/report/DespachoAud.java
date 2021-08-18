@@ -89,10 +89,12 @@ public class DespachoAud {
 				document.add(identificacao);
 			}
 
+			for (int i = 0; i <= 2; i++)
+				document.add(espaco);
+
 			Paragraph conteudo = new Paragraph("I - Na forma do Art. 33 do Decreto Federal 2.181, "
 					+ "instaurem-se procedimento administrativo;", intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
-			conteudo.setFirstLineIndent(30f);
 			document.add(conteudo);
 			document.add(espaco);
 			conteudo = new Paragraph(
@@ -102,7 +104,7 @@ public class DespachoAud {
 			conteudo.add(new Chunk("EM AUDIÊNCIA CONCILIATÓRIA A SER REALIZADA NESTE ÓRGÃO EM ",
 					negFont));
 			conteudo.add(new Chunk(
-					String.format("%02d/%02d/%04d ÀS %02d:%02d",
+					String.format("%02d/%02d/%04d ÀS %02d:%02dh",
 							movimento.getAuxD().getDayOfMonth(),
 							movimento.getAuxD().getMonthValue(), movimento.getAuxD().getYear(),
 							movimento.getAuxT().getHour(), movimento.getAuxT().getMinute()),
@@ -111,7 +113,6 @@ public class DespachoAud {
 					+ "a este Órgão, a reclamação do consumidor, 48 horas anteriores a audiência "
 					+ "designada", intFont));
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
-			conteudo.setFirstLineIndent(30f);
 			document.add(conteudo);
 			document.add(espaco);
 			conteudo = new Paragraph("III - Determino que, caso ocorra conciliação e a fornecedora "
@@ -119,13 +120,11 @@ public class DespachoAud {
 					+ "aplica-se multa no valor de 10 (dez) UFM's, de acordo com o Art. 55, §4º, "
 					+ "do CDC", intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
-			conteudo.setFirstLineIndent(30f);
 			document.add(conteudo);
 			document.add(espaco);
 			conteudo = new Paragraph("IV - Para tanto, designo o servidor Neri Antonio Garbin "
 					+ "para realizar a audiência conciliatória.", intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);
-			conteudo.setFirstLineIndent(30f);
 			document.add(conteudo);
 			document.add(espaco);
 

@@ -9,6 +9,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.procon.models.enums.Situacao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +40,7 @@ public class Movimento implements Serializable {
 	private Situacao para;
 	private String averbacao;
 	private LocalDate auxD;
+	@JsonFormat(pattern = "HH:mm")
 	private LocalTime auxT;
 
 }
