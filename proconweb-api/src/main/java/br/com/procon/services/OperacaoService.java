@@ -194,9 +194,11 @@ public class OperacaoService {
 			LocalDate p2D = p2.getMovimentacao().get(0).getAuxD();
 			if (p1D != null && p2D != null)
 				return p1D.compareTo(p2D);
-			else if (p1.getData() != null && p2.getData() != null)
-				return p1.getData().compareTo(p2.getData());
-			return 0;
+			if (p1D == null) 
+				p1D = LocalDate.now();
+			if (p2D == null)
+				p2D = LocalDate.now();
+			return p1D.compareTo(p2D);
 		}
 
 	}

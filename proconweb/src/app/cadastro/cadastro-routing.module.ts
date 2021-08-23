@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from '../core/auth/admin.guard';
+import { AuthGuard } from '../core/auth/auth.guard';
 import { CadAtendimentoResolver } from '../resources/cad-atendimento.resolver';
 import { CadConsumidorResolver } from '../resources/cad-consumidor.resolver';
 import { CadFornecedorResolver } from '../resources/cad-fornecedor.resolver';
@@ -24,6 +26,7 @@ import { ListaUsuariosComponent } from './usuarios/lista-usuarios/lista-usuarios
 export const routes: Routes = [
   {
     path: 'consumidores',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -45,6 +48,7 @@ export const routes: Routes = [
   },
   {
     path: 'fornecedores',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -66,6 +70,7 @@ export const routes: Routes = [
   },
   {
     path: 'usuarios',
+    canActivate: [AdminGuard],
     children: [
       {
         path: '',
@@ -87,6 +92,7 @@ export const routes: Routes = [
   },
   {
     path: 'atendimentos',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -108,6 +114,7 @@ export const routes: Routes = [
   },
   {
     path: 'processos',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
