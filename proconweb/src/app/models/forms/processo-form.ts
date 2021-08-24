@@ -29,5 +29,6 @@ export class ProcessoForm {
     this.movimentacao = [];
     processo.movimentacao.forEach((m) => this.movimentacao.push(m));
     this.situacao = processo.situacao;
+    this.atendente = processo.atendente.id;
   }
 }

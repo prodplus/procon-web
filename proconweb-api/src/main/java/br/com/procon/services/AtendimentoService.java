@@ -1,5 +1,6 @@
 package br.com.procon.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.procon.models.Atendimento;
 import br.com.procon.models.dtos.AtendimentoDto;
+import br.com.procon.models.enums.TipoLog;
 import br.com.procon.models.forms.AtendimentoForm;
 import br.com.procon.repositories.AtendimentoRepository;
 
@@ -38,11 +40,16 @@ public class AtendimentoService {
 	private ConsumidorService consumidorService;
 	@Autowired
 	private FornecedorService fornecedorService;
+	@Autowired
+	private LogService logService;
 
 	public AtendimentoDto salvar(@Valid AtendimentoForm atendimento) {
 		try {
-			return new AtendimentoDto(this.atendimentoRepository.save(atendimento.converter(
-					this.consumidorService, this.fornecedorService, this.usuarioService)));
+			Atendimento ate = this.atendimentoRepository.save(atendimento.converter(
+					this.consumidorService, this.fornecedorService, this.usuarioService));
+			this.logService.salvar(LocalDateTime.now(), "Atendimento " + ate.getId(),
+					TipoLog.INSERCAO);
+			return new AtendimentoDto(ate);
 		} catch (ValidationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "erro de validação!",
 					e.getCause());
@@ -63,7 +70,10 @@ public class AtendimentoService {
 				novo.setData(i.getData());
 				novo.setRelato(i.getRelato());
 				novo.setAtendente(i.getAtendente());
-				return new AtendimentoDto(this.atendimentoRepository.save(i));
+				Atendimento ate = this.atendimentoRepository.save(novo);
+				this.logService.salvar(LocalDateTime.now(), "Atendimento " + ate.getId(),
+						TipoLog.ATUALIZACAO);
+				return new AtendimentoDto(ate);
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "atendimento não localizado!",
@@ -124,7 +134,11 @@ public class AtendimentoService {
 
 	public void excluir(Integer id) {
 		try {
-			this.atendimentoRepository.deleteById(id);
+			Atendimento ate = this.atendimentoRepository.findById(id)
+					.orElseThrow(() -> new EntityNotFoundException());
+			this.logService.salvar(LocalDateTime.now(), "Atendimento " + ate.getId(),
+					TipoLog.EXCLUSAO);
+			this.atendimentoRepository.delete(ate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

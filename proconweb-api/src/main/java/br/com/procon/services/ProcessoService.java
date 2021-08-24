@@ -1,6 +1,7 @@
 package br.com.procon.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,7 @@ import br.com.procon.models.auxiliares.FornecedorNro;
 import br.com.procon.models.auxiliares.Movimento;
 import br.com.procon.models.dtos.ProcessoDto;
 import br.com.procon.models.enums.Situacao;
+import br.com.procon.models.enums.TipoLog;
 import br.com.procon.models.forms.ProcessoForm;
 import br.com.procon.repositories.ProcessoRepository;
 import br.com.procon.utils.GeradorAutos;
@@ -48,6 +50,8 @@ public class ProcessoService {
 	private FornecedorService fornecedorService;
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private LogService logService;
 
 	public ProcessoDto salvar(@Valid ProcessoForm processo) {
 		try {
@@ -61,8 +65,11 @@ public class ProcessoService {
 				processo.getMovimentacao().add(new Movimento(processo.getData(), Situacao.BALCAO,
 						Situacao.AUTUADO, "recém autuado", null, null));
 			processo.setSituacao(ProcessoUtils.handleSituacao(processo.getMovimentacao()));
-			return new ProcessoDto(this.processoRepository.save(processo.converter(
-					this.consumidorService, this.fornecedorService, this.usuarioService)));
+			Processo proc = this.processoRepository.save(processo.converter(this.consumidorService,
+					this.fornecedorService, this.usuarioService));
+			this.logService.salvar(LocalDateTime.now(), "Processo " + proc.getAutos(),
+					TipoLog.INSERCAO);
+			return new ProcessoDto(proc);
 		} catch (ValidationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "erro de validação!",
 					e.getCause());
@@ -92,6 +99,8 @@ public class ProcessoService {
 					novo.getMovimentacao().add(new Movimento(novo.getData(), Situacao.BALCAO,
 							Situacao.AUTUADO, "recém autuado", null, null));
 				novo.setSituacao(ProcessoUtils.handleSituacao(novo.getMovimentacao()));
+				this.logService.salvar(LocalDateTime.now(), "Processo " + novo.getAutos(),
+						TipoLog.ATUALIZACAO);
 				return new ProcessoDto(this.processoRepository.save(novo));
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
@@ -126,6 +135,8 @@ public class ProcessoService {
 				novo.getMovimentacao().add(new Movimento(novo.getData(), Situacao.BALCAO,
 						Situacao.AUTUADO, "recém autuado", null, null));
 			novo.setSituacao(ProcessoUtils.handleSituacao(novo.getMovimentacao()));
+			this.logService.salvar(LocalDateTime.now(), "Processo " + novo.getAutos(),
+					TipoLog.ATUALIZACAO);
 			return this.processoRepository.save(novo);
 		}).orElseThrow(() -> new EntityNotFoundException());
 	}
@@ -243,7 +254,14 @@ public class ProcessoService {
 
 	public void excluir(Integer id) {
 		try {
-			this.processoRepository.deleteById(id);
+			Processo proc = this.processoRepository.findById(id)
+					.orElseThrow(() -> new EntityNotFoundException());
+			this.logService.salvar(LocalDateTime.now(), "Processo " + proc.getAutos(),
+					TipoLog.EXCLUSAO);
+			this.processoRepository.delete(proc);
+		} catch (EntityNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "processo não localizado!",
+					e.getCause());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

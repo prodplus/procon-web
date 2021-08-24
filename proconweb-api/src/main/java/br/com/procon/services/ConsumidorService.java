@@ -1,5 +1,7 @@
 package br.com.procon.services;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.procon.models.Consumidor;
+import br.com.procon.models.enums.TipoLog;
 import br.com.procon.repositories.ConsumidorRepository;
 
 /**
@@ -27,11 +30,16 @@ public class ConsumidorService {
 
 	@Autowired
 	private ConsumidorRepository consumidorRepository;
+	@Autowired
+	private LogService logService;
 
 	public Consumidor salvar(@Valid Consumidor consumidor) {
 		try {
 			consumidor.setDenominacao(consumidor.getDenominacao().toUpperCase().trim());
-			return this.consumidorRepository.save(consumidor);
+			Consumidor cons = this.consumidorRepository.save(consumidor);
+			this.logService.salvar(LocalDateTime.now(), "Consumidor " + cons.getDenominacao(),
+					TipoLog.INSERCAO);
+			return cons;
 		} catch (ValidationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "erro de validação!",
 					e.getCause());
@@ -49,11 +57,13 @@ public class ConsumidorService {
 		try {
 			return this.consumidorRepository.findById(id).map(novo -> {
 				novo.setCadastro(consumidor.getCadastro());
-				novo.setDenominacao(consumidor.getDenominacao());
+				novo.setDenominacao(consumidor.getDenominacao().toUpperCase().trim());
 				novo.setEmail(consumidor.getEmail());
 				novo.setEndereco(consumidor.getEndereco());
 				novo.setFones(consumidor.getFones());
 				novo.setTipo(consumidor.getTipo());
+				this.logService.salvar(LocalDateTime.now(), "Consumidor " + novo.getDenominacao(),
+						TipoLog.ATUALIZACAO);
 				return this.consumidorRepository.save(novo);
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
@@ -114,7 +124,14 @@ public class ConsumidorService {
 
 	public void excluir(Integer id) {
 		try {
-			this.consumidorRepository.deleteById(id);
+			Consumidor cons = this.consumidorRepository.findById(id)
+					.orElseThrow(() -> new EntityNotFoundException());
+			this.logService.salvar(LocalDateTime.now(), "Consumidor " + cons.getDenominacao(),
+					TipoLog.EXCLUSAO);
+			this.consumidorRepository.delete(cons);
+		} catch (EntityNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "consumidor não localizado!",
+					e.getCause());
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT,
 					"o consumidor não pode ser excluído!", e.getCause());

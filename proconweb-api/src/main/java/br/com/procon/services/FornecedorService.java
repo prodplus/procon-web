@@ -1,5 +1,6 @@
 package br.com.procon.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.procon.models.Fornecedor;
+import br.com.procon.models.enums.TipoLog;
 import br.com.procon.repositories.FornecedorRepository;
 
 /**
@@ -29,12 +31,17 @@ public class FornecedorService {
 
 	@Autowired
 	private FornecedorRepository fornecedorRepository;
+	@Autowired
+	private LogService logService;
 
 	public Fornecedor salvar(@Valid Fornecedor fornecedor) {
 		try {
 			fornecedor.setFantasia(fornecedor.getFantasia().toUpperCase().trim());
 			fornecedor.setRazaoSocial(fornecedor.getRazaoSocial().toUpperCase().trim());
-			return this.fornecedorRepository.save(fornecedor);
+			Fornecedor forn = this.fornecedorRepository.save(fornecedor);
+			this.logService.salvar(LocalDateTime.now(), "Fornecedor " + forn.getFantasia(),
+					TipoLog.INSERCAO);
+			return forn;
 		} catch (ValidationException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "erro de validação!",
 					e.getCause());
@@ -57,6 +64,8 @@ public class FornecedorService {
 				novo.setFantasia(fornecedor.getFantasia().toUpperCase().trim());
 				novo.setFones(fornecedor.getFones());
 				novo.setRazaoSocial(fornecedor.getRazaoSocial().toUpperCase().trim());
+				this.logService.salvar(LocalDateTime.now(), "Fornecedor " + novo.getFantasia(),
+						TipoLog.ATUALIZACAO);
 				return this.fornecedorRepository.save(novo);
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
@@ -115,7 +124,14 @@ public class FornecedorService {
 
 	public void excluir(Integer id) {
 		try {
-			this.fornecedorRepository.deleteById(id);
+			Fornecedor forn = this.fornecedorRepository.findById(id)
+					.orElseThrow(() -> new EntityNotFoundException());
+			this.logService.salvar(LocalDateTime.now(), "Fornecedor " + forn.getFantasia(),
+					TipoLog.EXCLUSAO);
+			this.fornecedorRepository.delete(forn);
+		} catch (EntityNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "fornecedor não localizado!",
+					e.getCause());
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseStatusException(HttpStatus.CONFLICT,
 					"não é possível excluir o fornecedor!", e.getCause());
