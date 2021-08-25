@@ -70,6 +70,10 @@ export class ProcessoService {
     );
   }
 
+  listarPorSituacaoPuro(situacao: string): Observable<ProcessoDto[]> {
+    return this.http.get<ProcessoDto[]>(`${URL}/listar_sit_puro/${situacao}`);
+  }
+
   listarPorSituacaoData(
     situacao: string,
     inicio: string,

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ProcessoDto } from 'src/app/models/dtos/processo-dto';
@@ -12,16 +18,19 @@ import { toDateApi } from 'src/app/utils/date-utils';
   templateUrl: './relatorios.component.html',
   styleUrls: ['./relatorios.component.css'],
 })
-export class RelatoriosComponent implements OnInit {
+export class RelatoriosComponent implements OnInit, AfterViewInit {
   isLoading = false;
   processos: ProcessoDto[];
   iSearch = faSearch;
+  exibControl = false;
   situacoes: string[];
+  @ViewChild('btn')
+  btnSearch: ElementRef<HTMLButtonElement>;
   @ViewChild('modal')
   modal: ModalComponent;
   form = this.builder.group({
-    inicio: [null, [Validators.required]],
-    fim: [null, [Validators.required]],
+    inicio: [null],
+    fim: [null],
     situacao: [null, [Validators.required]],
   });
 
@@ -35,26 +44,53 @@ export class RelatoriosComponent implements OnInit {
     this.enumService.getSituacoes().subscribe((s) => (this.situacoes = s));
   }
 
+  ngAfterViewInit() {
+    this.btnSearch.nativeElement.disabled = true;
+  }
+
   buscarProcessos() {
     this.isLoading = true;
-    this.processoService
-      .listarPorSituacaoData(
-        this.form.get('situacao').value,
-        toDateApi(new Date(this.form.get('inicio').value)),
-        toDateApi(new Date(this.form.get('fim').value))
-      )
-      .subscribe(
-        (p) => (this.processos = p),
-        (err) => {
-          this.isLoading = false;
-          this.modal.openPadrao(err);
-        },
-        () => {
-          this.form.get('situacao').disable();
-          this.form.get('inicio').disable();
-          this.form.get('fim').disable();
-          this.isLoading = false;
-        }
-      );
+    if (this.exibControl) {
+      this.processoService
+        .listarPorSituacaoData(
+          this.form.get('situacao').value,
+          toDateApi(new Date(this.form.get('inicio').value)),
+          toDateApi(new Date(this.form.get('fim').value))
+        )
+        .subscribe(
+          (p) => (this.processos = p),
+          (err) => {
+            this.isLoading = false;
+            this.modal.openPadrao(err);
+          },
+          () => (this.isLoading = false)
+        );
+    } else {
+      this.form.get('inicio').setValue(null);
+      this.form.get('fim').setValue(null);
+      this.processoService
+        .listarPorSituacaoPuro(this.form.get('situacao').value)
+        .subscribe(
+          (p) => (this.processos = p),
+          (err) => {
+            this.isLoading = false;
+            this.modal.openPadrao(err);
+          },
+          () => (this.isLoading = false)
+        );
+    }
+  }
+
+  onSelectSituacao(): boolean {
+    switch (this.form.get('situacao').value) {
+      case 'AUTUADO':
+      case 'ENCERRADO':
+      case 'RESOLVIDO':
+      case 'NAO_RESOLVIDO':
+      case 'INSUBSISTENTE':
+        return true;
+      default:
+        return false;
+    }
   }
 }

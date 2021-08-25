@@ -92,6 +92,12 @@ public class ProcessoController {
 		return ResponseEntity.ok(this.processoService.listarPorSituacao(situacao, inicio, fim));
 	}
 
+	@GetMapping("/listar_sit_puro/{situacao}")
+	public ResponseEntity<List<ProcessoDto>> listarPorSituacaoPuro(
+			@PathVariable Situacao situacao) {
+		return ResponseEntity.ok(this.processoService.listarPorSituacaoPuro(situacao));
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> excluir(@PathVariable Integer id) {
 		this.processoService.excluir(id);

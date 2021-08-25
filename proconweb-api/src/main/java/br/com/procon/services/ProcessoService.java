@@ -238,18 +238,33 @@ public class ProcessoService {
 		}
 	}
 
+	public List<ProcessoDto> listarPorSituacaoPuro(Situacao situacao) {
+		try {
+			if (situacao.equals(Situacao.EM_ANDAMENTO))
+				return transformaDto(
+						this.processoRepository.findAllBySituacaoNotAndSituacaoNotAndSituacaoNot(
+								Situacao.ENCERRADO, Situacao.RESOLVIDO, Situacao.NAO_RESOLVIDO));
+			return transformaDto(this.processoRepository.findAllBySituacao(situacao));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
 	public List<ProcessoDto> listarPorSituacao(Situacao situacao, LocalDate inicio, LocalDate fim) {
 		List<Processo> processos = new ArrayList<>();
-		if (situacao.equals(Situacao.EM_ANDAMENTO))
-			processos = this.processoRepository.findAllBySituacaoNotAndSituacaoNotAndSituacaoNot(
-					Situacao.ENCERRADO, Situacao.RESOLVIDO, Situacao.NAO_RESOLVIDO);
-		else
+		if (situacao.equals(Situacao.AUTUADO))
+			processos = this.processoRepository.findAllByDataBetween(inicio, fim);
+		else {
 			processos = this.processoRepository.findAllBySituacao(situacao);
-		List<Processo> filtrados = processos.stream()
-				.filter(p -> p.getMovimentacao().get(0).getData().isAfter(inicio)
-						&& p.getMovimentacao().get(0).getData().isBefore(fim))
-				.collect(Collectors.toList());
-		return transformaDto(filtrados);
+			List<Processo> filtrados = processos.stream()
+					.filter(p -> p.getMovimentacao().get(0).getData().isAfter(inicio)
+							&& p.getMovimentacao().get(0).getData().isBefore(fim))
+					.collect(Collectors.toList());
+			return transformaDto(filtrados);
+		}
+		return transformaDto(processos);
 	}
 
 	public void excluir(Integer id) {
