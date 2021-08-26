@@ -67,7 +67,7 @@ export class PorNotFornecedorComponent implements OnInit {
   private concluir(processo: Processo) {
     this.isLoading = true;
     const dataPrazo = new Date();
-    dataPrazo.setDate(dataPrazo.getDate() + 45);
+    dataPrazo.setDate(dataPrazo.getDate() + 60);
     const movimento = new Movimento(
       toDateApi(new Date()),
       'NOTIFICAR_FORNECEDOR',

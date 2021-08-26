@@ -21,9 +21,10 @@ public class MascarasUtils {
 	public static String format(String pattern, String value) {
 		MaskFormatter mask;
 		try {
+			String tratada = value.replaceAll("[-()]*", "");
 			mask = new MaskFormatter(pattern);
 			mask.setValueContainsLiteralCharacters(false);
-			return mask.valueToString(value);
+			return mask.valueToString(tratada);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw new RuntimeException();
