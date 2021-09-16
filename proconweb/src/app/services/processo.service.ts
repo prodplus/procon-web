@@ -35,8 +35,9 @@ export class ProcessoService {
     pagina: number,
     quant: number
   ): Observable<Page<ProcessoDto>> {
-    return this.http.get<Page<ProcessoDto>>(
-      `${URL}/listar_autos/${pagina}/${quant}/${autos}`
+    return this.http.put<Page<ProcessoDto>>(
+      `${URL}/listar_autos/${pagina}/${quant}`,
+      autos
     );
   }
 

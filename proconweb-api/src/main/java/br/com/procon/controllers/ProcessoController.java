@@ -59,8 +59,8 @@ public class ProcessoController {
 		return ResponseEntity.ok(this.processoService.listar(pagina, quant));
 	}
 
-	@GetMapping("/listar_autos/{pagina}/{quant}/{autos}")
-	public ResponseEntity<Page<ProcessoDto>> listarPorAutos(@PathVariable String autos,
+	@PutMapping("/listar_autos/{pagina}/{quant}")
+	public ResponseEntity<Page<ProcessoDto>> listarPorAutos(@RequestBody String autos,
 			@PathVariable int pagina, @PathVariable int quant) {
 		return ResponseEntity.ok(this.processoService.listarPorAutos(autos, pagina, quant));
 	}
