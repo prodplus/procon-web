@@ -97,7 +97,7 @@ public class NotConsumidor {
 			Paragraph conteudo = new Paragraph(
 					"Notificamos Vossa Senhoria para comparecer neste Órgão no "
 							+ "prazo de 48 (quarenta e oito) horas, a contar do recebimento desta, no horário "
-							+ "de atendimento (das 08:30h às 11:30h e das 13:30h às 17:30), para manifestar-se a "
+							+ "de atendimento (das 08:30h às 11:30h e das 13:30h às 17:00), para manifestar-se a "
 							+ "respeito do procedimento acima, sob pena de arquivamento do feito.",
 					intFont);
 			conteudo.setAlignment(Element.ALIGN_JUSTIFIED);

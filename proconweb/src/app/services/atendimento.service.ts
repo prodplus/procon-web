@@ -47,4 +47,8 @@ export class AtendimentoService {
   excluir(id: number): Observable<any> {
     return this.http.delete(`${URL}/${id}`);
   }
+
+  atendimentosAno(): Observable<number> {
+    return this.http.get<number>(`${URL}/atendimentosano`);
+  }
 }

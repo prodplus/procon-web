@@ -1,5 +1,7 @@
 package br.com.procon.repositories;
 
+import java.time.LocalDate;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +19,7 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Intege
 
 	Page<Atendimento> findAllByConsumidoresDenominacaoContainingIgnoreCaseOrFornecedoresFantasiaContainingIgnoreCaseOrFornecedoresRazaoSocialContainingIgnoreCase(
 			String parametro, String parametro2, String parametro3, Pageable pageable);
+
+	long countByDataAfter(LocalDate of);
 
 }

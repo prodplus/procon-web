@@ -27,6 +27,7 @@ export class ListaAtendimentosComponent implements OnInit, AfterViewInit {
   iPrint = faPrint;
   @ViewChild('modal')
   modal: ModalComponent;
+  atendimentosAno = 0;
 
   constructor(
     private builder: FormBuilder,
@@ -37,6 +38,9 @@ export class ListaAtendimentosComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.page = this.route.snapshot.data['page'];
+    this.atendimentoService
+      .atendimentosAno()
+      .subscribe((a) => (this.atendimentosAno = a));
 
     this.searchForm = this.builder.group({
       input: [''],

@@ -64,5 +64,10 @@ public class AtendimentoController {
 		this.atendimentoService.excluir(id);
 		return ResponseEntity.ok().build();
 	}
+	
+	@GetMapping("/atendimentosano")
+	public ResponseEntity<Long> atendimentosAno() {
+		return ResponseEntity.ok(this.atendimentoService.atendimentosAno());
+	}
 
 }

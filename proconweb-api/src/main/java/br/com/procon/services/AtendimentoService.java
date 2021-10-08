@@ -1,5 +1,6 @@
 package br.com.procon.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +145,11 @@ public class AtendimentoService {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"ocorreu um erro no servidor!", e.getCause());
 		}
+	}
+
+	public Long atendimentosAno() {
+		return this.atendimentoRepository
+				.countByDataAfter(LocalDate.of(LocalDate.now().getYear(), 1, 1));
 	}
 
 }
