@@ -77,6 +77,7 @@ public class ProcIni {
 			identificacao.add(new Chunk(processo.getAutos(), intFont));
 			identificacao.setAlignment(Element.ALIGN_LEFT);
 			document.add(identificacao);
+
 			for (Consumidor c : processo.getConsumidores()) {
 				identificacao = new Paragraph("Consumidor: ", negFont);
 				identificacao.add(new Chunk(c.getDenominacao(), intFont));
@@ -101,6 +102,32 @@ public class ProcIni {
 				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
 				document.add(identificacao);
 			}
+
+			for (Consumidor c : processo.getRepresentantes()) {
+				identificacao = new Paragraph("Representante: ", negFont);
+				identificacao.add(new Chunk(c.getDenominacao(), intFont));
+				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(identificacao);
+				identificacao = new Paragraph("Endereço: ", negFont);
+				identificacao
+						.add(new Chunk(
+								c.getEndereco().getLogradouro() + ", " + c.getEndereco().getNumero()
+										+ ", " + c.getEndereco().getComplemento() + ", "
+										+ c.getEndereco().getBairro() + ", "
+										+ c.getEndereco().getMunicipio() + ", "
+										+ c.getEndereco().getUf() + ", CEP " + MascarasUtils
+												.format("#####-###", c.getEndereco().getCep()),
+								intFont));
+				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(identificacao);
+				identificacao = new Paragraph("Fones: ", negFont);
+				List<String> fones = new ArrayList<>();
+				c.getFones().forEach(f -> fones.add(MascarasUtils.foneFormat(f)));
+				identificacao.add(new Chunk(String.join(", ", fones), intFont));
+				identificacao.setAlignment(Element.ALIGN_JUSTIFIED);
+				document.add(identificacao);
+			}
+
 			int cont = 0;
 			for (Fornecedor f : processo.getFornecedores()) {
 				cont++;
@@ -132,7 +159,8 @@ public class ProcIni {
 							: MascarasUtils.format("##.###.###/####-##",
 									processo.getConsumidores().get(0).getCadastro())));
 			if (processo.getRepresentantes() != null && !processo.getRepresentantes().isEmpty()) {
-				builder1.append(", representado por ");
+				builder1.append(", representado(a) por ");
+				builder1.append(processo.getRepresentantes().get(0).getDenominacao());
 				builder1.append(String.format(", %s %s",
 						processo.getRepresentantes().get(0).getTipo().equals(TipoPessoa.FISICA)
 								? "inscrito(a) no CPF nº "
