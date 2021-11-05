@@ -41,8 +41,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let cons of atendimento.consumidores; index as i;">
-                <td class="align-middle">{{ cons.denominacao }}</td>
-                <td class="text-center align-middle">
+                <td class="align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]">
+                  {{ cons.denominacao }}
+                </td>
+                <td class="text-center align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]">
                   {{ cons.cadastro | mask: mascaraCadastro(cons.tipo) }}
                 </td>
                 <td class="text-center align-middle">
@@ -88,7 +92,8 @@
             <tbody>
               <tr *ngFor="let forn of atendimento.fornecedores; index as i;">
                 <td class="align-middle">{{ forn.razaoSocial }}</td>
-                <td class="text-center align-middle">
+                <td class="text-center align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/fornecedores/novo', forn.id]">
                   {{ forn.cnpj | mask: '00.000.000/0000-00' }}
                 </td>
                 <td class="text-center align-middle">
