@@ -45,6 +45,11 @@ public class ConsumidorController {
 		return ResponseEntity.ok(this.consumidorService.buscar(id));
 	}
 
+	@GetMapping("/porcad/{cadastro}")
+	public ResponseEntity<Consumidor> buscar(@PathVariable String cadastro) {
+		return ResponseEntity.ok(this.consumidorService.buscar(cadastro));
+	}
+
 	@GetMapping("/listar/{pagina}/{quant}")
 	public ResponseEntity<Page<Consumidor>> listar(@PathVariable int pagina,
 			@PathVariable int quant) {

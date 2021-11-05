@@ -59,8 +59,14 @@
             </thead>
             <tbody>
               <tr *ngFor="let cons of processo.consumidores; index as i;">
-                <td class="align-middle">{{ cons.denominacao }}</td>
-                <td class="align-middle text-center">
+                <td class="align-middle"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]"
+                    style="cursor: pointer;">
+                  {{ cons.denominacao }}
+                </td>
+                <td class="align-middle text-center"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]"
+                    style="cursor: pointer;">
                   {{ cons.cadastro | mask: mascaraCadastro(cons.tipo) }}
                 </td>
                 <td class="text-center align-middle">
@@ -105,8 +111,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let cons of processo.representantes; index as i;">
-                <td class="align-middle">{{ cons.denominacao }}</td>
-                <td class="align-middle text-center">
+                <td class="align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]">
+                  {{ cons.denominacao }}
+                </td>
+                <td class="align-middle text-center" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/consumidores/novo', cons.id]">
                   {{ cons.cadastro | mask: mascaraCadastro(cons.tipo) }}
                 </td>
                 <td class="text-center align-middle">
@@ -151,8 +161,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let forn of processo.fornecedores; index as i;">
-                <td class="align-middle">{{ forn.razaoSocial }}</td>
-                <td class="text-center align-middle">
+                <td class="align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/fornecedores/novo', forn.id]">
+                  {{ forn.razaoSocial }}
+                </td>
+                <td class="text-center align-middle" style="cursor: pointer;"
+                    [routerLink]="['/cadastro/fornecedores/novo', forn.id]">
                   {{ forn.cnpj | mask: '00.000.000/0000-00' }}
                 </td>
                 <td class="text-center align-middle">

@@ -96,6 +96,20 @@ public class ConsumidorService {
 		}
 	}
 
+	public Consumidor buscar(String cadastro) {
+		try {
+			return this.consumidorRepository.findByCadastro(cadastro)
+					.orElseThrow(() -> new EntityNotFoundException());
+		} catch (EntityNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "consumidor não localizado!",
+					e.getCause());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
 	public Page<Consumidor> listar(int pagina, int quant) {
 		try {
 			Pageable pageable = PageRequest.of(pagina, quant, Direction.ASC, "denominacao");

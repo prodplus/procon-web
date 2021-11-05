@@ -23,6 +23,10 @@ export class ConsumidorService {
     return this.http.get<Consumidor>(`${URL}/${id}`);
   }
 
+  buscarC(cadastro: string): Observable<Consumidor> {
+    return this.http.get<Consumidor>(`${URL}/porcad/${cadastro}`);
+  }
+
   listar(pagina: number, quant: number): Observable<Page<Consumidor>> {
     return this.http.get<Page<Consumidor>>(`${URL}/listar/${pagina}/${quant}`);
   }
