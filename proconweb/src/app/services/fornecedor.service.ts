@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientJsonpModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ModelRfb } from '../models/auxiliares/model-rfb';
 import { Page } from '../models/auxiliares/page';
 import { Fornecedor } from '../models/fornecedor';
 
@@ -9,7 +10,7 @@ const URL = environment.url + '/fornecedores';
 
 @Injectable({ providedIn: 'root' })
 export class FornecedorService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jsonP: HttpClientJsonpModule) {}
 
   salvar(fornecedor: Fornecedor): Observable<Fornecedor> {
     return this.http.post<Fornecedor>(`${URL}`, fornecedor);
@@ -47,5 +48,12 @@ export class FornecedorService {
 
   cnpjExiste(cnpj: string): Observable<boolean> {
     return this.http.get<boolean>(`${URL}/cnpj/${cnpj}`);
+  }
+
+  consultaCnpj(cnpj: string): Observable<ModelRfb> {
+    return this.http.jsonp<ModelRfb>(
+      `https://www.receitaws.com.br/v1/cnpj/${cnpj}`,
+      'callback'
+    );
   }
 }

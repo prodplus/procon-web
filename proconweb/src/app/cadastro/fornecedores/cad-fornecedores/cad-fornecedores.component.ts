@@ -10,11 +10,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime } from 'rxjs/operators';
+import { ModelRfb } from 'src/app/models/auxiliares/model-rfb';
 import { Fornecedor } from 'src/app/models/fornecedor';
 import { FornecedorService } from 'src/app/services/fornecedor.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
 
 @Component({
   selector: 'app-cad-fornecedores',
@@ -47,6 +49,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
     municipio: [''],
     uf: [null],
   });
+  iSearch = faSearch;
 
   constructor(
     private route: ActivatedRoute,
@@ -212,7 +215,37 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
     }
   }
 
-  verErros() {
-    console.log(this.form.errors);
+  buscaCnpj() {
+    const cnpj: string = this.form.get('cnpj').value;
+    if (cnpj.length > 14 || cnpj.length < 13) return;
+    let model: ModelRfb;
+    this.fornecedorService.consultaCnpj(cnpj).subscribe(
+      (c) => (model = c),
+      (err) => {
+        this.modal.open(
+          mensagemPadrao(
+            null,
+            'danger',
+            'CNPJ não localizado!',
+            'CNPJ inválido ou não localizado!'
+          ),
+          '',
+          false
+        );
+        console.log(err);
+      },
+      () => {
+        this.form.get('razaoSocial').setValue(model.nome);
+        this.form.get('email').setValue(model.email);
+        this.form.get('cep').setValue(model.cep);
+        this.form.get('logradouro').setValue(model.logradouro);
+        this.form.get('numero').setValue(model.numero);
+        this.form.get('complemento').setValue(model.complemento);
+        this.form.get('bairro').setValue(model.bairro);
+        this.form.get('municipio').setValue(model.municipio);
+        this.form.get('uf').setValue(model.uf);
+        this.form.get('fantasia').setValue(model.fantasia);
+      }
+    );
   }
 }

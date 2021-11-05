@@ -25,6 +25,13 @@ export class RequestInterceptor implements HttpInterceptor {
             Authorization: token,
           },
         });
+      } else if (req.url.startsWith('https://www.receitaws.com.br')) {
+        req = req.clone({
+          setHeaders: {
+            Authorization:
+              '3c0ee2606911b798decc56ce9cd1a7030ef9a60a8ce1809e4723f90506166fe0',
+          },
+        });
       }
     }
     return next.handle(req);

@@ -7,7 +7,7 @@
     <div class="col-6 mb-3">
       <label for="inputFantasia" class="form-label">Fantasia:</label>
       <input type="text" id="inputFantasia" class="form-control" formControlName="fantasia"
-          #input (blur)="verErros()">
+          #input>
       <small *ngIf="form.get('fantasia').hasError('required')" class="text-danger">
         campo obrigatório
       </small>
@@ -28,6 +28,13 @@
           já cadastrado!
         </small>
       </div>
+      <div class="col-2 mb-3">
+        <button class="btn btn-primary btn-inside" type="button"
+            (click)="buscaCnpj()"
+            [disabled]="form.get('cnpj').value?.length < 13 || !form.get('cnpj').value">
+          <fa-icon [icon]="iSearch"></fa-icon>
+        </button>
+      </div>
     </div>
     <div class="col-6 mb-3">
       <label for="inputEmail" class="form-label">Email:</label>
@@ -46,3 +53,4 @@
     </div>
   </form>
 </app-pagina>
+<app-modal #modal></app-modal>
