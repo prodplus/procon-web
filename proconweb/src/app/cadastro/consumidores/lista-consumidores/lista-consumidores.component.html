@@ -23,8 +23,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let consumidor of page.content">
-        <td class="align-middle">{{ consumidor.denominacao }}</td>
-        <td class="align-middle text-center">
+        <td class="align-middle" style="cursor: pointer;"
+            [routerLink]="['proc', consumidor.denominacao]">
+          {{ consumidor.denominacao }}
+        </td>
+        <td class="align-middle text-center" style="cursor: pointer;"
+            [routerLink]="['proc', consumidor.denominacao]">
           {{ consumidor.cadastro | mask: getMascara(consumidor.tipo) }}
         </td>
         <td class="text-center align-middle">

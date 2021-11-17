@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FornecedorNro } from '../models/auxiliares/fornecedor-nro';
 import { Page } from '../models/auxiliares/page';
+import { ProcessoMovimentacao } from '../models/auxiliares/processo-movimentacao';
 import { ProcessoDto } from '../models/dtos/processo-dto';
 import { ProcessoForm } from '../models/forms/processo-form';
 import { Processo } from '../models/processo';
@@ -91,5 +92,9 @@ export class ProcessoService {
 
   ranking(ano: number): Observable<FornecedorNro[]> {
     return this.http.get<FornecedorNro[]>(`${URL}/ranking/${ano}`);
+  }
+
+  movimentacaoDiaria(data: string): Observable<ProcessoMovimentacao[]> {
+    return this.http.get<ProcessoMovimentacao[]>(`${URL}/movimentacao/${data}`);
   }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.procon.models.Processo;
 import br.com.procon.models.auxiliares.FornecedorNro;
+import br.com.procon.models.auxiliares.ProcessoMovimentacao;
 import br.com.procon.models.dtos.ProcessoDto;
 import br.com.procon.models.enums.Situacao;
 import br.com.procon.models.forms.ProcessoForm;
@@ -107,6 +108,12 @@ public class ProcessoController {
 	@GetMapping("/ranking/{ano}")
 	public ResponseEntity<List<FornecedorNro>> ranking(@PathVariable Integer ano) {
 		return ResponseEntity.ok(this.processoService.ranking(ano));
+	}
+
+	@GetMapping("/movimentacao/{data}")
+	public ResponseEntity<List<ProcessoMovimentacao>> movimentacaoDiaria(
+			@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+		return ResponseEntity.ok(this.processoService.movimentacaoDia(data));
 	}
 
 }

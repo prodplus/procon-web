@@ -1,0 +1,47 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Processos"></app-titulo>
+
+  <app-tabela [tamanhoTotal]="page?.totalElements" [tamanhoPagina]="page.size"
+      [pagina]="pagina">
+    <caption *ngIf="page.totalElements == 0">
+      nenhum processo para o consumidor...
+    </caption>
+    <caption *ngIf="page.totalElements > 0">
+      processos do consumidor
+    </caption>
+    <thead>
+      <th class="text-center">Autos</th>
+      <th class="text-center">Consumidor(es)</th>
+      <th class="text-center">Fornecedor(es)</th>
+      <th class="text-center" style="width: 60px;">ini</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proc of page.content" [title]="proc.situacao"
+          [ngClass]="getRowClas(proc)">
+        <td class="text-center align-middle">{{ proc.autos }}</td>
+        <td class="text-center align-middle">
+          <div *ngFor="let cons of proc.consumidores">
+            {{ cons }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div *ngFor="let forn of proc.fornecedores">
+            {{ forn }}
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-dark" type="button" title="imprimir inicial"
+              (click)="imprimir(proc.id)">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['/cadastro/processos/novo', proc.id]">
+          </app-botao-editar>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal></app-modal>

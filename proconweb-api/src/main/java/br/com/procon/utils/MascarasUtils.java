@@ -26,8 +26,7 @@ public class MascarasUtils {
 			mask.setValueContainsLiteralCharacters(false);
 			return mask.valueToString(tratada);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+			return value;
 		}
 	}
 	

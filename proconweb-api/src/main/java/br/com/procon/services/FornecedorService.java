@@ -38,6 +38,7 @@ public class FornecedorService {
 		try {
 			fornecedor.setFantasia(fornecedor.getFantasia().toUpperCase().trim());
 			fornecedor.setRazaoSocial(fornecedor.getRazaoSocial().toUpperCase().trim());
+			fornecedor.getEndereco().setCep(trataCepString(fornecedor.getEndereco().getCep()));
 			Fornecedor forn = this.fornecedorRepository.save(fornecedor);
 			this.logService.salvar(LocalDateTime.now(), "Fornecedor " + forn.getFantasia(),
 					TipoLog.INSERCAO);
@@ -64,6 +65,7 @@ public class FornecedorService {
 				novo.setFantasia(fornecedor.getFantasia().toUpperCase().trim());
 				novo.setFones(fornecedor.getFones());
 				novo.setRazaoSocial(fornecedor.getRazaoSocial().toUpperCase().trim());
+				novo.getEndereco().setCep(trataCepString(fornecedor.getEndereco().getCep()));
 				this.logService.salvar(LocalDateTime.now(), "Fornecedor " + novo.getFantasia(),
 						TipoLog.ATUALIZACAO);
 				return this.fornecedorRepository.save(novo);
@@ -164,6 +166,12 @@ public class FornecedorService {
 
 	public List<Fornecedor> listar() {
 		return this.fornecedorRepository.findAll();
+	}
+
+	private static String trataCepString(String cep) {
+		cep = cep.replaceAll("\\.", "");
+		cep = cep.replaceAll("-", "");
+		return cep;
 	}
 
 }

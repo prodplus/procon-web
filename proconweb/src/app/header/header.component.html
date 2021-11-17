@@ -55,17 +55,30 @@
               <a href="#" class="dropdown-item" [routerLink]="['/operacao/prazo']">
                 Prazos
               </a>
-              <a href="#" class="dropdown-item" [routerLink]="['/operacao/ranking']">
-                Ranking
-              </a>
-              <a href="#" class="dropdown-item" [routerLink]="['/operacao/audiencias']">
-                Audiências
-              </a>
-              <a href="#" class="dropdown-item" [routerLink]="['/operacao/relatorios']">
-                Relatórios
-              </a>
               <a href="#" class="dropdown-item" [routerLink]="['/operacao/despachos']">
                 Despachos
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" id="navbarAudiencia" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+            Relatórios
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarAudiencia">
+            <li>
+              <a href="#" class="dropdown-item" [routerLink]="['/relatorio/audiencias']">
+                Audiências
+              </a>
+              <a href="#" class="dropdown-item" [routerLink]="['/relatorio/ranking']">
+                Ranking
+              </a>
+              <a href="#" class="dropdown-item" [routerLink]="['/relatorio/relatorios']">
+                Relatórios
+              </a>
+              <a href="#" class="dropdown-item" [routerLink]="['/relatorio/movimentos']">
+                Movimentação
               </a>
             </li>
           </ul>

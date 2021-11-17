@@ -1,0 +1,38 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Movimentação Diária"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <form [formGroup]="formData">
+    <div class="row col-12 mb-4">
+      <div class="col-3">
+        <label for="inputData" class="form-label">Data:</label>
+        <input type="date" id="inputData" class="form-control"
+            formControlName="data">
+      </div>
+      <div class="col-2">
+        <button class="btn btn-inside btn-primary" type="button"
+            [disabled]="formData.invalid" (click)="buscarMovimentos()">
+          <fa-icon [icon]="iSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <table class="table table-sm table-striped table-hover table-bordered"
+        *ngIf="movimentos?.length > 0">
+      <thead class="bg-secondary">
+        <th class="text-center">Autos</th>
+        <th class="text-center">DE</th>
+        <th class="text-center">PARA</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mov of movimentos; index as i;" [ngClass]="getRowClass(i)">
+          <td class="align-middle text-center">{{ mov.processo.autos }}</td>
+          <td class="align-middle text-center">{{ mov.movimento.de }}</td>
+          <td class="align-middle text-center">{{ mov.movimento.para }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</app-pagina>

@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -26,6 +28,7 @@ import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
 import br.com.procon.models.auxiliares.FornecedorNro;
 import br.com.procon.models.auxiliares.Movimento;
+import br.com.procon.models.auxiliares.ProcessoMovimentacao;
 import br.com.procon.models.dtos.ProcessoDto;
 import br.com.procon.models.enums.Situacao;
 import br.com.procon.models.enums.TipoLog;
@@ -345,6 +348,23 @@ public class ProcessoService {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
 					"ocorreu um erro no servidor!", e.getCause());
 		}
+	}
+
+	public List<ProcessoMovimentacao> movimentacaoDia(LocalDate data) {
+		Set<Processo> movimentados = new HashSet<>(
+				this.processoRepository.findAllByMovimentacaoData(data));
+		List<ProcessoMovimentacao> procMov = new ArrayList<>();
+		movimentados.forEach(p -> {
+			List<Movimento> internos = new ArrayList<>();
+			p.getMovimentacao().forEach(m -> {
+				if (m.getData().equals(data))
+					internos.add(m);
+			});
+			Collections.reverse(internos);
+			internos.forEach(i -> procMov.add(new ProcessoMovimentacao(new ProcessoDto(p), i)));
+		});
+		Collections.sort(procMov);
+		return procMov;
 	}
 
 }

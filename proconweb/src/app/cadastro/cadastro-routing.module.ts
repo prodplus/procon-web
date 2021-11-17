@@ -10,12 +10,14 @@ import { CadUsuarioResolver } from '../resources/cad-usuario.resolver';
 import { ListaAtendimentosResolver } from '../resources/lista-atendimentos.resolver';
 import { ListaConsumidoresResolver } from '../resources/lista-consumidores.resolver';
 import { ListaFornecedoresResolver } from '../resources/lista-fornecedores.resolver';
+import { ListaProcConsumidoresResolver } from '../resources/lista-proc-consumidores.resolver';
 import { ListaProcessosResolver } from '../resources/lista-processos.resolver';
 import { ListaUsuariosResolver } from '../resources/lista-usuarios.resolver';
 import { CadAtendimentoComponent } from './atendimentos/cad-atendimento/cad-atendimento.component';
 import { ListaAtendimentosComponent } from './atendimentos/lista-atendimentos/lista-atendimentos.component';
 import { CadConsumidorComponent } from './consumidores/cad-consumidor/cad-consumidor.component';
 import { ListaConsumidoresComponent } from './consumidores/lista-consumidores/lista-consumidores.component';
+import { ListaProcConsumidoresComponent } from './consumidores/lista-proc-consumidores/lista-proc-consumidores.component';
 import { CadFornecedoresComponent } from './fornecedores/cad-fornecedores/cad-fornecedores.component';
 import { ListaFornecedoresComponent } from './fornecedores/lista-fornecedores/lista-fornecedores.component';
 import { CadProcessoComponent } from './processos/cad-processo/cad-processo.component';
@@ -41,6 +43,16 @@ export const routes: Routes = [
             path: ':id',
             component: CadConsumidorComponent,
             resolve: { consumidor: CadConsumidorResolver },
+          },
+        ],
+      },
+      {
+        path: 'proc',
+        children: [
+          {
+            path: ':param',
+            component: ListaProcConsumidoresComponent,
+            resolve: { page: ListaProcConsumidoresResolver },
           },
         ],
       },

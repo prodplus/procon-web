@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
-import { AudienciaComponent } from './audiencia/audiencia.component';
 import { MarcaAudienciaComponent } from './despachos/marca-audiencia/marca-audiencia.component';
 import { NovoDespachoComponent } from './despachos/novo-despacho/novo-despacho.component';
 import { NotFornecedorComponent } from './fornecedor/not-fornecedor/not-fornecedor.component';
@@ -13,8 +12,6 @@ import { PorNotFornecedorComponent } from './fornecedor/por-not-fornecedor/por-n
 import { NotConsumidorComponent } from './not-consumidor/not-consumidor.component';
 import { OperacaoRoutingModule } from './operacao-routing.module';
 import { PorPrazoComponent } from './por-prazo/por-prazo.component';
-import { RankingComponent } from './ranking/ranking.component';
-import { RelatoriosComponent } from './relatorios/relatorios.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +19,6 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     NotFornecedorComponent,
     NotConsumidorComponent,
     PorPrazoComponent,
-    RankingComponent,
-    AudienciaComponent,
-    RelatoriosComponent,
     NovoDespachoComponent,
     MarcaAudienciaComponent,
   ],
