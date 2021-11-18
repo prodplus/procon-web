@@ -5,6 +5,7 @@ import { AuthGuard } from '../core/auth/auth.guard';
 import { AudienciaResolver } from '../resources/audiencia.resolver';
 import { AudienciaComponent } from './audiencia/audiencia.component';
 import { MovprocComponent } from './movproc/movproc.component';
+import { RankingAComponent } from './ranking-a/ranking-a.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 
@@ -29,6 +30,11 @@ export const routes: Routes = [
     path: 'movimentos',
     canActivate: [AdminGuard],
     component: MovprocComponent,
+  },
+  {
+    path: 'rankinga',
+    canActivate: [AuthGuard],
+    component: RankingAComponent,
   },
 ];
 

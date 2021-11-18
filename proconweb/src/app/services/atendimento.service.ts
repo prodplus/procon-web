@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Atendimento } from '../models/atendimento';
+import { FornecedorNro } from '../models/auxiliares/fornecedor-nro';
 import { Page } from '../models/auxiliares/page';
 import { AtendimentoDto } from '../models/dtos/atendimento-dto';
 import { AtendimentoForm } from '../models/forms/atendimento-form';
@@ -50,5 +51,9 @@ export class AtendimentoService {
 
   atendimentosAno(): Observable<number> {
     return this.http.get<number>(`${URL}/atendimentosano`);
+  }
+
+  ranking(ano: number): Observable<FornecedorNro[]> {
+    return this.http.get<FornecedorNro[]>(`${URL}/ranking/${ano}`);
   }
 }

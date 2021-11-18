@@ -3,7 +3,9 @@ package br.com.procon.services;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.procon.models.Atendimento;
+import br.com.procon.models.Fornecedor;
+import br.com.procon.models.auxiliares.FornecedorNro;
 import br.com.procon.models.dtos.AtendimentoDto;
 import br.com.procon.models.enums.TipoLog;
 import br.com.procon.models.forms.AtendimentoForm;
@@ -150,6 +154,39 @@ public class AtendimentoService {
 	public Long atendimentosAno() {
 		return this.atendimentoRepository
 				.countByDataAfter(LocalDate.of(LocalDate.now().getYear(), 1, 1));
+	}
+
+	public List<FornecedorNro> ranking(Integer ano) {
+		try {
+			List<Fornecedor> fornecedores = this.fornecedorService.listar();
+			List<FornecedorNro> fornsNro = new ArrayList<>();
+			List<Atendimento> ateAno = this.atendimentoRepository
+					.findAllByDataBetween(LocalDate.of(ano, 1, 1), LocalDate.of(ano + 1, 1, 1));
+			fornecedores.forEach(f -> fornsNro.add(new FornecedorNro(f, 0)));
+			for (Atendimento ate : ateAno) {
+				for (Fornecedor forn : ate.getFornecedores()) {
+					int index = fornsNro.indexOf(new FornecedorNro(forn, 0));
+					FornecedorNro fornNro = fornsNro.get(index);
+					fornNro.setProcessos(fornNro.getProcessos() + 1);
+					fornsNro.set(index, fornNro);
+				}
+			}
+			FornecedorNro outros = new FornecedorNro(
+					new Fornecedor(null, "outros", "outros", "", "", null, null), 0);
+			fornsNro.forEach(f -> {
+				if (f.getProcessos() == 1)
+					outros.setProcessos(outros.getProcessos() + 1);
+			});
+			List<FornecedorNro> fornsNro2 = fornsNro.stream().filter(f -> f.getProcessos() > 1)
+					.collect(Collectors.toList());
+			Collections.sort(fornsNro2);
+			fornsNro2.add(outros);
+			return fornsNro2;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
 	}
 
 }

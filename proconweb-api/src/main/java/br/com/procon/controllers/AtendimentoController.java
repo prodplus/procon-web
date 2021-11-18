@@ -1,5 +1,7 @@
 package br.com.procon.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.procon.models.Atendimento;
+import br.com.procon.models.auxiliares.FornecedorNro;
 import br.com.procon.models.dtos.AtendimentoDto;
 import br.com.procon.models.forms.AtendimentoForm;
 import br.com.procon.services.AtendimentoService;
@@ -64,10 +67,15 @@ public class AtendimentoController {
 		this.atendimentoService.excluir(id);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/atendimentosano")
 	public ResponseEntity<Long> atendimentosAno() {
 		return ResponseEntity.ok(this.atendimentoService.atendimentosAno());
+	}
+
+	@GetMapping("/ranking/{ano}")
+	public ResponseEntity<List<FornecedorNro>> ranking(@PathVariable Integer ano) {
+		return ResponseEntity.ok(this.atendimentoService.ranking(ano));
 	}
 
 }

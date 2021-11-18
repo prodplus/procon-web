@@ -7,6 +7,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from '../shared/shared.module';
 import { AudienciaComponent } from './audiencia/audiencia.component';
 import { MovprocComponent } from './movproc/movproc.component';
+import { RankingAComponent } from './ranking-a/ranking-a.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RelatoriosRoutingModule } from './relatorios-routing.module';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
@@ -17,6 +18,7 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
     RankingComponent,
     RelatoriosComponent,
     MovprocComponent,
+    RankingAComponent,
   ],
   imports: [
     CommonModule,

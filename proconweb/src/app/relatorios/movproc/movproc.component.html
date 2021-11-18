@@ -19,8 +19,14 @@
       </div>
     </div>
 
-    <table class="table table-sm table-striped table-hover table-bordered"
+    <table class="table table-sm table-striped table-hover table-bordered caption-top"
         *ngIf="movimentos?.length > 0">
+      <caption *ngIf="movimentos?.length == 0">
+        nenhum movimento cadastrado...
+      </caption>
+      <caption *ngIf="movimentos.length > 0">
+        movimentos cadastrados: {{ movimentos?.length }}
+      </caption>
       <thead class="bg-secondary">
         <th class="text-center">Autos</th>
         <th class="text-center">DE</th>
