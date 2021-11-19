@@ -24,4 +24,8 @@ export class EnumService {
   getUfs(): Observable<string[]> {
     return this.http.get<string[]>(`${URL}/ufs`);
   }
+
+  getCumprimentos(): Observable<string[]> {
+    return this.http.get<string[]>(`${URL}/cumprimentos`);
+  }
 }

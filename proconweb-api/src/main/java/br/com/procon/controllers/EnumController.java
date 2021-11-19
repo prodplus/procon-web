@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.procon.models.enums.Cumprimento;
 import br.com.procon.models.enums.Situacao;
 import br.com.procon.models.enums.TipoPessoa;
 import br.com.procon.models.enums.TipoProcesso;
@@ -39,6 +40,11 @@ public class EnumController {
 	@GetMapping("/ufs")
 	public ResponseEntity<UF[]> getUfs() {
 		return ResponseEntity.ok(UF.values());
+	}
+	
+	@GetMapping("/cumprimentos")
+	public ResponseEntity<Cumprimento[]> getCumprimentos() {
+		return ResponseEntity.ok(Cumprimento.values());
 	}
 
 }

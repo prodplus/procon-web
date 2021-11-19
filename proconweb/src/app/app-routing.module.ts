@@ -20,6 +20,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./relatorios/relatorios.module').then((m) => m.RelatoriosModule),
   },
+  {
+    path: 'legislacao',
+    loadChildren: () =>
+      import('./legislacao/legislacao.module').then((m) => m.LegislacaoModule),
+  },
 ];
 
 @NgModule({

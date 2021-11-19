@@ -1,0 +1,31 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Legislação"></app-titulo>
+  <app-controle [rota]="['cadlei']" mensagem="cadastrar nova lei">
+  </app-controle>
+  <div class="col-4">
+    <app-search-input [form]="searcForm" label="título / nro">
+    </app-search-input>
+  </div>
+
+  <app-tabela [tamanhoTotal]="page?.totalElements" [tamanhoPagina]="page.size"
+      [pagina]="pagina" (mudaPagina)="mudaPagina($event)">
+    <caption *ngIf="page.totalElements == 0">
+      nenhuma lei cadastrada...
+    </caption>
+    <caption *ngIf="page.totalElements > 0">
+      leis cadastradas: {{ page.totalElements }}
+    </caption>
+    <tbody>
+      <tr *ngFor="let lei of page.content">
+        <td>
+          {{ lei.descricao }}
+        </td>
+        <td class="text-center align-middle" style="width: 60px;">
+          <app-botao-editar [rota]="['cadlei', lei.id]" mensagem="editar">
+          </app-botao-editar>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordaModal($event)"></app-modal>

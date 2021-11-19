@@ -1,0 +1,56 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Cadastro Legislação"></app-titulo>
+  <div class="text-center mb-4">
+    <app-botao-home></app-botao-home>
+  </div>
+
+  <form [formGroup]="form" (submit)="salvar()">
+    <div class="col-12 mb-3">
+      <label for="inputDescricao" class="form-label">Título:</label>
+      <input type="text" id="inputDescricao" class="form-control"
+          formControlName="descricao" autofocus>
+    </div>
+    <div class="col-12 mb-3">
+      <label for="inputSumula" class="form-label">Súmula:</label>
+      <textarea id="inputSumula" cols="30" rows="5" formControlName="sumula"
+          class="form-control">
+      </textarea>
+    </div>
+    <div class="d-grid gap-1">
+      <button type="submit" class="btn btn-success btn-lg"
+          [disabled]="form.invalid">
+        salvar
+      </button>
+    </div>
+  </form>
+
+  <form [formGroup]="itemForm">
+    <h4 class="text-center text-primary mb-3">
+      Dispositivos
+    </h4>
+    <div class="col-12 mb-3">
+      <label for="inputDispo" class="form-label">Descrição:</label>
+      <textarea id="inputDispo" cols="30" rows="3" class="form-control"
+          formControlName="descricao">
+      </textarea>
+    </div>
+    <div class="text-center mb-4">
+      <button class="btn btn-primary" [disabled]="itemForm.invalid"
+          type="button" (click)="inserirDispositivo()">
+        inserir dispositivo
+      </button>
+    </div>
+
+    <app-tabela [tamanhoPagina]="dispositivos?.length"
+        [tamanhoPagina]="dispositivos?.length" [pagina]="1">
+      <tbody>
+        <tr *ngFor="let item of dispositivos">
+          <td>
+            {{ item.descricao }}
+          </td>
+        </tr>
+      </tbody>
+    </app-tabela>
+  </form>
+</app-pagina>
+<app-modal #modal></app-modal>
