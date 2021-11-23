@@ -3,7 +3,7 @@
   <app-controle [rota]="['cadlei']" mensagem="cadastrar nova lei">
   </app-controle>
   <div class="col-4">
-    <app-search-input [form]="searcForm" label="título / nro">
+    <app-search-input [form]="searchForm" label="título / nro">
     </app-search-input>
   </div>
 
@@ -17,8 +17,11 @@
     </caption>
     <tbody>
       <tr *ngFor="let lei of page.content">
-        <td>
+        <td class="align-middle">
           {{ lei.descricao }}
+        </td>
+        <td class="align-middle">
+          {{ lei.sumula }}
         </td>
         <td class="text-center align-middle" style="width: 60px;">
           <app-botao-editar [rota]="['cadlei', lei.id]" mensagem="editar">

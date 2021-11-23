@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RespModal } from 'src/app/models/auxiliares/resp-modal';
 import { Dispositivo } from 'src/app/models/dispositivo';
 import { Lei } from 'src/app/models/lei';
 import { LeiService } from 'src/app/services/lei.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
 
 @Component({
   selector: 'app-cad-legisla',
@@ -23,6 +25,7 @@ export class CadLegislaComponent implements OnInit {
   lei: Lei;
   dispositivos: Dispositivo[];
   dispoEditando: Dispositivo;
+  idDispo: number;
   @ViewChild('modal')
   modal: ModalComponent;
 
@@ -108,5 +111,37 @@ export class CadLegislaComponent implements OnInit {
         },
       });
     }
+  }
+
+  private excluir(id: number) {
+    this.isLoading = true;
+    this.leiService.excluirDispo(id).subscribe({
+      error: (err) => {
+        this.isLoading = false;
+        this.modal.openPadrao(err);
+      },
+      complete: () => {
+        this.isLoading = false;
+        this.carregaDispositivos(this.lei.id);
+      },
+    });
+  }
+
+  chamaModal(id: number) {
+    this.idDispo = id;
+    this.modal.open(
+      mensagemPadrao(
+        null,
+        'warning',
+        'Atenção!!',
+        'EXCLUIR definitivamente o dispositivo??'
+      ),
+      'e',
+      true
+    );
+  }
+
+  concordaModal(resp: RespModal) {
+    if (resp.confirmou) this.excluir(this.idDispo);
   }
 }

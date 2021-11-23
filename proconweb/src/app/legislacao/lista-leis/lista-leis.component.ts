@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { Page } from 'src/app/models/auxiliares/page';
@@ -18,7 +18,9 @@ export class ListaLeisComponent implements OnInit, AfterViewInit {
   isLoading = false;
   page: Page<Lei>;
   idLei: number;
-  searcForm: FormGroup;
+  searchForm = this.builder.group({
+    input: [''],
+  });
   value: string;
   pagina = 1;
   @ViewChild('modal')
@@ -32,18 +34,14 @@ export class ListaLeisComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.page = this.route.snapshot.data['page'];
-
-    this.searcForm = this.builder.group({
-      input: [''],
-    });
   }
 
   ngAfterViewInit(): void {
-    this.searcForm
+    this.searchForm
       .get('input')
       .valueChanges.pipe(debounceTime(300))
       .subscribe((value) => {
-        if (value && value.lenght > 0) {
+        if (value && value.length > 0) {
           this.value = value;
           this.recarregar(this.pagina);
         } else {

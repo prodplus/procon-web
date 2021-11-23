@@ -48,9 +48,12 @@
           <td>
             {{ item.descricao }}
           </td>
+          <td class="text-center align-middle" style="width: 60px;">
+            <app-botao-excluir [id]="item.id" (emissao)="chamaModal(item.id)"></app-botao-excluir>
+          </td>
         </tr>
       </tbody>
     </app-tabela>
   </form>
 </app-pagina>
-<app-modal #modal></app-modal>
+<app-modal #modal (sim)="concordaModal($event)"></app-modal>
