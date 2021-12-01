@@ -62,6 +62,12 @@ export class ProcessoService {
     );
   }
 
+  listarPorFornecedorNaoResolvido(idFornecedor: number) {
+    return this.http.get<ProcessoDto[]>(
+      `${URL}/listar_por_fornecedor/${idFornecedor}`
+    );
+  }
+
   listarPorSituacao(
     situacao: string,
     pagina: number,

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.procon.models.Processo;
+import br.com.procon.models.dtos.ProcessoDto;
 import br.com.procon.models.enums.Situacao;
 
 /**
@@ -45,5 +46,8 @@ public interface ProcessoRepository extends JpaRepository<Processo, Integer> {
 			Situacao encerrado, Situacao resolvido, Situacao naoResolvido, String autos);
 
 	List<Processo> findAllByMovimentacaoData(LocalDate data);
+
+	List<ProcessoDto> findAllByFornecedoresIdAndSituacao(Integer idFornecedor,
+			Situacao naoResolvido);
 
 }

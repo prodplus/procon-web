@@ -13,8 +13,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faSearch, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime } from 'rxjs/operators';
 import { ModelRfb } from 'src/app/models/auxiliares/model-rfb';
+import { ProcessoDto } from 'src/app/models/dtos/processo-dto';
 import { Fornecedor } from 'src/app/models/fornecedor';
 import { FornecedorService } from 'src/app/services/fornecedor.service';
+import { ProcessoService } from 'src/app/services/processo.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
 import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
 
@@ -27,6 +29,7 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
   isLoading = false;
   idFornecedor: number;
   fones: string[];
+  processos: ProcessoDto[];
   iWindowClose = faWindowClose;
   @Input() idExterno: number;
   @Output() salvo = new EventEmitter<Fornecedor>();
@@ -55,7 +58,8 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private builder: FormBuilder,
-    private fornecedorService: FornecedorService
+    private fornecedorService: FornecedorService,
+    private processoService: ProcessoService
   ) {}
 
   ngOnInit(): void {
@@ -69,13 +73,37 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
             this.modal.openPadrao(err);
           },
           () => {
-            this.isLoading = false;
-            this.idFornecedor = this.idExterno;
+            this.processoService
+              .listarPorFornecedorNaoResolvido(this.idExterno)
+              .subscribe(
+                (p) => (this.processos = p),
+                (err) => {
+                  this.isLoading = false;
+                  this.modal.openPadrao(err);
+                },
+                () => {
+                  this.isLoading = false;
+                  this.idFornecedor = this.idExterno;
+                }
+              );
           }
         );
       } else if (values.get('id')) {
         const forn: Fornecedor = this.route.snapshot.data['fornecedor'];
         this.idFornecedor = forn.id;
+        this.processoService
+          .listarPorFornecedorNaoResolvido(this.idFornecedor)
+          .subscribe(
+            (p) => (this.processos = p),
+            (err) => {
+              this.isLoading = false;
+              this.modal.openPadrao(err);
+            },
+            () => {
+              this.isLoading = false;
+              this.idFornecedor = this.idExterno;
+            }
+          );
         this.carregaForm(forn);
       } else if (this.idExterno == 0) {
         this.idExterno = 1;

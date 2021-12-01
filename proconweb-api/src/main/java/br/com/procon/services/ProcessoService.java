@@ -222,6 +222,17 @@ public class ProcessoService {
 		}
 	}
 
+	public List<ProcessoDto> listarPorFornecedorNaoResolvido(Integer idFornecedor) {
+		try {
+			return this.processoRepository.findAllByFornecedoresIdAndSituacao(idFornecedor,
+					Situacao.NAO_RESOLVIDO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
 	public Page<ProcessoDto> listarPorSituacao(Situacao situacao, int pagina, int quant) {
 		try {
 			Pageable pageable = PageRequest.of(pagina, quant, Direction.DESC, "data");

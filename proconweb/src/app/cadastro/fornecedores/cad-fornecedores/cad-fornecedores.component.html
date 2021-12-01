@@ -3,6 +3,15 @@
   <app-titulo texto="Cadastro de Fornecedores"></app-titulo>
   <app-botao-cancelar-ext (clicou)="procedimentoSalvar(null)"></app-botao-cancelar-ext>
 
+  <div>
+    Não resolvidos:
+    <table>
+      <th *ngFor="let proc of processos">
+        {{ proc.autos }},
+      </th>
+    </table>
+  </div>
+
   <form [formGroup]="form" (ngSubmit)="salvar()">
     <div class="col-6 mb-3">
       <label for="inputFantasia" class="form-label">Fantasia:</label>
