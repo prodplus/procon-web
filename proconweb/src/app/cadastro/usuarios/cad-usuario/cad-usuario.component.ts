@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { UsuarioDto } from 'src/app/models/dtos/usuario-dto';
@@ -31,23 +31,7 @@ export class CadUsuarioComponent implements OnInit, AfterViewInit {
   input: ElementRef<HTMLInputElement>;
   @ViewChild('scrollInit')
   scrollInit: ElementRef<HTMLDivElement>;
-  form = this.builder.group(
-    {
-      nome: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(10),
-        ],
-      ],
-      confirma: ['', [Validators.required]],
-      perfil: ['ROLE_USER', [Validators.required]],
-    },
-    { validators: MustMatch('password', 'confirma') }
-  );
+  form: FormGroup;
 
   constructor(
     private builder: FormBuilder,
@@ -67,13 +51,30 @@ export class CadUsuarioComponent implements OnInit, AfterViewInit {
         this.carregaForm(this.route.snapshot.data['usuario']);
       }
     });
+
+    this.form = this.builder.group(
+      {
+        nome: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(10),
+          ],
+        ],
+        confirma: ['', [Validators.required]],
+        perfil: ['ROLE_USER', [Validators.required]],
+      },
+      { validators: MustMatch('password', 'confirma') }
+    );
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.input.nativeElement.focus();
-      this.scrollInit.nativeElement.scrollTo();
-    }, 100);
+    }, 200);
 
     this.form
       .get('email')
@@ -87,8 +88,6 @@ export class CadUsuarioComponent implements OnInit, AfterViewInit {
             () => {
               if (b) {
                 this.form.get('email').setErrors({ loginExiste: true });
-              } else {
-                this.form.get('email').setErrors({ loginExiste: false });
               }
             }
           );
@@ -144,6 +143,13 @@ export class CadUsuarioComponent implements OnInit, AfterViewInit {
             this.router.navigate(['/cadastro/usuarios']);
           },
         });
+    }
+  }
+
+  imprimeFormulario() {
+    const controls = this.form.controls;
+    for (const ctrl in controls) {
+      if (controls[ctrl].invalid) console.log(controls[ctrl].errors);
     }
   }
 }

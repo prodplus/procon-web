@@ -101,7 +101,6 @@ export class CadFornecedoresComponent implements OnInit, AfterViewInit {
             },
             () => {
               this.isLoading = false;
-              this.idFornecedor = this.idExterno;
             }
           );
         this.carregaForm(forn);

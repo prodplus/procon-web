@@ -2,7 +2,7 @@
   <app-titulo texto="Cadastrar Usuário"></app-titulo>
   <app-botao-cancelar [rota]="['/cadastro/usuarios']"></app-botao-cancelar>
 
-  <form [formGroup]="form" (ngSubmit)="salvar()">
+  <form [formGroup]="form" (ngSubmit)="salvar()" autocomplete="nope">
     <div class="col-6 mb-3">
       <label for="inputNome" class="form-label">Nome:</label>
       <input type="text" id="inputNome" class="form-control" formControlName="nome"
@@ -19,6 +19,9 @@
       </small>
       <small *ngIf="form.get('email').hasError('email')" class="text-danger">
         email inválido!
+      </small>
+      <small *ngIf="form.get('email').hasError('loginExiste')" class="text-danger">
+        email já cadastrado!
       </small>
     </div>
     <div class="row col-12">
@@ -50,7 +53,8 @@
     </div>
     <div class="col-4 mb-3">
       <label for="selectPerfil" class="form-label">Perfil:</label>
-      <select id="selectPerfil" class="form-select" formControlName="perfil">
+      <select id="selectPerfil" class="form-select" formControlName="perfil"
+          (blur)="imprimeFormulario()">
         <option [ngValue]="null" disabled>...</option>
         <option *ngFor="let perfil of perfis" [value]="perfil.role">
           {{ perfil.descricao }}

@@ -6,6 +6,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.procon.models.Usuario;
 import br.com.procon.repositories.PerfilRepository;
 import br.com.procon.repositories.UsuarioRepository;
@@ -39,19 +41,21 @@ public class UsuarioForm implements Serializable {
 	@NotBlank(message = "o perfil é obrigatório!")
 	private String perfil;
 
-	public Usuario converter(UsuarioRepository usuarioRepository,
-			PerfilRepository perfilRepository) {
+	public Usuario converter(UsuarioRepository usuarioRepository, PerfilRepository perfilRepository,
+			BCryptPasswordEncoder encoder) {
 		if (this.id != null) {
 			return usuarioRepository.findById(this.id).map(u -> {
 				u.setNome(this.getNome());
 				u.setEmail(this.getEmail());
-				u.setPassword(this.getPassword());
+				u.setPassword(encoder.encode(this.getPassword()));
 				u.setPerfil(perfilRepository.findByRole(this.perfil).get());
 				return u;
-			}).orElse(new Usuario(this.getId(), this.getNome(), this.getEmail(), this.getPassword(),
+			}).orElse(new Usuario(this.getId(), this.getNome(), this.getEmail(),
+					encoder.encode(this.getPassword()),
 					perfilRepository.findByRole(this.getPerfil()).get(), true));
 		} else {
-			return new Usuario(this.getId(), this.getNome(), this.getEmail(), this.getPassword(),
+			return new Usuario(this.getId(), this.getNome(), this.getEmail(),
+					encoder.encode(this.getPassword()),
 					perfilRepository.findByRole(this.getPerfil()).get(), true);
 		}
 	}

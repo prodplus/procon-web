@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,7 +42,8 @@ public class UsuarioService {
 
 	public UsuarioDto salvar(@Valid UsuarioForm usuario) {
 		try {
-			Usuario novo = usuario.converter(this.usuarioRepository, this.perfilRepository);
+			Usuario novo = usuario.converter(this.usuarioRepository, this.perfilRepository,
+					new BCryptPasswordEncoder());
 			UsuarioDto u = new UsuarioDto(this.usuarioRepository.save(novo));
 			return u;
 		} catch (ValidationException e) {
@@ -64,7 +66,7 @@ public class UsuarioService {
 				novo.setNome(usuario.getNome());
 				novo.setPerfil(this.perfilRepository.findByRole(usuario.getPerfil()).get());
 				if (usuario.getPassword() != null && usuario.getPassword().length() > 0)
-					novo.setPassword(usuario.getPassword());
+					novo.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
 				return new UsuarioDto(this.usuarioRepository.save(novo));
 			}).orElseThrow(() -> new EntityNotFoundException());
 		} catch (EntityNotFoundException e) {
@@ -163,7 +165,7 @@ public class UsuarioService {
 					"ocorreu um erro no servidor!", e.getCause());
 		}
 	}
-	
+
 	public boolean loginExiste(String email) {
 		return this.usuarioRepository.existsByEmail(email);
 	}
