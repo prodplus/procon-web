@@ -20,7 +20,8 @@ public class AutosUtils {
 	 */
 	public static int getNroAutos(String autos) {
 		String[] parts = autos.split("/");
-		int nro = Integer.parseInt(parts[0]);
+		int nro = Integer.parseInt(parts[1]) * 1000;
+		nro += Integer.parseInt(parts[0]);
 		return nro;
 	}
 

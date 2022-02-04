@@ -105,6 +105,14 @@ public class DespachoNot {
 			document.add(conteudo);
 			document.add(espaco);
 			conteudo = new Paragraph(
+					"II - a) Ao cartório a fim de verificar se a(s) empresa(s) fornecedora(s)"
+							+ " possui cadastro junto ao sistema ProConsumidor. Em caso positivo proceda-se "
+							+ "a notificação via sistema. Caso não possua, prossiga-se a notificação"
+							+ " via carta AR.");
+			conteudo.setLeading(25f);
+			document.add(conteudo);
+			document.add(espaco);
+			conteudo = new Paragraph(
 					"III - Sendo apresentada a defesa pelas empresas fornecedoras, "
 							+ "notifiquem-se o(a) consumidor(a) para tomar ciência, bem como se "
 							+ "manifestar no prazo de 48 horas;",

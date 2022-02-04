@@ -1,7 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { Observable, Subscription, timer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Page } from 'src/app/models/auxiliares/page';
 import { RespModal } from 'src/app/models/auxiliares/resp-modal';
@@ -17,7 +24,9 @@ import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
   templateUrl: './lista-processos.component.html',
   styleUrls: ['./lista-processos.component.css'],
 })
-export class ListaProcessosComponent implements OnInit, AfterViewInit {
+export class ListaProcessosComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   isLoading = false;
   page: Page<ProcessoDto>;
   idProcesso: number;
@@ -31,6 +40,8 @@ export class ListaProcessosComponent implements OnInit, AfterViewInit {
   iPrint = faPrint;
   @ViewChild('modal')
   modal: ModalComponent;
+  recarregador: Observable<number> = timer(0, 15000);
+  subscription: Subscription;
 
   constructor(
     private builder: FormBuilder,
@@ -51,6 +62,14 @@ export class ListaProcessosComponent implements OnInit, AfterViewInit {
     this.searchForn = this.builder.group({
       input: [''],
     });
+
+    this.subscription = this.recarregador.subscribe(() =>
+      this.recarregar(this.pagina)
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -84,6 +103,7 @@ export class ListaProcessosComponent implements OnInit, AfterViewInit {
   }
 
   private recarregar(pagina: number) {
+    console.log('recarregou!');
     if (this.valueAutos) {
       this.processoService
         .listarPorAutos(this.valueAutos, pagina - 1, 20)

@@ -2,6 +2,7 @@ package br.com.procon.report;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,7 +161,7 @@ public class Oficio {
 			document.add(espaco);
 
 			String segundoParagrafo = "Diante do exposto, com base no § 1º do Art. 33 do Decreto "
-					+ "Federal nº2187/97, encaminhamos o consumidor citado acima para a "
+					+ "Federal nº2181/97, encaminhamos o consumidor citado acima para a "
 					+ "resolução do problema relatado, já tendo sido verificada a presença "
 					+ "de indícios de procedência, no prazo de 10 (dez) dias.";
 			fixos = new Paragraph(segundoParagrafo, intFont);
@@ -192,10 +193,11 @@ public class Oficio {
 			document.add(espaco);
 
 			// data
-			Paragraph data = new Paragraph(String.format("Pato Branco, %02d de %s de %d",
-					processo.getData().getDayOfMonth(),
-					LocalDateUtils.getMesExtenso(processo.getData().getMonthValue()),
-					processo.getData().getYear()), intFont);
+			Paragraph data = new Paragraph(
+					String.format("Pato Branco, %02d de %s de %d", LocalDate.now().getDayOfMonth(),
+							LocalDateUtils.getMesExtenso(LocalDate.now().getMonthValue()),
+							LocalDate.now().getYear()),
+					intFont);
 			data.setAlignment(Element.ALIGN_RIGHT);
 			document.add(data);
 
