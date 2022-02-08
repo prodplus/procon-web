@@ -1,0 +1,59 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Cadastro de Setores Fiscalização"></app-titulo>
+  <app-botao-cancelar [rota]="['/fiscalizacao/setor']"></app-botao-cancelar>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="col-5 mb-3">
+      <label for="inputDescricao" class="form-label">Descrição:</label>
+      <input type="text" id="inputDescricao" class="form-control"
+          formControlName="descricao" autofocus>
+      <small *ngIf="form.get('descricao').hasError('required')" class="text-danger">
+        obrigatório!
+      </small>
+    </div>
+    <form [formGroup]="itemForm">
+      <div class="row col-12 mb-3">
+        <div class="col-5">
+            <label for="inputItem" class="form-label">Item:</label>
+            <input type="text" id="inputItem" class="form-control"
+                formControlName="descricao">
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary" [disabled]="itemForm.invalid"
+              type="button" (click)="inserirItem()">
+            inserir
+          </button>
+        </div>
+      </div>
+      <div class="col-12">
+        <app-tabela [tamanhoPagina]="itens.length" [tamanhoTotal]="itens.length">
+          <caption *ngIf="itens.length == 0" class="text-danger">
+            nenhum item para fiscalizar adicionado...
+          </caption>
+          <thead>
+            <th class="text-center">Item</th>
+            <th class="text-center" style="width: 60px;">exc</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itens; index as i;">
+              <td class="align-middle">{{ item }}</td>
+              <td class="text-center align-middle">
+                <button class="btn btn-sm btn-danger" type="button"
+                    (click)="excluirItem(i)">
+                  <fa-icon [icon]="iTrash"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </app-tabela>
+      </div>
+    </form>
+    <div class="d-grid gap-1">
+      <button type="submit" class="btn btn-success btn-lg"
+          [disabled]="form.invalid">
+        salvar
+      </button>
+    </div>
+  </form>
+</app-pagina>
+<app-modal #modal></app-modal>

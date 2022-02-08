@@ -95,7 +95,7 @@ public class NotImpugnacao {
 			String paragrafo1 = "Nos termos do Art. 55, Parágrafo 4º, da Lei 8078/90 - "
 					+ "Código de Defesa do Consumidor - "
 					+ "combinado com o Art. 42 do Decreto Federal nº 2.181/97, "
-					+ "NOTIFICAMOS Vossa Senhoria para, no prazo de 10 (dez) dias, "
+					+ "NOTIFICAMOS Vossa Senhoria para, no prazo de 20 (vinte) dias, "
 					+ "a contar do recebimento desta, "
 					+ "apresentar defesa, na forma do Art. 44 do referido Decreto, "
 					+ "indicando em sua defesa:";

@@ -1,0 +1,31 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Setores de Fiscalização"></app-titulo>
+  <app-controle [rota]="['novo']" mensagem="cadastrar setor"></app-controle>
+  <div class="col-4">
+    <app-search-input [form]="searchForm" label="descrição">
+    </app-search-input>
+  </div>
+
+  <app-tabela [tamanhoTotal]="setores.length" [tamanhoPagina]="setores.length">
+    <caption *ngIf="setores.length == 0">nenhum setor cadastrado</caption>
+    <thead>
+      <th class="text-center">Descrição</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">exc</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let setor of setores">
+        <td class="align-middle">{{ setor.descricao }}</td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['novo', setor.id]" mensagem="editar setor">
+          </app-botao-editar>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-excluir [id]="setor.id" (emissao)="chamaModal(setor.id)">
+          </app-botao-excluir>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordaModal($event)"></app-modal>
