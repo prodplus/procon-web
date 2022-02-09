@@ -1,0 +1,48 @@
+<app-pagina [isLoading]="isLoading">
+  <app-titulo texto="Fiscalizações"></app-titulo>
+  <app-controle [rota]="['novo']" mensagem="cadastrar nova fiscalização">
+  </app-controle>
+
+  <div class="col-4">
+    <app-search-input [form]="searchForm" label="razão social">
+    </app-search-input>
+  </div>
+
+  <app-tabela [tamanhoPagina]="page?.totalElements" [tamanhoPagina]="page.size"
+      [pagina]="pagina" (mudaPagina)="mudaPagina($event)">
+    <caption *ngIf="page.totalElements == 0">
+      nenhuma fiscalização cadastrada...
+    </caption>
+    <thead>
+      <th class="text-center">nro</th>
+      <th class="text-center">Data</th>
+      <th class="text-center">Fornecedor</th>
+      <th class="text-center" style="width: 60px;">edt</th>
+      <th class="text-center" style="width: 60px;">ini</th>
+      <th class="text-center" style="width: 60px;">exc</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fisc of page.content">
+        <td class="text-center align-middle">{{ fisc.id }}</td>
+        <td class="text-center align-middle">
+          {{ fisc.data | date: 'dd/MM/yyyy' }}
+        </td>
+        <td class="align-middle">{{ fisc.fornecedor.razaoSocial }}</td>
+        <td class="text-center align-middle">
+          <app-botao-editar [rota]="['novo', fisc.id]" mensagem="editar fiscalização">
+          </app-botao-editar>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-sm btn-dark" type="button" title="imprimir">
+            <fa-icon [icon]="iPrint"></fa-icon>
+          </button>
+        </td>
+        <td class="text-center align-middle">
+          <app-botao-excluir [id]="fisc.id" (emissao)="chamaModal(fisc.id)">
+          </app-botao-excluir>
+        </td>
+      </tr>
+    </tbody>
+  </app-tabela>
+</app-pagina>
+<app-modal #modal (sim)="concordaModal($event)"></app-modal>

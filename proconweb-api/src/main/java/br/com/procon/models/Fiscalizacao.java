@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -43,15 +44,18 @@ public class Fiscalizacao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(nullable = false)
+	@NotNull(message = "a data é obrigatória!")
 	private LocalDateTime data;
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@NotNull(message = "o fornecedor é obrigatório!")
 	private Fornecedor fornecedor;
 	@Lob
 	@Basic(fetch = FetchType.EAGER)
 	private String observacoes;
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@NotNull(message = "o setor é obrigatório!")
 	private SetorFiscalizacao setor;
 	@ElementCollection
 	@LazyCollection(LazyCollectionOption.FALSE)

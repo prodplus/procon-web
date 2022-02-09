@@ -37,7 +37,7 @@ export function toDateTimeApi(d: Date): string {
     s = '0' + s;
   }
 
-  return [y, m, x].join('-') + ' ' + [h, i, s].join(':');
+  return [y, m, x].join('-') + 'T' + [h, i, s].join(':');
 }
 
 export function toTimeString(d: Date): string {
