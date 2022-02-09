@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.procon.models.Atendimento;
+import br.com.procon.models.Fiscalizacao;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
 import br.com.procon.models.auxiliares.Movimento;
@@ -25,6 +26,7 @@ import br.com.procon.report.NotImpugnacao;
 import br.com.procon.report.NotMulta;
 import br.com.procon.report.Oficio;
 import br.com.procon.report.ProcIni;
+import br.com.procon.report.TermoVisita;
 
 /**
  * 
@@ -40,6 +42,8 @@ public class DocumentoService {
 	private ProcessoService processoService;
 	@Autowired
 	private FornecedorService fornecedorService;
+	@Autowired
+	private FiscalizacaoService fiscalizacaoService;
 
 	public InputStreamResource atendimento(Integer id) {
 		try {
@@ -175,6 +179,17 @@ public class DocumentoService {
 					Situacao.NOTIFICAR_FORNECEDOR, "", null, null));
 			return new InputStreamResource(
 					DespachoNot.gerar(this.processoService.atualizar(id, processo)));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+
+	public InputStreamResource termoVisita(Integer id) {
+		try {
+			Fiscalizacao fiscalizacao = this.fiscalizacaoService.buscar(id);
+			return new InputStreamResource(TermoVisita.gerar(fiscalizacao));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

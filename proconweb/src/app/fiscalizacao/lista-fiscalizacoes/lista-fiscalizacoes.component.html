@@ -33,7 +33,8 @@
           </app-botao-editar>
         </td>
         <td class="text-center align-middle">
-          <button class="btn btn-sm btn-dark" type="button" title="imprimir">
+          <button class="btn btn-sm btn-dark" type="button" title="imprimir"
+              (click)="imprimir(fisc.id)">
             <fa-icon [icon]="iPrint"></fa-icon>
           </button>
         </td>

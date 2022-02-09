@@ -40,6 +40,12 @@ public class DocumentoController {
 				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.inicial(id));
 	}
 
+	@GetMapping(path = "/termo/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> termoVisita(@PathVariable Integer id) {
+		return ResponseEntity.ok().header("Content-Disposition", "inline; filename=termo.pdf")
+				.contentType(MediaType.APPLICATION_PDF).body(this.documentoService.termoVisita(id));
+	}
+
 	@GetMapping(path = "/not_dez_dias/{idProcesso}/{idFornecedor}", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<InputStreamResource> notDezDias(@PathVariable Integer idProcesso,
 			@PathVariable Integer idFornecedor) {

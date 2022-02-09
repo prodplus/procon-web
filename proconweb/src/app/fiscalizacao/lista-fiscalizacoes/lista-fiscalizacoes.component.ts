@@ -6,8 +6,10 @@ import { debounceTime } from 'rxjs/operators';
 import { Page } from 'src/app/models/auxiliares/page';
 import { RespModal } from 'src/app/models/auxiliares/resp-modal';
 import { Fiscalizacao } from 'src/app/models/fiscalizacao';
+import { DocumentoService } from 'src/app/services/documento.service';
 import { FiscalizacaoService } from 'src/app/services/fiscalizacao.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { impressaoUtils } from 'src/app/utils/impressao-utils';
 import { mensagemPadrao } from 'src/app/utils/mensagem-utils';
 
 @Component({
@@ -29,7 +31,8 @@ export class ListaFiscalizacoesComponent implements OnInit, AfterViewInit {
   constructor(
     private builder: FormBuilder,
     private fiscalizacaoService: FiscalizacaoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private docService: DocumentoService
   ) {}
 
   ngOnInit(): void {
@@ -108,5 +111,17 @@ export class ListaFiscalizacoesComponent implements OnInit, AfterViewInit {
 
   concordaModal(resp: RespModal) {
     if (resp.confirmou) this.excluir(this.idFiscalizacao);
+  }
+
+  imprimir(id: number) {
+    this.isLoading = true;
+    this.docService.termo(id).subscribe({
+      next: (x) => impressaoUtils(x, id, 'termo'),
+      error: (err) => {
+        this.isLoading = false;
+        this.modal.openPadrao(err);
+      },
+      complete: () => (this.isLoading = false),
+    });
   }
 }

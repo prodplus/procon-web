@@ -18,6 +18,10 @@ export class DocumentoService {
     return this.http.get(`${URL}/inicial/${id}`, { responseType: 'blob' });
   }
 
+  termo(id: number): Observable<Blob> {
+    return this.http.get(`${URL}/termo/${id}`, { responseType: 'blob' });
+  }
+
   notDezDias(idProcesso: number, idFornecedor: number): Observable<Blob> {
     return this.http.get(`${URL}/not_dez_dias/${idProcesso}/${idFornecedor}`, {
       responseType: 'blob',
