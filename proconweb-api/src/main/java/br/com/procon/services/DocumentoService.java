@@ -12,6 +12,7 @@ import br.com.procon.models.Atendimento;
 import br.com.procon.models.Fiscalizacao;
 import br.com.procon.models.Fornecedor;
 import br.com.procon.models.Processo;
+import br.com.procon.models.SetorFiscalizacao;
 import br.com.procon.models.auxiliares.Movimento;
 import br.com.procon.models.enums.Situacao;
 import br.com.procon.report.AtendIni;
@@ -27,6 +28,7 @@ import br.com.procon.report.NotMulta;
 import br.com.procon.report.Oficio;
 import br.com.procon.report.ProcIni;
 import br.com.procon.report.TermoVisita;
+import br.com.procon.report.TermosBranco;
 
 /**
  * 
@@ -44,6 +46,8 @@ public class DocumentoService {
 	private FornecedorService fornecedorService;
 	@Autowired
 	private FiscalizacaoService fiscalizacaoService;
+	@Autowired
+	private SetorFiscalizacaoService setorService;
 
 	public InputStreamResource atendimento(Integer id) {
 		try {
@@ -190,6 +194,18 @@ public class DocumentoService {
 		try {
 			Fiscalizacao fiscalizacao = this.fiscalizacaoService.buscar(id);
 			return new InputStreamResource(TermoVisita.gerar(fiscalizacao));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+					"ocorreu um erro no servidor!", e.getCause());
+		}
+	}
+	
+	public InputStreamResource termoVisita(Integer idFornecedor, Integer idSetor) {
+		try {
+			Fornecedor fornecedor = this.fornecedorService.buscar(idFornecedor);
+			SetorFiscalizacao setor = this.setorService.buscar(idSetor);
+			return new InputStreamResource(TermosBranco.gerar(fornecedor, setor));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

@@ -35,6 +35,9 @@
           <tbody>
             <tr *ngFor="let forn of fornecedores?.content">
               <td class="align-middle">{{ forn.razaoSocial }}</td>
+              <td class="text-center align-middle">
+                {{ forn.cnpj | mask: '00.000.000/0000-00' }}
+              </td>
               <td class="text-center align-middle" style="width: 60px;">
                 <button class="btn btn-sm btn-success" type="button"
                     (click)="onSelectForn(forn.id)">

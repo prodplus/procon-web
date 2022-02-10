@@ -17,6 +17,7 @@
       <th class="text-center">nro</th>
       <th class="text-center">Data</th>
       <th class="text-center">Fornecedor</th>
+      <th class="text-center">Fantasia</th>
       <th class="text-center" style="width: 60px;">edt</th>
       <th class="text-center" style="width: 60px;">ini</th>
       <th class="text-center" style="width: 60px;">exc</th>
@@ -28,6 +29,7 @@
           {{ fisc.data | date: 'dd/MM/yyyy' }}
         </td>
         <td class="align-middle">{{ fisc.fornecedor.razaoSocial }}</td>
+        <td class="align-middle">{{ fisc.fornecedor.fantasia }}</td>
         <td class="text-center align-middle">
           <app-botao-editar [rota]="['novo', fisc.id]" mensagem="editar fiscalização">
           </app-botao-editar>

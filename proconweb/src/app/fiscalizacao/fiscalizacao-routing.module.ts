@@ -8,6 +8,7 @@ import { CadFiscalizacaoComponent } from './cad-fiscalizacao/cad-fiscalizacao.co
 import { CadSetorComponent } from './cad-setor/cad-setor.component';
 import { ListaFiscalizacoesComponent } from './lista-fiscalizacoes/lista-fiscalizacoes.component';
 import { ListaSetoresComponent } from './lista-setores/lista-setores.component';
+import { TermoVisitaComponent } from './termo-visita/termo-visita.component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'termo',
+    component: TermoVisitaComponent,
   },
 ];
 
